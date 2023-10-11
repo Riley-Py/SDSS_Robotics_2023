@@ -35,7 +35,7 @@ constexpr int forwardRed{ false };
 
 int curveJoystick(const bool red, const int input, const double t) {
   if(red) {
-    return (std::exp(-t/10) + std::exp((std::abs(input) - 100) / 10) * (1 - std::exp(-t / 10))) * input;
+    return (std::exp(-t / 10) + std::exp((std::abs(input) - 100) / 10) * (1 - std::exp(-t / 10))) * input;
   } else {
     return std::exp(((std::abs(input) - 100) * t) / 1000) * input;
   }
