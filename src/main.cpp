@@ -57,8 +57,9 @@ void opcontrol() {
             leftTop.move_voltage(forwardVolts + turnVolts);
         } else {
             rightMotors.move_voltage(0);
-            leftMotors.move_voltage(0);
             rightTop.move_voltage(0);
+
+            leftMotors.move_voltage(0);
             leftTop.move_voltage(0);
         }
     }
