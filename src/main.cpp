@@ -28,10 +28,8 @@ void competition_initialize() {}
 void autonomous() {}
 
 constexpr int turningCurve{ 6 };
-constexpr int turningRed{ false };
 
 constexpr int forwardCurve{ 6 };
-constexpr int forwardRed{ false };
 
 int curveJoystick(const bool red, const int input, const double t) {
   if(red) {
