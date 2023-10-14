@@ -27,9 +27,9 @@ void competition_initialize() {}
 
 void autonomous() {}
 
-constexpr int turningCurve{ 6 };
+constexpr int turningCurve{ 3 };
 
-constexpr int forwardCurve{ 6 };
+constexpr int forwardCurve{ 3 };
 
 int curveJoystick(const bool red, const int input, const double t) {
   if(red) {
@@ -43,18 +43,24 @@ void opcontrol() {
     constexpr int deadband{ 3 };
 
     while(true) {
-        double turnVal{ curveJoystick(false, master.get_analog(ANALOG_RIGHT_X), turningCurve) };
-        double forwardVal{ curveJoystick(false, master.get_analog(ANALOG_LEFT_Y), forwardCurve) };
+        double turnVal{ curveJoystick(false, std::clamp(static_cast<int>(master.get_analog(ANALOG_RIGHT_X)), -100, 100), turningCurve) };
+        double forwardVal{ curveJoystick(false, std::clamp(static_cast<int>(master.get_analog(ANALOG_LEFT_Y)), -100, 100), forwardCurve) };
 
-        double turnVolts{ turnVal * 0.12 };
-        double forwardVolts{ forwardVal * 0.12 };
+        double turnMillivolts{ turnVal * 96 };
+        double forwardMillivolts{ forwardVal * 120 };
 
-        if(master.get_analog(ANALOG_LEFT_Y) > deadband || master.get_analog(ANALOG_RIGHT_X)) {
-            rightMotors.move_voltage(forwardVolts - turnVolts);
-            rightTop.move_voltage(forwardVolts - turnVolts);
+        if(std::abs(master.get_analog(ANALOG_LEFT_Y) >> deadband)) {
+            rightMotors.move_voltage(forwardMillivolts - turnMillivolts);
+            rightTop.move_voltage(forwardMillivolts - turnMillivolts);
 
-            leftMotors.move_voltage(forwardVolts + turnVolts);
-            leftTop.move_voltage(forwardVolts + turnVolts);
+            leftMotors.move_voltage(forwardMillivolts + turnMillivolts);
+            leftTop.move_voltage(forwardMillivolts + turnMillivolts);
+        } else if(std::abs(master.get_analog(ANALOG_RIGHT_X)) >> deadband) {
+            rightMotors.move_voltage(forwardMillivolts - turnMillivolts);
+            rightTop.move_voltage(forwardMillivolts - turnMillivolts);
+
+            leftMotors.move_voltage(forwardMillivolts + turnMillivolts);
+            leftTop.move_voltage(forwardMillivolts + turnMillivolts);
         } else {
             rightMotors.move_voltage(0);
             rightTop.move_voltage(0);
