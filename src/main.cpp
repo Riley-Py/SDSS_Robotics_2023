@@ -43,24 +43,26 @@ void opcontrol() {
     constexpr int deadband{ 3 };
 
     while(true) {
-        double turnVal{ curveJoystick(false, std::clamp(static_cast<int>(master.get_analog(ANALOG_RIGHT_X)), -100, 100), turningCurve) };
-        double forwardVal{ curveJoystick(false, std::clamp(static_cast<int>(master.get_analog(ANALOG_LEFT_Y)), -100, 100), forwardCurve) };
+      double turnVal{ curveJoystick(false, std::clamp(static_cast<int>(master.get_analog(ANALOG_RIGHT_X)), -100, 100), turningCurve) };
+      double forwardVal{ curveJoystick(false, std::clamp(static_cast<int>(master.get_analog(ANALOG_LEFT_Y)), -100, 100), forwardCurve) };
 
-        double turnMillivolts{ turnVal * 96 };
-        double forwardMillivolts{ forwardVal * 120 };
+      double turnMillivolts{ turnVal * 96 };
+      double forwardMillivolts{ forwardVal * 120 };
 
-        if(std::abs(master.get_analog(ANALOG_LEFT_Y)) > deadband || std::abs(master.get_analog(ANALOG_RIGHT_X)) > deadband) {
-            rightMotors.move_voltage(forwardMillivolts - turnMillivolts);
-            rightTop.move_voltage(forwardMillivolts - turnMillivolts);
+      if(std::abs(master.get_analog(ANALOG_LEFT_Y)) > deadband || std::abs(master.get_analog(ANALOG_RIGHT_X)) > deadband) {
+          rightMotors.move_voltage(forwardMillivolts - turnMillivolts);
+          rightTop.move_voltage(forwardMillivolts - turnMillivolts);
 
-            leftMotors.move_voltage(forwardMillivolts + turnMillivolts);
-            leftTop.move_voltage(forwardMillivolts + turnMillivolts);
-        } else {
-            rightMotors.move_voltage(0);
-            rightTop.move_voltage(0);
+          leftMotors.move_voltage(forwardMillivolts + turnMillivolts);
+          leftTop.move_voltage(forwardMillivolts + turnMillivolts);
+      } else {
+          rightMotors.move_voltage(0);
+          rightTop.move_voltage(0);
 
-            leftMotors.move_voltage(0);
-            leftTop.move_voltage(0);
-        }
+          leftMotors.move_voltage(0);
+          leftTop.move_voltage(0);
+      }
+      
+      pros::delay(20);
     }
 }
