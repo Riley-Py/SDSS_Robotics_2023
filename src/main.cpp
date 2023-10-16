@@ -23,80 +23,80 @@ int curveJoystick(const int input, const double t) {
 
 void opcontrol() {
   while(true) {
-	constexpr int turningCurve{ 3 };
-	constexpr int forwardCurve{ 3 };
+    constexpr int turningCurve{ 3 };
+    constexpr int forwardCurve{ 3 };
 
-	double turnVal{curveJoystick(std::clamp(static_cast<int>(master.get_analog(ANALOG_RIGHT_X)), -100, 100), turningCurve)};
-	double forwardVal{curveJoystick(std::clamp(static_cast<int>(master.get_analog(ANALOG_LEFT_Y)), -100, 100), forwardCurve)};
+    double turnVal{curveJoystick(std::clamp(static_cast<int>(master.get_analog(ANALOG_RIGHT_X)), -100, 100), turningCurve)};
+    double forwardVal{curveJoystick(std::clamp(static_cast<int>(master.get_analog(ANALOG_LEFT_Y)), -100, 100), forwardCurve)};
 
-	double turnMillivolts{ turnVal * 96 };
-	double forwardMillivolts{ forwardVal * 120 };
+    double turnMillivolts{ turnVal * 96 };
+    double forwardMillivolts{ forwardVal * 120 };
 
-	constexpr int deadband{ 3 };
+    constexpr int deadband{ 3 };
 
-	if(std::abs(master.get_analog(ANALOG_LEFT_Y)) > deadband || std::abs(master.get_analog(ANALOG_RIGHT_X)) > deadband) {
-	  rightMotors.move_voltage(forwardMillivolts - turnMillivolts);
-	  rightTop.move_voltage(forwardMillivolts - turnMillivolts);
+    if(std::abs(master.get_analog(ANALOG_LEFT_Y)) > deadband || std::abs(master.get_analog(ANALOG_RIGHT_X)) > deadband) {
+      rightMotors.move_voltage(forwardMillivolts - turnMillivolts);
+      rightTop.move_voltage(forwardMillivolts - turnMillivolts);
 
-	  leftMotors.move_voltage(forwardMillivolts + turnMillivolts);
-	  leftTop.move_voltage(forwardMillivolts + turnMillivolts);
-	} else {
-	  rightMotors.move_voltage(0);
-	  rightTop.move_voltage(0);
+      leftMotors.move_voltage(forwardMillivolts + turnMillivolts);
+      leftTop.move_voltage(forwardMillivolts + turnMillivolts);
+    } else {
+      rightMotors.move_voltage(0);
+      rightTop.move_voltage(0);
 
-	  leftMotors.move_voltage(0);
-	  leftTop.move_voltage(0);
-	}
+      leftMotors.move_voltage(0);
+      leftTop.move_voltage(0);
+    }
 
-	static bool matchLoadMode{ false };
+    static bool matchLoadMode{ false };
 
-	if(master.get_digital(DIGITAL_B)) {
-	  matchLoadMode = !matchLoadMode;
+    if(master.get_digital(DIGITAL_B)) {
+      matchLoadMode = !matchLoadMode;
 
-	  if(matchLoadMode) {
-		master.set_text(1, 1, "Match Load Mode");
-	  } else {
-		master.set_text(1, 1, "Normal Mode");
-	  }
-	}
+      if(matchLoadMode) {
+        master.set_text(1, 1, "Match Load Mode");
+      } else {
+        master.set_text(1, 1, "Normal Mode");
+      }
+    }
 
-	if(matchLoadMode) {
-	  static bool aPressed{ false };
-	  static bool cataDown{ false };
+    if(matchLoadMode) {
+      static bool aPressed{ false };
+      static bool cataDown{ false };
 
-	  if(master.get_digital(DIGITAL_A)) {
-		  if(cataDown) {
-		    cata.move(100);
-		    cataDown = false;
-		  } else {
-		    cata.move(100);
-		    aPressed = true;
-		  }
-	  }
+      if(master.get_digital(DIGITAL_A)) {
+        if(cataDown) {
+          cata.move(100);
+          cataDown = false;
+        } else {
+          cata.move(100);
+          aPressed = true;
+        }
+      }
 
-	  if(cataLimit.get_value() && aPressed) {
-		cata.move(0);
-		cataDown = true;
-		aPressed = false;
-	  }
-	} else {
-	  if(master.get_digital(DIGITAL_R1)) {
-		cata.move(100);
-	  } else if(master.get_digital(DIGITAL_R2)) {
-		cata.move(-100);
-	  } else {
-		cata.move(0);
-	  }
-	}
+      if(cataLimit.get_value() && aPressed) {
+        cata.move(0);
+        cataDown = true;
+        aPressed = false;
+      }
+    } else {
+      if(master.get_digital(DIGITAL_R1)) {
+        cata.move(100);
+      } else if(master.get_digital(DIGITAL_R2)) {
+        cata.move(-100);
+      } else {
+        cata.move(0);
+      }
+    }
 
-	if(master.get_digital(DIGITAL_L1)) {
-	  aaa.move(127);
-	  bbb.move(127);
-	} else {
-	  aaa.move(0);
-	  bbb.move(0);
-	}
+    if(master.get_digital(DIGITAL_L1)) {
+      aaa.move(127);
+      bbb.move(127);
+    } else {
+      aaa.move(0);
+      bbb.move(0);
+    }
 
-	delay(20);
+    delay(20);
   }
 }
