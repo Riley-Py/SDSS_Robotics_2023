@@ -15,6 +15,9 @@ pros::Motor rightTop(18, pros::E_MOTOR_GEAR_BLUE, true, pros::E_MOTOR_ENCODER_DE
 
 pros::Motor cata(12, pros::E_MOTOR_GEAR_RED, false, pros::E_MOTOR_ENCODER_DEGREES);
 
+pros::Motor aaa(1, pros::E_MOTOR_GEAR_GREEN, false, pros::E_MOTOR_ENCODER_DEGREES);
+pros::Motor bbb(2, pros::E_MOTOR_GEAR_GREEN, true, pros::E_MOTOR_ENCODER_DEGREES);
+
 void initialize() {
     rightMotors.set_brake_modes(pros::E_MOTOR_BRAKE_COAST);
     leftMotors.set_brake_modes(pros::E_MOTOR_BRAKE_COAST);
@@ -23,7 +26,6 @@ void initialize() {
     rightTop.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
 
     cata.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
-    
 }
 
 void disabled() {}
@@ -69,11 +71,19 @@ void opcontrol() {
       }
 
       if(master.get_digital(DIGITAL_R1)) {
-        cata.move(127);
+        cata.move(100);
       } else if(master.get_digital(DIGITAL_R2)) {
-        cata.move(-127);
+        cata.move(-100);
       } else {
         cata.move(0);
+      }
+
+      if(master.get_digital(DIGITAL_L1)) {
+        aaa.move(127);
+        bbb.move(127);
+      } else {
+        aaa.move(0);
+        bbb.move(0);
       }
       
       pros::delay(20);
