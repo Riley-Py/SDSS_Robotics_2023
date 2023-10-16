@@ -49,13 +49,7 @@ void opcontrol() {
         double turnMillivolts{ turnVal * 96 };
         double forwardMillivolts{ forwardVal * 120 };
 
-        if(std::abs(master.get_analog(ANALOG_LEFT_Y) >> deadband)) {
-            rightMotors.move_voltage(forwardMillivolts - turnMillivolts);
-            rightTop.move_voltage(forwardMillivolts - turnMillivolts);
-
-            leftMotors.move_voltage(forwardMillivolts + turnMillivolts);
-            leftTop.move_voltage(forwardMillivolts + turnMillivolts);
-        } else if(std::abs(master.get_analog(ANALOG_RIGHT_X)) >> deadband) {
+        if(std::abs(master.get_analog(ANALOG_LEFT_Y)) > deadband || std::abs(master.get_analog(ANALOG_RIGHT_X)) > deadband) {
             rightMotors.move_voltage(forwardMillivolts - turnMillivolts);
             rightTop.move_voltage(forwardMillivolts - turnMillivolts);
 
