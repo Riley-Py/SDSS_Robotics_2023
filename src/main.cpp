@@ -7,6 +7,8 @@ void initialize() {
 
   leftTop.set_brake_mode(E_MOTOR_BRAKE_COAST);
   rightTop.set_brake_mode(E_MOTOR_BRAKE_COAST);
+
+  cata.set_brake_mode(E_MOTOR_BRAKE_COAST);
 }
 
 void disabled() {}
@@ -45,10 +47,13 @@ void opcontrol() {
       leftMotors.move_voltage(0);
       leftTop.move_voltage(0);
     }
+    
     static bool aPressed{ false };
     static bool cataDown{ false };
 
     static bool limitReached{ false };
+
+    master.set_text(1, 1, std::to_string(aPressed) + " " + std::to_string(cataDown) + " " + std::to_string(limitReached) + " " + std::to_string(cataLimit.get_value()));
 
     if(master.get_digital(E_CONTROLLER_DIGITAL_R1)) {
       if(cataDown) {
