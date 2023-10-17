@@ -20,8 +20,6 @@ int curveJoystick(const int input, const double t) {
 }
 
 void opcontrol() {
-  screen::print(TEXT_MEDIUM, 3, "Normal Mode");
-
   while(true) {
     constexpr int turningCurve{ 3 };
     constexpr int forwardCurve{ 3 };
@@ -47,57 +45,33 @@ void opcontrol() {
       leftMotors.move_voltage(0);
       leftTop.move_voltage(0);
     }
+    static bool aPressed{ false };
+    static bool cataDown{ false };
 
-    static bool matchLoadMode{ false };
+    static bool limitReached{ false };
 
-    if(master.get_digital(DIGITAL_B)) {
-      matchLoadMode = !matchLoadMode;
-    }
-    screen::print(TEXT_MEDIUM, 3, "");
-
-    if(matchLoadMode) {
-      screen::print(TEXT_MEDIUM, 3, "Match Load Mode");
-    } else {
-      screen::print(TEXT_MEDIUM, 3, "Normal Mode");
-    }
-
-    if(matchLoadMode) {
-      static bool aPressed{ false };
-      static bool cataDown{ false };
-
-      static bool limitReached{ false };
-
-      if(master.get_digital(DIGITAL_A)) {
-        if(cataDown) {
-          cata.move(100);
-          cataDown = false;
-          limitReached = true;
-        } else {
-          cata.move(100);
-          aPressed = true;
-        }
-      }
-
-      if(cataLimit.get_value() && aPressed && !limitReached)  {
-        cata.move(0);
-        cataDown = true;
-        aPressed = false;
-      }
-
-      if(!cataLimit.get_value()) {
-        limitReached = false;
-      }
-    } else {
-      if(master.get_digital(DIGITAL_R1)) {
+    if(master.get_digital(E_CONTROLLER_DIGITAL_R1)) {
+      if(cataDown) {
         cata.move(100);
-      } else if(master.get_digital(DIGITAL_R2)) {
-        cata.move(-100);
+        cataDown = false;
+        limitReached = true;
       } else {
-        cata.move(0);
+        cata.move(100);
+        aPressed = true;
       }
     }
 
-    if(master.get_digital(DIGITAL_L1)) {
+    if(cataLimit.get_value() && aPressed && !limitReached)  {
+      cata.move(0);
+      cataDown = true;
+      aPressed = false;
+    }
+
+    if(!cataLimit.get_value()) {
+      limitReached = false;
+    }
+
+    if(master.get_digital(E_CONTROLLER_DIGITAL_L1)) {
       aaa.move(127);
       bbb.move(127);
     } else {
