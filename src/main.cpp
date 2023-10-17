@@ -7,8 +7,6 @@ void initialize() {
 
   leftTop.set_brake_mode(E_MOTOR_BRAKE_COAST);
   rightTop.set_brake_mode(E_MOTOR_BRAKE_COAST);
-
-  cata.set_brake_mode(E_MOTOR_BRAKE_HOLD);
 }
 
 void disabled() {}
@@ -22,6 +20,8 @@ int curveJoystick(const int input, const double t) {
 }
 
 void opcontrol() {
+  screen::print(TEXT_MEDIUM, 3, "Normal Mode");
+
   while(true) {
     constexpr int turningCurve{ 3 };
     constexpr int forwardCurve{ 3 };
@@ -52,32 +52,40 @@ void opcontrol() {
 
     if(master.get_digital(DIGITAL_B)) {
       matchLoadMode = !matchLoadMode;
+    }
+    screen::print(TEXT_MEDIUM, 3, "");
 
-      if(matchLoadMode) {
-        master.set_text(1, 1, "Match Load Mode");
-      } else {
-        master.set_text(1, 1, "Normal Mode");
-      }
+    if(matchLoadMode) {
+      screen::print(TEXT_MEDIUM, 3, "Match Load Mode");
+    } else {
+      screen::print(TEXT_MEDIUM, 3, "Normal Mode");
     }
 
     if(matchLoadMode) {
       static bool aPressed{ false };
       static bool cataDown{ false };
 
+      static bool limitReached{ false };
+
       if(master.get_digital(DIGITAL_A)) {
         if(cataDown) {
           cata.move(100);
           cataDown = false;
+          limitReached = true;
         } else {
           cata.move(100);
           aPressed = true;
         }
       }
 
-      if(cataLimit.get_value() && aPressed) {
+      if(cataLimit.get_value() && aPressed && !limitReached)  {
         cata.move(0);
         cataDown = true;
         aPressed = false;
+      }
+
+      if(!cataLimit.get_value()) {
+        limitReached = false;
       }
     } else {
       if(master.get_digital(DIGITAL_R1)) {
