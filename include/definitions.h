@@ -1,3 +1,6 @@
+#ifndef _DEFINITIONS_H
+#define _DEFINITIONS_H
+
 #include "main.h"
 
 Controller master(E_CONTROLLER_MASTER);
@@ -19,3 +22,5 @@ Motor aaa(1, E_MOTOR_GEAR_GREEN, false, E_MOTOR_ENCODER_DEGREES);
 Motor bbb(2, E_MOTOR_GEAR_GREEN, true, E_MOTOR_ENCODER_DEGREES);
 
 ADIDigitalIn cataLimit('a');
+
+#endif
