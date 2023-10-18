@@ -18,6 +18,30 @@ pros::Motor cata(12, pros::E_MOTOR_GEAR_RED, false, pros::E_MOTOR_ENCODER_DEGREE
 pros::Motor aaa(1, pros::E_MOTOR_GEAR_GREEN, false, pros::E_MOTOR_ENCODER_DEGREES);
 pros::Motor bbb(2, pros::E_MOTOR_GEAR_GREEN, true, pros::E_MOTOR_ENCODER_DEGREES);
 
+class PID {
+  public: 
+    double sP;  //Set point
+    double kP;  //Proportional gain
+  private:
+      double err = 0; //Error value
+      double P = 0;   // Proportional Value
+    
+
+    int P(double Pv) { //Process value
+      err = sP - Pv;
+      P = kP * err;
+
+      if (err == 0) {
+        return 1;
+
+      }
+      return 0;
+
+
+    }
+    
+};
+
 void initialize() {
     rightMotors.set_brake_modes(pros::E_MOTOR_BRAKE_COAST);
     leftMotors.set_brake_modes(pros::E_MOTOR_BRAKE_COAST);
@@ -26,13 +50,20 @@ void initialize() {
     rightTop.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
 
     cata.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+
+    PID amazing;
+    amazing.sP = 45;
+    amazing.kP = 10;
 }
 
 void disabled() {}
 
 void competition_initialize() {}
 
-void autonomous() {}
+void autonomous() {
+
+  
+}
 
 constexpr int turningCurve{ 3 };
 
