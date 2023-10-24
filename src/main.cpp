@@ -9,6 +9,8 @@ void initialize() {
   rightTop.set_brake_mode(E_MOTOR_BRAKE_COAST);
 
   cata.set_brake_mode(E_MOTOR_BRAKE_COAST);
+
+  cataRotationSensor.reset_position();
 }
 
 void disabled() {}
@@ -41,47 +43,39 @@ void opcontrol() {
       leftMotors.move_voltage(forwardMillivolts + turnMillivolts);
       leftTop.move_voltage(forwardMillivolts + turnMillivolts);
     } else {
-      rightMotors.move_voltage(0);
-      rightTop.move_voltage(0);
+      rightMotors.brake();
+      rightTop.brake();
 
-      leftMotors.move_voltage(0);
-      leftTop.move_voltage(0);
+      leftMotors.brake();
+      leftTop.brake();
     }
+
+    int cataPos{ cataRotationSensor.get_position() / 100 };
+
+    bool cataFlag{ false };
+
+    master.set_text(0, 0, std::to_string(cataPos));
     
-    static bool aPressed{ false };
-    static bool cataDown{ false };
-
-    static bool limitReached{ false };
-
-    master.set_text(1, 1, std::to_string(aPressed) + " " + std::to_string(cataDown) + " " + std::to_string(limitReached) + " " + std::to_string(cataLimit.get_value()));
-
-    if(master.get_digital(E_CONTROLLER_DIGITAL_R1)) {
-      if(cataDown) {
-        cata.move(100);
-        cataDown = false;
-        limitReached = true;
+    if(master.get_digital(DIGITAL_R1)) {
+      if(cataPos >= 54 && cataPos <= 56) {
+        cata.set_zero_position(cata.get_position());
+        cata.move_absolute(360, 100);
       } else {
-        cata.move(100);
-        aPressed = true;
+        cata.move_voltage(10000);
       }
     }
 
-    if(cataLimit.get_value() && aPressed && !limitReached)  {
-      cata.move(0);
-      cataDown = true;
-      aPressed = false;
-    }
-
-    if(!cataLimit.get_value()) {
-      limitReached = false;
+    if(cataPos >= 54 && cataPos <= 55 && !cataFlag) {
+      cata.brake();
+      cataFlag = true;
     }
 
     if(master.get_digital(E_CONTROLLER_DIGITAL_L1)) {
-      aaa.move(127);
-      bbb.move(127);
+      flywheelA.move_voltage(12000);
+      flywheelB.move_voltage(12000);
     } else {
-      aaa.move(0);
-      bbb.move(0);
+      flywheelA.brake();
+      flywheelB.brake();
     }
 
     delay(20);

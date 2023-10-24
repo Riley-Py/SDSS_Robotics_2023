@@ -18,9 +18,11 @@ Motor rightTop(18, E_MOTOR_GEAR_BLUE, true, E_MOTOR_ENCODER_DEGREES);
 
 Motor cata(12, E_MOTOR_GEAR_RED, false, E_MOTOR_ENCODER_DEGREES);
 
-Motor aaa(1, E_MOTOR_GEAR_GREEN, false, E_MOTOR_ENCODER_DEGREES);
-Motor bbb(2, E_MOTOR_GEAR_GREEN, true, E_MOTOR_ENCODER_DEGREES);
+Motor flywheelA(1, E_MOTOR_GEAR_GREEN, false, E_MOTOR_ENCODER_DEGREES);
+Motor flywheelB(2, E_MOTOR_GEAR_GREEN, true, E_MOTOR_ENCODER_DEGREES);
 
 ADIDigitalIn cataLimit('a');
+
+Rotation cataRotationSensor(4);
 
 #endif
