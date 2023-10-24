@@ -2,13 +2,13 @@
 #include "definitions.h"
 
 void initialize() {
-  rightMotors.set_brake_modes(E_MOTOR_BRAKE_COAST);
-  leftMotors.set_brake_modes(E_MOTOR_BRAKE_COAST);
+  rightMotors.set_brake_modes(MOTOR_BRAKE_COAST);
+  leftMotors.set_brake_modes(MOTOR_BRAKE_COAST);
 
-  leftTop.set_brake_mode(E_MOTOR_BRAKE_COAST);
-  rightTop.set_brake_mode(E_MOTOR_BRAKE_COAST);
+  leftTop.set_brake_mode(MOTOR_BRAKE_COAST);
+  rightTop.set_brake_mode(MOTOR_BRAKE_COAST);
 
-  cata.set_brake_mode(E_MOTOR_BRAKE_COAST);
+  cata.set_brake_mode(MOTOR_BRAKE_COAST);
 
   cataRotationSensor.reset_position();
 }
@@ -52,8 +52,6 @@ void opcontrol() {
 
     int cataPos{ cataRotationSensor.get_position() / 100 };
 
-    bool cataFlag{ false };
-
     master.set_text(0, 0, std::to_string(cataPos));
     
     if(master.get_digital(DIGITAL_R1)) {
@@ -65,12 +63,14 @@ void opcontrol() {
       }
     }
 
+    static bool cataFlag{ false };
+
     if(cataPos >= 54 && cataPos <= 55 && !cataFlag) {
       cata.brake();
       cataFlag = true;
     }
 
-    if(master.get_digital(E_CONTROLLER_DIGITAL_L1)) {
+    if(master.get_digital(DIGITAL_L1)) {
       flywheelA.move_voltage(12000);
       flywheelB.move_voltage(12000);
     } else {
