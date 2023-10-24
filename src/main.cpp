@@ -61,7 +61,7 @@ void opcontrol() {
         cata.set_zero_position(cata.get_position());
         cata.move_absolute(360, 100);
       } else {
-        cata.move_voltage(10000);
+        cata.move_voltage(12000);
       }
     }
 
