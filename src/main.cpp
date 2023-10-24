@@ -1,5 +1,5 @@
 #include "main.h"
-#include "definitions.h"
+#include "definitions.hpp"
 
 void initialize() {
   rightMotors.set_brake_modes(MOTOR_BRAKE_COAST);
