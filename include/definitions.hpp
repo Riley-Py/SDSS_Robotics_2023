@@ -2,6 +2,7 @@
 #define DEFINITIONS_H
 
 #include "main.h"
+#include "drive.hpp"
 
 Controller master(CONTROLLER_MASTER);
 

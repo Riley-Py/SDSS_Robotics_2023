@@ -1,6 +1,5 @@
 #include "main.h"
 #include "definitions.hpp"
-#include "drive.hpp"
 
 void initialize() {
   cata.set_brake_mode(MOTOR_BRAKE_COAST);
