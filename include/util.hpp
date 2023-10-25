@@ -4,7 +4,7 @@
 #include "pros\motors.hpp"
 
 namespace sdss_robotics_c {
-    bool IsReverse(int num) {
+    bool IsReversed(int num) {
         if(num > 0) {
             return false;
         }
