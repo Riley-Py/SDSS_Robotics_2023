@@ -1,24 +1,5 @@
 #include "main.h"
-
-pros::Controller master(pros::E_CONTROLLER_MASTER);
-
-pros::Motor rightA(19, pros::E_MOTOR_GEAR_BLUE, false, pros::E_MOTOR_ENCODER_DEGREES);
-pros::Motor rightB(20, pros::E_MOTOR_GEAR_BLUE, false, pros::E_MOTOR_ENCODER_DEGREES);
-pros::Motor_Group rightMotors({rightA, rightB});
-
-pros::Motor leftA(16, pros::E_MOTOR_GEAR_BLUE, true, pros::E_MOTOR_ENCODER_DEGREES);
-pros::Motor leftB(17, pros::E_MOTOR_GEAR_BLUE, true, pros::E_MOTOR_ENCODER_DEGREES);
-pros::Motor_Group leftMotors({leftA, leftB});
-
-pros::IMU inertial (17);
-
-//pros::Motor leftTop(15, pros::E_MOTOR_GEAR_BLUE, false, pros::E_MOTOR_ENCODER_DEGREES);
-//pros::Motor rightTop(18, pros::E_MOTOR_GEAR_BLUE, true, pros::E_MOTOR_ENCODER_DEGREES);
-
-pros::Motor cata(12, pros::E_MOTOR_GEAR_RED, false, pros::E_MOTOR_ENCODER_DEGREES);
-
-//pros::Motor aaa(1, pros::E_MOTOR_GEAR_GREEN, false, pros::E_MOTOR_ENCODER_DEGREES);
-//pros::Motor bbb(2, pros::E_MOTOR_GEAR_GREEN, true, pros::E_MOTOR_ENCODER_DEGREES);
+#include "definitions.hpp"
 
 class PID {
   public: 
@@ -27,7 +8,6 @@ class PID {
   private:
       double err = 0; //Error value
       double P = 0;   // Proportional Value
-    
 
     int P(double Pv) { //Process value
       err = sP - Pv;
@@ -38,88 +18,78 @@ class PID {
 
       }
       return 0;
-
-
     }
-    
 };
 
 void initialize() {
-    rightMotors.set_brake_modes(pros::E_MOTOR_BRAKE_COAST);
-    leftMotors.set_brake_modes(pros::E_MOTOR_BRAKE_COAST);
+  cata.set_brake_mode(MOTOR_BRAKE_COAST);
 
-    //leftTop.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
-    //rightTop.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
-
-    cata.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
-
-    PID amazing;
-    amazing.sP = 45;
-    amazing.kP = 10;
+  cataRotationSensor.reset_position();
 }
 
 void disabled() {}
 
 void competition_initialize() {}
 
-void autonomous() {
+void autonomous() {}
 
-
-  
-}
-
-constexpr int turningCurve{ 3 };
-
-constexpr int forwardCurve{ 3 };
-
-int curveJoystick(const bool red, const int input, const double t) {
-  if(red) {
-    return (std::exp(-t / 10) + std::exp((std::abs(input) - 100) / 10) * (1 - std::exp(-t / 10))) * input;
-  } else {
-    return std::exp(((std::abs(input) - 100) * t) / 1000) * input;
-  }
+int curveJoystick(const int input, const double t) {
+  return (std::exp(-t / 10) + std::exp((std::abs(input) - 100) / 10) * (1 - std::exp(-t / 10))) * input;
 }
 
 void opcontrol() {
+  while(true) {
+    constexpr int turningCurve{ 3 };
+    constexpr int forwardCurve{ 3 };
+
+    double turnVal{curveJoystick(std::clamp(static_cast<int>(master.get_analog(ANALOG_RIGHT_X)), -100, 100), turningCurve)};
+    double forwardVal{curveJoystick(std::clamp(static_cast<int>(master.get_analog(ANALOG_LEFT_Y)), -100, 100), forwardCurve)};
+
+    double turnMillivolts{ turnVal * 96 };
+    double forwardMillivolts{ forwardVal * 120 };
+
     constexpr int deadband{ 3 };
 
-    while(true) {
-      double turnVal{ curveJoystick(false, std::clamp(static_cast<int>(master.get_analog(ANALOG_RIGHT_X)), -100, 100), turningCurve) };
-      double forwardVal{ curveJoystick(false, std::clamp(static_cast<int>(master.get_analog(ANALOG_LEFT_Y)), -100, 100), forwardCurve) };
-
-      double turnMillivolts{ turnVal * 96 };
-      double forwardMillivolts{ forwardVal * 120 };
-
-      if(std::abs(master.get_analog(ANALOG_LEFT_Y)) > deadband || std::abs(master.get_analog(ANALOG_RIGHT_X)) > deadband) {
-          rightMotors.move_voltage(forwardMillivolts - turnMillivolts);
-          //rightTop.move_voltage(forwardMillivolts - turnMillivolts);
-
-          leftMotors.move_voltage(forwardMillivolts + turnMillivolts);
-          //leftTop.move_voltage(forwardMillivolts + turnMillivolts);
-      } else {
-          rightMotors.move_voltage(0);
-          //rightTop.move_voltage(0);
-
-          leftMotors.move_voltage(0);
-          //leftTop.move_voltage(0);
-      }
-
-      if(master.get_digital(DIGITAL_R1)) {
-        cata.move(100);
-      } else if(master.get_digital(DIGITAL_R2)) {
-        cata.move(-100);
-      } else {
-        cata.move(0);
-      }
-
-      if(master.get_digital(DIGITAL_L1)) {
-        //aaa.move(127);
-        //bbb.move(127);
-      } else {
-        //aaa.move(0);
-        //bbb.move(0);
-      }
-      
-      pros::delay(20);
+    if(std::abs(master.get_analog(ANALOG_LEFT_Y)) > deadband || std::abs(master.get_analog(ANALOG_RIGHT_X)) > deadband) {
+      drivetrain.MoveMillivolts(forwardMillivolts, turnMillivolts);
+    } else {
+      drivetrain.Brake();
     }
+
+    int cataPos{ cataRotationSensor.get_position() / 100 };
+
+    master.set_text(0, 0, std::to_string(cataPos));
+    
+    if(master.get_digital(DIGITAL_R1)) {
+      if(cataPos >= 54 && cataPos <= 56) {
+        cata.set_zero_position(cata.get_position());
+        cata.move_absolute(360, 100);
+      } else {
+        cata.move_voltage(12000);
+      }
+    }
+    
+    static bool cataFlag{ false };
+
+    if(cataPos >= 54 && cataPos <= 55 && !cataFlag) {
+      cata.brake();
+      cataFlag = true;
+    }
+
+    if(master.get_digital(DIGITAL_L1)) {
+      flywheelA.move_voltage(12000);
+      flywheelB.move_voltage(12000);
+    } else {
+      flywheelA.brake();
+      flywheelB.brake();
+    }
+
+    if(master.get_digital(DIGITAL_L2)) {
+      intake.move_voltage(12000);
+    } else {
+      intake.brake();
+    }
+
+    delay(20);
+  }
 }
