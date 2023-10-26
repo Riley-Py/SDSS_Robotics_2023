@@ -64,6 +64,12 @@ void opcontrol() {
       flywheelB.brake();
     }
 
+    if(master.get_digital(DIGITAL_L2)) {
+      intake.move_voltage(12000);
+    } else {
+      intake.brake();
+    }
+
     delay(20);
   }
 }
