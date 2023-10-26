@@ -1,25 +1,8 @@
 #include "main.h"
 #include "definitions.hpp"
+#include "pid.hpp" 
 
-class PID {
-  public: 
-    double sP;  //Set point
-    double kP;  //Proportional gain
-  private:
-      double err = 0; //Error value
-      double P = 0;   // Proportional Value
 
-    int P(double Pv) { //Process value
-      err = sP - Pv;
-      P = kP * err;
-
-      if (err == 0) {
-        return 1;
-
-      }
-      return 0;
-    }
-};
 
 void initialize() {
   cata.set_brake_mode(MOTOR_BRAKE_COAST);
