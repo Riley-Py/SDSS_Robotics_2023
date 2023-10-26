@@ -10,13 +10,15 @@ pros::Motor leftA(16, pros::E_MOTOR_GEAR_BLUE, true, pros::E_MOTOR_ENCODER_DEGRE
 pros::Motor leftB(17, pros::E_MOTOR_GEAR_BLUE, true, pros::E_MOTOR_ENCODER_DEGREES);
 pros::Motor_Group leftMotors({leftA, leftB});
 
-pros::Motor leftTop(15, pros::E_MOTOR_GEAR_BLUE, false, pros::E_MOTOR_ENCODER_DEGREES);
-pros::Motor rightTop(18, pros::E_MOTOR_GEAR_BLUE, true, pros::E_MOTOR_ENCODER_DEGREES);
+pros::IMU inertial (17);
+
+//pros::Motor leftTop(15, pros::E_MOTOR_GEAR_BLUE, false, pros::E_MOTOR_ENCODER_DEGREES);
+//pros::Motor rightTop(18, pros::E_MOTOR_GEAR_BLUE, true, pros::E_MOTOR_ENCODER_DEGREES);
 
 pros::Motor cata(12, pros::E_MOTOR_GEAR_RED, false, pros::E_MOTOR_ENCODER_DEGREES);
 
-pros::Motor aaa(1, pros::E_MOTOR_GEAR_GREEN, false, pros::E_MOTOR_ENCODER_DEGREES);
-pros::Motor bbb(2, pros::E_MOTOR_GEAR_GREEN, true, pros::E_MOTOR_ENCODER_DEGREES);
+//pros::Motor aaa(1, pros::E_MOTOR_GEAR_GREEN, false, pros::E_MOTOR_ENCODER_DEGREES);
+//pros::Motor bbb(2, pros::E_MOTOR_GEAR_GREEN, true, pros::E_MOTOR_ENCODER_DEGREES);
 
 class PID {
   public: 
@@ -46,8 +48,8 @@ void initialize() {
     rightMotors.set_brake_modes(pros::E_MOTOR_BRAKE_COAST);
     leftMotors.set_brake_modes(pros::E_MOTOR_BRAKE_COAST);
 
-    leftTop.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
-    rightTop.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
+    //leftTop.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
+    //rightTop.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
 
     cata.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
 
@@ -61,6 +63,7 @@ void disabled() {}
 void competition_initialize() {}
 
 void autonomous() {
+
 
   
 }
@@ -89,16 +92,16 @@ void opcontrol() {
 
       if(std::abs(master.get_analog(ANALOG_LEFT_Y)) > deadband || std::abs(master.get_analog(ANALOG_RIGHT_X)) > deadband) {
           rightMotors.move_voltage(forwardMillivolts - turnMillivolts);
-          rightTop.move_voltage(forwardMillivolts - turnMillivolts);
+          //rightTop.move_voltage(forwardMillivolts - turnMillivolts);
 
           leftMotors.move_voltage(forwardMillivolts + turnMillivolts);
-          leftTop.move_voltage(forwardMillivolts + turnMillivolts);
+          //leftTop.move_voltage(forwardMillivolts + turnMillivolts);
       } else {
           rightMotors.move_voltage(0);
-          rightTop.move_voltage(0);
+          //rightTop.move_voltage(0);
 
           leftMotors.move_voltage(0);
-          leftTop.move_voltage(0);
+          //leftTop.move_voltage(0);
       }
 
       if(master.get_digital(DIGITAL_R1)) {
@@ -110,11 +113,11 @@ void opcontrol() {
       }
 
       if(master.get_digital(DIGITAL_L1)) {
-        aaa.move(127);
-        bbb.move(127);
+        //aaa.move(127);
+        //bbb.move(127);
       } else {
-        aaa.move(0);
-        bbb.move(0);
+        //aaa.move(0);
+        //bbb.move(0);
       }
       
       pros::delay(20);
