@@ -1,13 +1,7 @@
 #include "main.h"
-#include "definitions.h"
+#include "definitions.hpp"
 
 void initialize() {
-  rightMotors.set_brake_modes(MOTOR_BRAKE_COAST);
-  leftMotors.set_brake_modes(MOTOR_BRAKE_COAST);
-
-  leftTop.set_brake_mode(MOTOR_BRAKE_COAST);
-  rightTop.set_brake_mode(MOTOR_BRAKE_COAST);
-
   cata.set_brake_mode(MOTOR_BRAKE_COAST);
 
   cataRotationSensor.reset_position();
@@ -37,17 +31,9 @@ void opcontrol() {
     constexpr int deadband{ 3 };
 
     if(std::abs(master.get_analog(ANALOG_LEFT_Y)) > deadband || std::abs(master.get_analog(ANALOG_RIGHT_X)) > deadband) {
-      rightMotors.move_voltage(forwardMillivolts - turnMillivolts);
-      rightTop.move_voltage(forwardMillivolts - turnMillivolts);
-
-      leftMotors.move_voltage(forwardMillivolts + turnMillivolts);
-      leftTop.move_voltage(forwardMillivolts + turnMillivolts);
+      drivetrain.MoveMillivolts(forwardMillivolts, turnMillivolts);
     } else {
-      rightMotors.brake();
-      rightTop.brake();
-
-      leftMotors.brake();
-      leftTop.brake();
+      drivetrain.Brake();
     }
 
     int cataPos{ cataRotationSensor.get_position() / 100 };
@@ -76,6 +62,12 @@ void opcontrol() {
     } else {
       flywheelA.brake();
       flywheelB.brake();
+    }
+
+    if(master.get_digital(DIGITAL_L2)) {
+      intake.move_voltage(12000);
+    } else {
+      intake.brake();
     }
 
     delay(20);

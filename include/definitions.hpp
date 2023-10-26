@@ -2,19 +2,13 @@
 #define DEFINITIONS_H
 
 #include "main.h"
+#include "drive.hpp"
 
 Controller master(CONTROLLER_MASTER);
 
-Motor rightA(19, MOTOR_GEAR_BLUE, false, MOTOR_ENCODER_DEGREES);
-Motor rightB(20, MOTOR_GEAR_BLUE, false, MOTOR_ENCODER_DEGREES);
-Motor_Group rightMotors({rightA, rightB});
+sdss_robotics_c::Drive drivetrain({15, -16, -17}, {-18, 19, 20}, E_MOTOR_GEAR_BLUE, E_MOTOR_BRAKE_COAST);
 
-Motor leftA(16,  MOTOR_GEAR_BLUE, true,  MOTOR_ENCODER_DEGREES);
-Motor leftB(17,  MOTOR_GEAR_BLUE, true,  MOTOR_ENCODER_DEGREES);
-Motor_Group leftMotors({leftA, leftB});
-
-Motor leftTop(15,  MOTOR_GEAR_BLUE, false,  MOTOR_ENCODER_DEGREES);
-Motor rightTop(18,  MOTOR_GEAR_BLUE, true,  MOTOR_ENCODER_DEGREES);
+Motor intake(6, MOTOR_GEAR_BLUE, false, MOTOR_ENCODER_DEGREES);
 
 Motor cata(12,  MOTOR_GEAR_RED, false,  MOTOR_ENCODER_DEGREES);
 
