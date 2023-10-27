@@ -12,6 +12,7 @@ namespace sdss_robotics_c {
         void MoveMillivolts(int forwardMillivolts, int turnMillivolts);
         void Brake();
 
+        private:
         std::vector <pros::Motor> leftMotors;
         std::vector <pros::Motor> rightMotors;
     };
