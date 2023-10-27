@@ -19,4 +19,6 @@ ADIDigitalIn cataLimit('a');
 
 Rotation cataRotationSensor(4);
 
+IMU imu(7);
+
 #endif
