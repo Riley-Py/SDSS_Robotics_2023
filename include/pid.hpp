@@ -19,14 +19,8 @@ namespace pidd {
             else {
                 return P;
             }
-
         }
-        
-        
     };
 }
-
-
-
 
 #endif

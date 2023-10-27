@@ -2,8 +2,6 @@
 #include "definitions.hpp"
 #include "pid.hpp" 
 
-
-
 void initialize() {
   cata.set_brake_mode(MOTOR_BRAKE_COAST);
 
