@@ -7,18 +7,57 @@ void initialize() {
 
   cataRotationSensor.reset_position();
 }
+PID_1 pid_example;
+
 
 void disabled() {}
 
-void competition_initialize() {}
+void competition_initialize() {
+  pid_example.sp = 65;
+  pid_example.kp = 15;
+  
+  inertial.set_heading(0);
 
-void autonomous() {}
+  pros::lcd::initialize();
+  pros::lcd::set_text(1, "Testing");
+  pros::lcd::set_background_color(150, 140, 140);
+
+  while (true) {
+    auton = pros::lcd::read_buttons();
+    if (auton != 0) {
+      break;
+    }
+    pros::delay(20);
+    
+  }
+  pros::lcd::shutdown();
+
+
+
+
+
+
+}
+
+void autonomous() {
+  if (auton == 1) {
+    while (true) {
+       inertial.set_rotation(90);
+       master.set_text(0, 0, std::to_string(inertial.get_rotation()));
+
+    }      
+  }
+
+
+  
+}
 
 int curveJoystick(const int input, const double t) {
   return (std::exp(-t / 10) + std::exp((std::abs(input) - 100) / 10) * (1 - std::exp(-t / 10))) * input;
 }
 
 void opcontrol() {
+  
   while(true) {
     constexpr int turningCurve{ 3 };
     constexpr int forwardCurve{ 3 };

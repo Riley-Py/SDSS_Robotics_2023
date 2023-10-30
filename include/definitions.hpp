@@ -15,10 +15,13 @@ Motor cata(12,  MOTOR_GEAR_RED, false,  MOTOR_ENCODER_DEGREES);
 Motor flywheelA(1,  MOTOR_GEAR_GREEN, false,  MOTOR_ENCODER_DEGREES);
 Motor flywheelB(2,  MOTOR_GEAR_GREEN, true,  MOTOR_ENCODER_DEGREES);
 
-ADIDigitalIn cataLimit('a');
+ADIDigitalIn cataLimit('a'); //limit for catapult
 
 Rotation cataRotationSensor(4);
 
-IMU imu(7);
+IMU inertial(7); //inertial
+
+int auton {0};
+
 
 #endif
