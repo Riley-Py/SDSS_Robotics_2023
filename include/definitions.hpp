@@ -1,5 +1,5 @@
-#ifndef DEFINITIONS_H
-#define DEFINITIONS_H
+#ifndef DEFINITIONS_HPP
+#define DEFINITIONS_HPP
 
 #include "main.h"
 #include "drive.hpp"
