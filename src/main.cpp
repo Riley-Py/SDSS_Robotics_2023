@@ -54,18 +54,12 @@ void opcontrol() {
     if(cataPos >= 54 && cataPos <= 55 && !cataFlag) {
       cata.brake();
       cataFlag = true;
-    }
+    }    
 
     if(master.get_digital(DIGITAL_L1)) {
-      flywheelA.move_voltage(12000);
-      flywheelB.move_voltage(12000);
-    } else {
-      flywheelA.brake();
-      flywheelB.brake();
-    }
-
-    if(master.get_digital(DIGITAL_L2)) {
       intake.move_voltage(12000);
+    } else if(master.get_digital(DIGITAL_L2)) {
+      intake.move_voltage(-12000);
     } else {
       intake.brake();
     }
