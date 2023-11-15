@@ -16,14 +16,14 @@ namespace pid {
 
         private:
         //pv = process value
-        double pv;
-        double error;
+        static double pv;
+        static double error;
         //sp = setpoint
-        double sp;
+        static double sp;
         //kp = proportional gain
-        double kp;
+        static double kp;
         //P = proportional
-        double P;
+        static double P;
         
 
     };
