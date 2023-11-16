@@ -11,7 +11,14 @@ void disabled() {}
 
 void competition_initialize() {}
 
-void autonomous() {}
+void autonomous() {
+   while (p_controller.proportional() != 0) {
+    drivetrain.MoveMillivolts(p_controller.proportional(), p_controller.proportional());
+
+   }
+   
+
+}
 
 //Curving of the joystick
 int curveJoystick(const int input, const double t) {

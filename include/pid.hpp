@@ -12,18 +12,18 @@ namespace pid {
         Pid(double setPoint, double proportional_gain);
 
         //Testing out proportional first
-        void proportional();
+        double proportional();
 
         private:
         //pv = process value
-        static double pv;
-        static double error;
+         double pv;
+         double error;
         //sp = setpoint
-        static double sp;
+         double sp;
         //kp = proportional gain
-        static double kp;
+         double kp;
         //P = proportional
-        static double P;
+         double P;
         
 
     };

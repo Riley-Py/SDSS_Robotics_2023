@@ -5,12 +5,16 @@ pid::Pid::Pid(double setPoint, double proportional_gain) {
     sp = proportional_gain;
 }
 
-void pid::Pid::proportional() {
+double pid::Pid::proportional() {
     error = sp - real_value;
     P = kp * error;
 
-    if (P != 0) {
-        proportional();
-    }    
+    if (P == 0) {
+        return 0;
+    }
+
+     
+    
+    return P; 
 }
 

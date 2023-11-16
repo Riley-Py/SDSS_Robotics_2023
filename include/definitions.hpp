@@ -3,6 +3,7 @@
 
 #include "main.h"
 #include "drive.hpp"
+#include "pid.hpp" 
 
 Controller master(CONTROLLER_MASTER);
 
@@ -16,5 +17,7 @@ Motor flywheelA(1, MotorGears::green,  MotorUnits::degrees);
 Motor flywheelB(-2, MotorGears::green,  MotorUnits::degrees);
 
 Rotation cataRotationSensor(4);
+
+pid::Pid p_controller(10, 2);
 
 #endif
