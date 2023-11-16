@@ -5,6 +5,7 @@ pid::Pid::Pid(double setPoint, double proportional_gain) {
     sp = proportional_gain;
 }
 
+//Proportional controller (P-controller)
 double pid::Pid::proportional(double real_value) {
     error = sp - real_value;
     P = kp * error;

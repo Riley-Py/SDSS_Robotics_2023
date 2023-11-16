@@ -15,13 +15,14 @@ namespace sdss_robotics_c {
         //Stops the drivetrain
         void Brake();
 
+        //Gets the velocity of the motors using a numerical average
         double Get_Velocity();
         
         private:
         //Funky way to give the motors the attributes by putting them in a list
         std::vector <pros::Motor> leftMotors;
         std::vector <pros::Motor> rightMotors;
-
+        //Stores an average of current velocity using the right motors (implement using left as well for turning)
         double current_velocity; 
     };
 }
