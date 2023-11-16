@@ -2,6 +2,9 @@
 #include "definitions.hpp"
 
 void initialize() {
+  leftMotors.set_brake_modes(MOTOR_BRAKE_COAST);
+  rightMotors.set_brake_modes(MOTOR_BRAKE_COAST);
+
   cata.set_brake_mode(MOTOR_BRAKE_COAST);
 
   cataRotationSensor.reset_position();
@@ -31,9 +34,11 @@ void opcontrol() {
     constexpr int deadband{ 3 };
 
     if(std::abs(master.get_analog(ANALOG_LEFT_Y)) > deadband || std::abs(master.get_analog(ANALOG_RIGHT_X)) > deadband) {
-      drivetrain.MoveMillivolts(forwardMillivolts, turnMillivolts);
+      leftMotors.move_voltage(forwardMillivolts + turnMillivolts);
+      rightMotors.move_voltage(forwardMillivolts - turnMillivolts);
     } else {
-      drivetrain.Brake();
+      leftMotors.brake();
+      rightMotors.brake();
     }
 
     int cataPos{ cataRotationSensor.get_position() / 100 };
