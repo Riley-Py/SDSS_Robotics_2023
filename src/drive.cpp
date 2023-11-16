@@ -35,3 +35,12 @@ void Drive::Brake() {
         motor.brake();
     }
 }
+double Drive::Get_Velocity() {
+    for (pros::Motor motor : rightMotors) {
+        current_velocity += (motor.get_actual_velocity() / rightMotors.size());
+
+
+    };
+    return current_velocity;
+
+}

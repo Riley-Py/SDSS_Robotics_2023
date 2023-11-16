@@ -14,11 +14,15 @@ namespace sdss_robotics_c {
         void MoveMillivolts(int forwardMillivolts, int turnMillivolts);
         //Stops the drivetrain
         void Brake();
+
+        double Get_Velocity();
         
         private:
         //Funky way to give the motors the attributes by putting them in a list
         std::vector <pros::Motor> leftMotors;
         std::vector <pros::Motor> rightMotors;
+
+        double current_velocity; 
     };
 }
 

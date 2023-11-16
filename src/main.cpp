@@ -12,10 +12,10 @@ void disabled() {}
 void competition_initialize() {}
 
 void autonomous() {
-   while (p_controller.proportional() != 0) {
-    drivetrain.MoveMillivolts(p_controller.proportional(), p_controller.proportional());
+  
+    drivetrain.MoveMillivolts(p_controller.proportional(drivetrain.Get_Velocity()), p_controller.proportional(drivetrain.Get_Velocity()));
 
-   }
+   
    
 
 }

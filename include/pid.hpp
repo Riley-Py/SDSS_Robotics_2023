@@ -12,7 +12,7 @@ namespace pid {
         Pid(double setPoint, double proportional_gain);
 
         //Testing out proportional first
-        double proportional();
+        double proportional(double real_value);
 
         private:
         //pv = process value
