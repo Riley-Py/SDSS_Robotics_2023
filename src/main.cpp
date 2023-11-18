@@ -1,6 +1,16 @@
 #include "main.h"
 #include "definitions.hpp"
 
+void display() {
+    while (true) {
+        lemlib::Pose pose = chassis.getPose(); // get the current position of the robot
+        pros::lcd::print(0, "x: %f", pose.x); // print the x position
+        pros::lcd::print(1, "y: %f", pose.y); // print the y position
+        pros::lcd::print(2, "heading: %f", pose.theta); // print the heading
+        pros::delay(10);
+    }
+}
+
 void initialize() {
   leftMotors.set_brake_modes(MOTOR_BRAKE_COAST);
   rightMotors.set_brake_modes(MOTOR_BRAKE_COAST);
@@ -8,6 +18,10 @@ void initialize() {
   cata.set_brake_mode(MOTOR_BRAKE_COAST);
 
   cataRotationSensor.reset_position();
+
+  pros::lcd::initialize();
+  chassis.calibrate();
+  pros::Task screenTask(display);
 }
 
 void disabled() {}
