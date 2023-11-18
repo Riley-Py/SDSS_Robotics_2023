@@ -1,89 +1,68 @@
 #include "main.h"
-#include "definitions.hpp"
+#include "pros/apix.h"
 
+/**
+ * A callback function for LLEMU's center button.
+ *
+ * When this callback is fired, it will toggle line 2 of the LCD text between
+ * "I was pressed!" and nothing.
+ */
+
+
+/**
+ * Runs initialization code. This occurs as soon as the program is started.
+ *
+ * All other competition modes are blocked by initialize; it is recommended
+ * to keep execution time for this mode under a few seconds.
+ */
 void initialize() {
-  cata.set_brake_mode(MOTOR_BRAKE_COAST);
-
-  cataRotationSensor.reset_position();
+	
 }
 
+/**
+ * Runs while the robot is in the disabled state of Field Management System or
+ * the VEX Competition Switch, following either autonomous or opcontrol. When
+ * the robot is enabled, this task will exit.
+ */
 void disabled() {}
 
+/**
+ * Runs after initialize(), and before autonomous when connected to the Field
+ * Management System or the VEX Competition Switch. This is intended for
+ * competition-specific initialization routines, such as an autonomous selector
+ * on the LCD.
+ *
+ * This task will exit when the robot is enabled and autonomous or opcontrol
+ * starts.
+ */
 void competition_initialize() {}
 
-void autonomous() {
-  
-    drivetrain.MoveMillivolts(p_controller.proportional(drivetrain.Get_Velocity()), p_controller.proportional(drivetrain.Get_Velocity()));
+/**
+ * Runs the user autonomous code. This function will be started in its own task
+ * with the default priority and stack size whenever the robot is enabled via
+ * the Field Management System or the VEX Competition Switch in the autonomous
+ * mode. Alternatively, this function may be called in initialize or opcontrol
+ * for non-competition testing purposes.
+ *
+ * If the robot is disabled or communications is lost, the autonomous task
+ * will be stopped. Re-enabling the robot will restart the task, not re-start it
+ * from where it left off.
+ */
+void autonomous() {}
 
-   
-   
-
-}
-
-//Curving of the joystick
-int curveJoystick(const int input, const double t) {
-  return (std::exp(-t / 10) + std::exp((std::abs(input) - 100) / 10) * (1 - std::exp(-t / 10))) * input;
-}
-
+/**
+ * Runs the operator control code. This function will be started in its own task
+ * with the default priority and stack size whenever the robot is enabled via
+ * the Field Management System or the VEX Competition Switch in the operator
+ * control mode.
+ *
+ * If no competition control is connected, this function will run immediately
+ * following initialize().
+ *
+ * If the robot is disabled or communications is lost, the
+ * operator control task will be stopped. Re-enabling the robot will restart the
+ * task, not resume it from where it left off.
+ */
 void opcontrol() {
-  while(true) {
 
-    //Curve variables
-    constexpr int turningCurve{ 3 };
-    constexpr int forwardCurve{ 3 };
-
-
-    //Values for the turning based on what the curveJoystick function spits out
-    double turnVal{curveJoystick(std::clamp(static_cast<int>(master.get_analog(ANALOG_RIGHT_X)), -100, 100), turningCurve)};
-    double forwardVal{curveJoystick(std::clamp(static_cast<int>(master.get_analog(ANALOG_LEFT_Y)), -100, 100), forwardCurve)};
-
-    //The turn and forwaqrd millivolts are dependent on the curve
-    double turnMillivolts{ turnVal * 96 };
-    double forwardMillivolts{ forwardVal * 120 };
-
-    //No stick drifting
-    constexpr int deadband{ 3 };
-
-    //If the joystick is moved beyond the deadband, move it forward or else it doesn't move
-    if(std::abs(master.get_analog(ANALOG_LEFT_Y)) > deadband || std::abs(master.get_analog(ANALOG_RIGHT_X)) > deadband) {
-      drivetrain.MoveMillivolts(forwardMillivolts, turnMillivolts);
-    } else {
-      drivetrain.Brake();
-    }
-
-    int cataPos{ cataRotationSensor.get_position() / 100 };
-
-    //Debugging for the catapult 
-    master.set_text(0, 0, std::to_string(cataPos));
-
-    //Moves the catapult if R1 is pressed
-    if(master.get_digital(DIGITAL_R1)) {
-      if(cataPos >= 54 && cataPos <= 56) {
-        cata.set_zero_position(cata.get_position());
-        cata.move_absolute(360, 100);
-      } else {
-        cata.move_voltage(12000);
-      }
-    }
-
-    static bool cataFlag{ false };
-
-    //If the catapult's position is between 54-55 and the flag for the catapult that is down is false, stop it and make the flag true.s
-    if(cataPos >= 54 && cataPos <= 55 && !cataFlag) {
-      cata.brake();
-      cataFlag = true;
-    }    
-
-    //If L1 is pressed, intake goes forward. If L2, then go backwards.  Otherwise, stop it
-
-    if(master.get_digital(DIGITAL_L1)) {
-      intake.move_voltage(12000);
-    } else if(master.get_digital(DIGITAL_L2)) {
-      intake.move_voltage(-12000);
-    } else {
-      intake.brake();
-    }
-
-    delay(20);
-  }
 }
