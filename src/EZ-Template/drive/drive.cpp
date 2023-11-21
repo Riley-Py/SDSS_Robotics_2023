@@ -44,6 +44,44 @@ Drive::Drive(std::vector<int> left_motor_ports, std::vector<int> right_motor_por
 
   set_defaults();
 }
+//moving the drivetrain
+void Drive::move_drive(double axis1, double axis3, double percentage, double deadzone, std::vector<pros::Motor> lefty, std::vector<pros::Motor> righty) {
+
+    //Forward and turn values taken from the axises of the controller (in volts)
+    double turn_Val = (((std::exp(-percentage / 10) + std::exp((std::abs(axis1) - 100) / 10) * (1 - std::exp(-percentage / 10))) * axis1) * 0.12) * 0.8;
+    double forward_Val = (((std::exp(-percentage / 10) + std::exp((std::abs(axis3) - 100) / 10) * (1 - std::exp(-percentage / 10))) * axis3) * 0.12) * 0.8;
+
+    if (abs(axis1) > deadzone && abs(axis3) > deadzone) {
+
+      //Same length, so can just use one list
+      for (int i = 0; i < lefty.size(); i++) {
+        lefty[i].move(forward_Val + turn_Val);
+        righty[i].move(forward_Val - turn_Val);
+
+      };
+
+
+    }
+    else {
+      for (int i = 0; i < lefty.size(); i++) {
+        lefty[i].brake();
+        righty[i].brake();
+
+      };
+    }
+
+
+
+
+
+
+
+
+
+      
+    
+
+}
 
 // Constructor for tracking wheels plugged into the brain
 Drive::Drive(std::vector<int> left_motor_ports, std::vector<int> right_motor_ports,
@@ -326,6 +364,8 @@ void Drive::initialize() {
   imu_calibrate();
   reset_drive_sensor();
 }
+
+
 
 void Drive::toggle_auto_drive(bool toggle) { drive_toggle = toggle; }
 void Drive::toggle_auto_print(bool toggle) { print_toggle = toggle; }

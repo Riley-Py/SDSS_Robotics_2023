@@ -23,6 +23,8 @@ class Drive {
    */
   int JOYSTICK_THRESHOLD;
 
+
+
   /**
    * Global current brake mode.
    */
@@ -152,6 +154,10 @@ class Drive {
    * \param right_tracker_ports
    *        Input {3, 4}.  Make ports negative if reversed!
    */
+
+  //Moves the drivetrain
+  void move_drive(double axis1, double axis3, double percentage, double deadzone, std::vector <pros::Motor> lefty, std::vector <pros::Motor> righty);
+
   Drive(std::vector<int> left_motor_ports, std::vector<int> right_motor_ports, int imu_port, double wheel_diameter, double ticks, double ratio, std::vector<int> left_tracker_ports, std::vector<int> right_tracker_ports);
 
   /**
@@ -699,11 +705,16 @@ class Drive {
    */
   double slew_calculate(slew_ &input, double current);
 
+    //Moves drivetrain traditionally
+ 
+
  private:  // !Auton
   bool drive_toggle = true;
   bool print_toggle = true;
   int swing_min = 0;
   int turn_min = 0;
+
+
 
   /**
    * Heading bool.
