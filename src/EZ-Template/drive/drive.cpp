@@ -44,31 +44,27 @@ Drive::Drive(std::vector<int> left_motor_ports, std::vector<int> right_motor_por
 
   set_defaults();
 }
-//moving the drivetrain
+//Moving the drivetrain
 void Drive::move_drive(double axis1, double axis3, double percentage, double deadzone, std::vector<pros::Motor> lefty, std::vector<pros::Motor> righty) {
 
     //Forward and turn values taken from the axises of the controller (in volts)
-    double turn_Val = (((std::exp(-percentage / 10) + std::exp((std::abs(axis1) - 100) / 10) * (1 - std::exp(-percentage / 10))) * axis1) * 0.12) * 0.8;
-    double forward_Val = (((std::exp(-percentage / 10) + std::exp((std::abs(axis3) - 100) / 10) * (1 - std::exp(-percentage / 10))) * axis3) * 0.12) * 0.8;
+    double turn_Val = ((((std::exp(-percentage / 10) + std::exp((std::abs(axis3) - 100) / 10) * (1 - std::exp(-percentage / 10))) * axis3))) * 96 ;
+    double forward_Val = ((((std::exp(-percentage / 10) + std::exp((std::abs(axis1) - 100) / 10) * (1 - std::exp(-percentage / 10))) * axis1))) * 120;
 
-    if (abs(axis1) > deadzone && abs(axis3) > deadzone) {
+    
+      for (Motor motor : righty) {
+        motor.move_voltage(forward_Val - turn_Val);
+      }
+      //Same length, so can just use loop
+      for (Motor motor : lefty) {
+        motor.move_voltage(forward_Val + turn_Val);
+      }
 
-      //Same length, so can just use one list
-      for (int i = 0; i < lefty.size(); i++) {
-        lefty[i].move(forward_Val + turn_Val);
-        righty[i].move(forward_Val - turn_Val);
-
-      };
+      
 
 
-    }
-    else {
-      for (int i = 0; i < lefty.size(); i++) {
-        lefty[i].brake();
-        righty[i].brake();
-
-      };
-    }
+    
+   
 
 
 

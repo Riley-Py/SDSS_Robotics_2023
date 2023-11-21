@@ -5,14 +5,14 @@
 Drive chassis (
   // Left Chassis Ports (negative port will reverse it!)
 
-  {-16, 17, 18}
+  {15, -16, -17}
 
   // Right Chassis Ports (negative port will reverse it!)
 
   ,{-18, 19, 20}
 
   // IMU Port
-  ,20  //Decide on this later on
+  ,9  //Decide on this later on
 
   // Wheel Diameter (Remember, 4" wheels are actually 4.125!)
   //    (or tracking wheel diameter)
@@ -26,7 +26,7 @@ Drive chassis (
   //    (or gear ratio of tracking wheel)
   // eg. if your drive is 84:36 where the 36t is powered, your RATIO would be 2.333.
   // eg. if your drive is 36:60 where the 60t is powered, your RATIO would be 0.6.
-  ,5/3
+  ,1.666
 
 );
 
@@ -42,20 +42,7 @@ void initialize() {
   
   // Configure your chassis controls
   
-  chassis.set_active_brake(0); // Sets the active brake kP. We recommend 0.1.
-  chassis.set_curve_default(0, 0); // Defaults for curve. If using tank, only the first parameter is used. (Comment this line out if you have an SD card!)  
-  default_constants(); // Set the drive to your own constants from autons.cpp!
-
-  // These are already defaulted to these buttons, but you can change the left/right curve buttons here!
-  // chassis.set_left_curve_buttons (pros::E_CONTROLLER_DIGITAL_LEFT, pros::E_CONTROLLER_DIGITAL_RIGHT); // If using tank, only the left side is used. 
-  // chassis.set_right_curve_buttons(pros::E_CONTROLLER_DIGITAL_Y,    pros::E_CONTROLLER_DIGITAL_A);
-
   
-
-  
-
-  // Initialize chassis
-  chassis.initialize();
 
   //TODO: Create a selector using LVGL
 }
@@ -130,8 +117,11 @@ void opcontrol() {
   chassis.set_drive_brake(MOTOR_BRAKE_COAST);
 
   while (true) {
-    chassis.move_drive(master.get_analog(ANALOG_LEFT_Y), master.get_analog(ANALOG_RIGHT_X), 3, 3, chassis.left_motors, chassis.right_motors);
+    //Testing needed for this below
+    chassis.move_drive((std::clamp(static_cast <int> (master.get_analog(ANALOG_LEFT_Y)), -100, 100)), std::clamp(static_cast <int> (master.get_analog(ANALOG_RIGHT_X)), -100, 100), 3, 3, chassis.left_motors, chassis.right_motors);
+    
+     // This is used for timer calculations!  Keep this ez::util::DELAY_TIME
 
-    pros::delay(ez::util::DELAY_TIME); // This is used for timer calculations!  Keep this ez::util::DELAY_TIME
+     pros:delay(ez::util::DELAY_TIME);
   }
 }

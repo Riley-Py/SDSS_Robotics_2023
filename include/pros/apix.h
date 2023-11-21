@@ -32,8 +32,6 @@
 #pragma GCC diagnostic pop
 #include "pros/serial.h"
 
-
-
 #ifdef __cplusplus
 #include "pros/serial.hpp"
 namespace pros::c {
