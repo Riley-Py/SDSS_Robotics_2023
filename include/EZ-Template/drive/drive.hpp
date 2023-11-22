@@ -23,8 +23,6 @@ class Drive {
    */
   int JOYSTICK_THRESHOLD;
 
-
-
   /**
    * Global current brake mode.
    */
@@ -154,10 +152,6 @@ class Drive {
    * \param right_tracker_ports
    *        Input {3, 4}.  Make ports negative if reversed!
    */
-
-  //Moves the drivetrain
-  void move_drive(double axis1, double axis3, double percentage, double deadzone, std::vector <pros::Motor> lefty, std::vector <pros::Motor> righty);
-
   Drive(std::vector<int> left_motor_ports, std::vector<int> right_motor_ports, int imu_port, double wheel_diameter, double ticks, double ratio, std::vector<int> left_tracker_ports, std::vector<int> right_tracker_ports);
 
   /**
@@ -203,7 +197,28 @@ class Drive {
    *        Make ports negative if reversed!
    */
   Drive(std::vector<int> left_motor_ports, std::vector<int> right_motor_ports, int imu_port, double wheel_diameter, double ratio, int left_rotation_port, int right_rotation_port);
+  
+  void move_drive(double axis1, double axis3, double percentage, double deadzone, std::vector <pros::Motor> lefty, std::vector <pros::Motor> righty);
 
+  /**
+   * Moves the drivetrain forward
+   * 
+   * \param axis1
+   *        Input of the right joystick
+   * \param axis3
+   *        Input of the left joystick
+   * \param percentage
+   *         Percentage of curve for joystick
+   * \param deadzone
+   *          Deadzone for joysticks
+   * \param lefty
+   *          Left side motors
+   * \param righty
+   *          Right side motors
+   * 
+   * 
+   * 
+  */
   /**
    * Sets drive defaults.
    */
@@ -705,16 +720,11 @@ class Drive {
    */
   double slew_calculate(slew_ &input, double current);
 
-    //Moves drivetrain traditionally
- 
-
  private:  // !Auton
   bool drive_toggle = true;
   bool print_toggle = true;
   int swing_min = 0;
   int turn_min = 0;
-
-
 
   /**
    * Heading bool.
