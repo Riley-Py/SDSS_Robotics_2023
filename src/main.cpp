@@ -45,6 +45,7 @@ void initialize() {
   
 
   //TODO: Create a selector using LVGL
+
 }
 
 
@@ -120,8 +121,6 @@ void opcontrol() {
     //Testing needed for this below
     chassis.move_drive((std::clamp(static_cast <int> (master.get_analog(ANALOG_LEFT_Y)), -100, 100)), std::clamp(static_cast <int> (master.get_analog(ANALOG_RIGHT_X)), -100, 100), 3, 3, chassis.left_motors, chassis.right_motors);
     
-     // This is used for timer calculations!  Keep this ez::util::DELAY_TIME
-
      pros:delay(ez::util::DELAY_TIME);
   }
 }

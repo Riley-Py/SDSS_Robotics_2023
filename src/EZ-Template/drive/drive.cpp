@@ -47,17 +47,29 @@ Drive::Drive(std::vector<int> left_motor_ports, std::vector<int> right_motor_por
 //Moving the drivetrain
 void Drive::move_drive(double axis1, double axis3, double percentage, double deadzone, std::vector<pros::Motor> lefty, std::vector<pros::Motor> righty) {
 
-    //Forward and turn values taken from the axises of the controller (in volts)
+    //Forward and turn values taken from the axises of the controller (in millivolts)
     double turn_Val = ((((std::exp(-percentage / 10) + std::exp((std::abs(axis3) - 100) / 10) * (1 - std::exp(-percentage / 10))) * axis3))) * 96 ;
     double forward_Val = ((((std::exp(-percentage / 10) + std::exp((std::abs(axis1) - 100) / 10) * (1 - std::exp(-percentage / 10))) * axis1))) * 120;
 
-    
+      //Moves drivetrain dependent on whether the deadzone has been surpassed
+      if (abs(axis1) > deadzone || abs(axis3) > deadzone) {
+      //Right motors
       for (Motor motor : righty) {
         motor.move_voltage(forward_Val - turn_Val);
       }
-      //Same length, so can just use loop
+      //Left motors
       for (Motor motor : lefty) {
         motor.move_voltage(forward_Val + turn_Val);
+      }
+      }
+      //Stops the drivetrain
+      else {
+        for (Motor motor : righty) {
+          motor.brake();
+        }
+        for (Motor motor : lefty) {
+          motor.brake();
+        }
       }
 
       
