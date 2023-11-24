@@ -29,9 +29,9 @@ Drive chassis (
 );
 
 adi::Pneumatics wings('A', false, false);
-int lastState = 0;
-unsigned long lastDebounce = 0;
-unsigned long debounceDelay = 50;
+Motor intake(6, MotorGears::blue, MotorUnits::degrees);
+Rotation rot_sen(4);
+Motor cata(12, MotorGears::red, MotorUnits::degrees);
 
 
 
@@ -44,6 +44,12 @@ unsigned long debounceDelay = 50;
  * to keep execution time for this mode under a few seconds.
  */
 void initialize() {
+
+  cata.set_brake_mode(MOTOR_BRAKE_COAST);
+
+  rot_sen.reset_position();
+
+
 	
 }
 
@@ -96,12 +102,30 @@ void opcontrol() {
 
 	while (true) {
 		 chassis.move_drive((std::clamp(static_cast <int> (master.get_analog(ANALOG_LEFT_Y)), -100, 100)), std::clamp(static_cast <int> (master.get_analog(ANALOG_RIGHT_X)), -100, 100), 3, 3, chassis.left_motors, chassis.right_motors);
-     int a_button = master.get_digital(E_CONTROLLER_DIGITAL_A); 
+     double cataPosition = (rot_sen.get_position() / 100 );
 
       //R1 = Intake in; L1 = Intake out; L2 = Catapult
       //For the wings
       if (master.get_digital_new_press(E_CONTROLLER_DIGITAL_A)) {
           wings.toggle();
+      }
+      if (master.get_digital(E_CONTROLLER_DIGITAL_R1)) {
+        intake.move_voltage(12000);
+
+
+      }
+      else if (master.get_digital(E_CONTROLLER_DIGITAL_R2)) {
+        intake.move_voltage(-12000);
+      }
+      else {
+        intake.brake();
+      }
+
+      if (master.get_digital(E_CONTROLLER_DIGITAL_L1)) {
+        cata.move_voltage(12000);
+      }
+      else {
+        cata.brake();
       }
 		 pros::delay(20);
      
