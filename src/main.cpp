@@ -40,7 +40,7 @@ void opcontrol() {
 
     master.set_text(0, 0, std::to_string(cataPos));
     
-    if(master.get_digital(DIGITAL_R1)) {
+    if(master.get_digital(DIGITAL_L2)) {
       if(cataPos >= 54 && cataPos <= 56) {
         cata.set_zero_position(cata.get_position());
         cata.move_absolute(360, 100);
@@ -56,9 +56,9 @@ void opcontrol() {
       cataFlag = true;
     }    
 
-    if(master.get_digital(DIGITAL_L1)) {
+    if(master.get_digital(DIGITAL_R1)) {
       intake.move_voltage(12000);
-    } else if(master.get_digital(DIGITAL_L2)) {
+    } else if(master.get_digital(DIGITAL_L1)) {
       intake.move_voltage(-12000);
     } else {
       intake.brake();

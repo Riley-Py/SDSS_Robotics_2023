@@ -1,19 +1,18 @@
 #include "drive.hpp"
-#include "util.hpp"
 
 #include <cmath>
 
 using namespace sdss_robotics_c;
 
-Drive::Drive(std::vector <int> leftMotorPorts, std::vector <int> rightMotorPorts, pros::motor_gearset_e_t gearset, pros::motor_brake_mode_e_t brakeMode) {
+Drive::Drive(std::vector <int> leftMotorPorts, std::vector <int> rightMotorPorts, pros::motor_gearset_e gearset, pros::motor_brake_mode_e_t brakeMode) {
     for(int port : leftMotorPorts) {
-        pros::Motor motor(std::abs(port), ConvertGearset(gearset), IsReversed(port), pros::E_MOTOR_ENCODER_DEGREES);
+        pros::Motor motor(port, gearset);
         motor.set_brake_mode(brakeMode);
         leftMotors.push_back(motor);
     }
 
     for(int port : rightMotorPorts) {
-        pros::Motor motor(std::abs(port), ConvertGearset(gearset), IsReversed(port), pros::E_MOTOR_ENCODER_DEGREES);
+        pros::Motor motor(port, gearset);
         motor.set_brake_mode(brakeMode);
         rightMotors.push_back(motor);
     }
