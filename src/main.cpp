@@ -98,7 +98,7 @@ void opcontrol() {
 		 chassis.move_drive((std::clamp(static_cast <int> (master.get_analog(ANALOG_LEFT_Y)), -100, 100)), std::clamp(static_cast <int> (master.get_analog(ANALOG_RIGHT_X)), -100, 100), 3, 3, chassis.left_motors, chassis.right_motors);
      int a_button = master.get_digital(E_CONTROLLER_DIGITAL_A); 
 
-     
+      //R1 = Intake in; L1 = Intake out; L2 = Catapult
       //For the wings
       if (master.get_digital_new_press(E_CONTROLLER_DIGITAL_A)) {
           wings.toggle();
