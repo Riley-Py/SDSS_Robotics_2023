@@ -4,7 +4,8 @@
       "name": "PROS Project",
       "includePath": [
         "${workspaceFolder}/**",
-        "c:\\Users\\riley\\EZ-Template-4\\include"
+        "c:\\Users\\riley\\EZ-Template-4\\include",
+        "c:\\Users\\riley\\SDSS_Robotics_2023\\include"
       ],
       "defines": [
         "_DEBUG",
@@ -15,10 +16,10 @@
       "cStandard": "c17",
       "cppStandard": "c++17",
       "intelliSenseMode": "gcc-arm",
-      "compileCommands": "c:\\Users\\riley\\EZ-Template-4\\compile_commands.json",
+      "compileCommands": "c:\\Users\\riley\\SDSS_Robotics_2023\\compile_commands.json",
       "browse": {
         "path": [
-          "c:\\Users\\riley\\EZ-Template-4"
+          "c:\\Users\\riley\\SDSS_Robotics_2023"
         ],
         "limitSymbolsToIncludedHeaders": true,
         "databaseFilename": ""

@@ -1,7 +1,7 @@
 {
   "py/object": "pros.conductor.project.Project",
   "py/state": {
-    "project_name": "Example",
+    "project_name": "2929C_Robotics",
     "target": "v5",
     "templates": {
       "kernel": {
@@ -398,8 +398,10 @@
       }
     },
     "upload_options": {
-      "description": "...",
-      "slot": 4
+      "description": "Singularity is Greatness",
+      "slot": 4,
+      "icon": "clawbot",
+      "after": "none"
     }
   }
 }

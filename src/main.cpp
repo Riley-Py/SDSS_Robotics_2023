@@ -28,6 +28,14 @@ Drive chassis (
 
 );
 
+adi::Pneumatics wings('A', false, false);
+int lastState = 0;
+unsigned long lastDebounce = 0;
+unsigned long debounceDelay = 50;
+
+
+
+
 
 /**
  * Runs initialization code. This occurs as soon as the program is started.
@@ -88,6 +96,16 @@ void opcontrol() {
 
 	while (true) {
 		 chassis.move_drive((std::clamp(static_cast <int> (master.get_analog(ANALOG_LEFT_Y)), -100, 100)), std::clamp(static_cast <int> (master.get_analog(ANALOG_RIGHT_X)), -100, 100), 3, 3, chassis.left_motors, chassis.right_motors);
-		pros::delay(20); // Run for 20 ms then update
+     int a_button = master.get_digital(E_CONTROLLER_DIGITAL_A); 
+
+     
+      //For the wings
+      if (master.get_digital_new_press(E_CONTROLLER_DIGITAL_A)) {
+          wings.toggle();
+      }
+		 pros::delay(20);
+     
+     // Run for 20 ms then update
+
 	}
 }
