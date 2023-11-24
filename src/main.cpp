@@ -29,6 +29,7 @@ Drive chassis (
 );
 
 adi::Pneumatics wings('A', false, false);
+adi:: Pneumatics intake_extender ('B', false, false);
 Motor intake(6, MotorGears::blue, MotorUnits::degrees);
 Rotation rot_sen(4);
 Motor cata(12, MotorGears::red, MotorUnits::degrees);
@@ -108,6 +109,10 @@ void opcontrol() {
       //For the wings
       if (master.get_digital_new_press(E_CONTROLLER_DIGITAL_A)) {
           wings.toggle();
+      }
+      if (master.get_digital_new_press(E_CONTROLLER_DIGITAL_Y)) {
+        intake_extender.toggle();
+
       }
       if (master.get_digital(E_CONTROLLER_DIGITAL_R1)) {
         intake.move_voltage(12000);
