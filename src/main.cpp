@@ -14,9 +14,9 @@ void initialize() {
   pros::delay(500); // Stop the user from doing anything while legacy ports configure.
 
   // Configure your chassis controls
-  chassis.toggle_modify_curve_with_controller(true); // Enables modifying the controller curve with buttons on the joysticks
+  //chassis.toggle_modify_curve_with_controller(true); // Enables modifying the controller curve with buttons on the joysticks
   chassis.set_active_brake(0); // Sets the active brake kP. We recommend 0.1.
-  chassis.set_curve_default(0, 0); // Defaults for curve. If using tank, only the first parameter is used. (Comment this line out if you have an SD card!)  
+  chassis.set_curve_default(3, 3); // Defaults for curve. If using tank, only the first parameter is used. (Comment this line out if you have an SD card!)  
   default_constants(); // Set the drive to your own constants from autons.cpp!
 
   // These are already defaulted to these buttons, but you can change the left/right curve buttons here!
@@ -95,16 +95,32 @@ void opcontrol() {
   chassis.set_drive_brake(MOTOR_BRAKE_COAST);
 
   while (true) {
+    chassis.arcade_standard(ez::SPLIT); // Standard split arcade
 
-    chassis.tank(); // Tank control
-    // chassis.arcade_standard(ez::SPLIT); // Standard split arcade
-    // chassis.arcade_standard(ez::SINGLE); // Standard single arcade
-    // chassis.arcade_flipped(ez::SPLIT); // Flipped split arcade
-    // chassis.arcade_flipped(ez::SINGLE); // Flipped single arcade
+    master.set_text(0, 0, std::to_string(cataRotationSensor.get_position()));
 
-    // . . .
-    // Put more user control code here!
-    // . . .
+    static bool cataFlag{ false };
+
+    if(master.get_digital(DIGITAL_L2)) {
+      cata.move_voltage(12000);
+    }
+
+    if(cataRotationSensor.get_position() < 5900) {
+      cataFlag = false;
+    }
+
+    if(cataRotationSensor.get_position() >= 5900 && !cataFlag) {
+      cata.brake();
+      cataFlag = true;
+    }
+
+    if(master.get_digital(DIGITAL_R1)) {
+      intake.move_voltage(12000);
+    } else if(master.get_digital(DIGITAL_L1)) {
+      intake.move_voltage(-12000);
+    } else {
+      intake.brake();
+    }
 
     pros::delay(ez::util::DELAY_TIME); // This is used for timer calculations!  Keep this ez::util::DELAY_TIME
   }

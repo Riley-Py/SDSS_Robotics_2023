@@ -5,7 +5,6 @@
 
 Controller master(CONTROLLER_MASTER);
 
-
 // Chassis constructor
 Drive chassis (
   // Left Chassis Ports (negative port will reverse it!)
