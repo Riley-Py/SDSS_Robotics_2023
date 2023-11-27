@@ -1,4 +1,5 @@
 #include "main.h"
+#include "definition.hpp"
 
 Drive chassis (
   // Left Chassis Ports (negative port will reverse it!)
@@ -28,11 +29,58 @@ Drive chassis (
 
 );
 
-adi::Pneumatics wings('A', false, false);
-adi:: Pneumatics intake_extender ('B', false, false);
-Motor intake(6, MotorGears::blue, MotorUnits::degrees);
-Rotation rot_sen(4);
-Motor cata(12, MotorGears::red, MotorUnits::degrees);
+//Numerous controls for the robot
+void controls(pros::Controller masta) {
+
+  double cataPosition = (rot_sen.get_position() / 100 );
+
+      //R1 = Intake in; L1 = Intake out; L2 = Catapult
+      //For the wings
+      if (masta.get_digital_new_press(E_CONTROLLER_DIGITAL_A)) {
+          wings.toggle();
+      }
+      if (masta.get_digital_new_press(E_CONTROLLER_DIGITAL_Y)) {
+        intake_extender.toggle();
+
+      }
+      if (master.get_digital(E_CONTROLLER_DIGITAL_R1)) {
+        intake.move_voltage(12000);
+
+
+      }
+      else if (masta.get_digital(E_CONTROLLER_DIGITAL_R2)) {
+        intake.move_voltage(-12000);
+      }
+      else {
+        intake.brake();
+      }
+
+    
+};
+
+//Cata controls
+void cata_controls (pros::Controller masta_cata) {
+
+   static bool cataFlag{ false };
+
+    if(master.get_digital(DIGITAL_L2)) {
+      cata.move_voltage(10000);
+    }
+
+    if(rot_sen.get_position() < degrees_cata) {
+      cataFlag = false;
+    }
+
+    if(rot_sen.get_position() >= degrees_cata && !cataFlag) {
+      cata.brake();
+      cataFlag = true;
+    }
+		 pros::delay(20);
+     
+     // Run for 20 ms then update
+
+	}
+
 
 
 
@@ -49,6 +97,7 @@ void initialize() {
   cata.set_brake_mode(MOTOR_BRAKE_COAST);
 
   rot_sen.reset_position();
+  rot_sen.set_data_rate(5);
 
 
 	
@@ -103,38 +152,9 @@ void opcontrol() {
 
 	while (true) {
 		 chassis.move_drive((std::clamp(static_cast <int> (master.get_analog(ANALOG_LEFT_Y)), -100, 100)), std::clamp(static_cast <int> (master.get_analog(ANALOG_RIGHT_X)), -100, 100), 3, 3, chassis.left_motors, chassis.right_motors);
-     double cataPosition = (rot_sen.get_position() / 100 );
-
-      //R1 = Intake in; L1 = Intake out; L2 = Catapult
-      //For the wings
-      if (master.get_digital_new_press(E_CONTROLLER_DIGITAL_A)) {
-          wings.toggle();
-      }
-      if (master.get_digital_new_press(E_CONTROLLER_DIGITAL_Y)) {
-        intake_extender.toggle();
-
-      }
-      if (master.get_digital(E_CONTROLLER_DIGITAL_R1)) {
-        intake.move_voltage(12000);
-
-
-      }
-      else if (master.get_digital(E_CONTROLLER_DIGITAL_R2)) {
-        intake.move_voltage(-12000);
-      }
-      else {
-        intake.brake();
-      }
-
-      if (master.get_digital(E_CONTROLLER_DIGITAL_L1)) {
-        cata.move_voltage(12000);
-      }
-      else {
-        cata.brake();
-      }
-		 pros::delay(20);
-     
-     // Run for 20 ms then update
-
-	}
+     controls(master);
+     cata_controls(master);
+      
 }
+}
+

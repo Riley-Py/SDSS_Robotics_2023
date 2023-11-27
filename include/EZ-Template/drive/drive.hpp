@@ -219,6 +219,8 @@ class Drive {
    * 
    * 
   */
+
+ void controls(pros::Controller controls);
   /**
    * Sets drive defaults.
    */
