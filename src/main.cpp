@@ -1,6 +1,5 @@
 #include "main.h"
 
-
 // Chassis constructor
 Drive chassis (
   // Left Chassis Ports (negative port will reverse it!)
@@ -16,7 +15,7 @@ Drive chassis (
 
   // Wheel Diameter (Remember, 4" wheels are actually 4.125!)
   //    (or tracking wheel diameter)
-  ,2.5
+  ,3.25
 
   // Cartridge RPM
   //   (or tick per rotation if using tracking wheels)
@@ -100,8 +99,6 @@ void disabled() {}
  * starts.
  */
 void competition_initialize() {}
-
-
 
 /**
  * Runs the user autonomous code. This function will be started in its own task
