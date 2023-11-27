@@ -122,6 +122,13 @@ void opcontrol() {
       intake.brake();
     }
 
+    if(master.get_digital_new_press(DIGITAL_A)) {
+      wings.toggle();
+    }
+    if(master.get_digital_new_press(DIGITAL_Y)) {
+      intakeExtender.toggle();
+    }
+
     pros::delay(ez::util::DELAY_TIME); // This is used for timer calculations!  Keep this ez::util::DELAY_TIME
   }
 }

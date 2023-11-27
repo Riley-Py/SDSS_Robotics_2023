@@ -39,4 +39,7 @@ Motor cata(12,  MotorGears::blue);
 
 Rotation cataRotationSensor(4);
 
+adi::Pneumatics wings('A', false);
+adi::Pneumatics intakeExtender ('B', false);
+
 #endif
