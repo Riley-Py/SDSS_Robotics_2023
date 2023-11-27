@@ -42,6 +42,7 @@
 //#include "okapi/api.hpp"
 #include "EZ-Template/api.hpp"
 #include "autons.hpp"
+#include "liblvgl/lvgl.h"
 
 /**
  * If you find doing pros::Motor() to be tedious and you'd prefer just to do
