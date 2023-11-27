@@ -45,11 +45,11 @@ void opcontrol() {
       cata.move_voltage(12000);
     }
 
-    if(cataRotationSensor.get_position() < 5800) {
+    if(cataRotationSensor.get_position() < 5900) {
       cataFlag = false;
     }
 
-    if(cataRotationSensor.get_position() >= 5800 && !cataFlag) {
+    if(cataRotationSensor.get_position() >= 5900 && !cataFlag) {
       cata.brake();
       cataFlag = true;
     }
