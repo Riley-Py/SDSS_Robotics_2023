@@ -1,7 +1,5 @@
 #include "drive.hpp"
 
-#include <cmath>
-
 using namespace sdss_robotics_c;
 
 Drive::Drive(std::vector <int> leftMotorPorts, std::vector <int> rightMotorPorts, pros::motor_gearset_e gearset, pros::motor_brake_mode_e_t brakeMode) {
