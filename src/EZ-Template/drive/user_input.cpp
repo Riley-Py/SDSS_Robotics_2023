@@ -157,11 +157,7 @@ void Drive::modify_curve_with_controller() {
 // Left curve function
 double Drive::left_curve_function(double x) {
   if (left_curve_scale != 0) {
-    // if (CURVE_TYPE)
     return (std::exp(-left_curve_scale / 10) + std::exp((std::abs(left_curve_scale) - 100) / 10) * (1 - std::exp(-left_curve_scale / 10))) * x;
-    //return (powf(2.718, -(left_curve_scale / 10)) + powf(2.718, (fabs(x) - 127) / 10) * (1 - powf(2.718, -(left_curve_scale / 10)))) * x;
-    // else
-    // return powf(2.718, ((abs(x)-127)*RIGHT_CURVE_SCALE)/100)*x;
   }
   return x;
 }
@@ -169,10 +165,7 @@ double Drive::left_curve_function(double x) {
 // Right curve fnuction
 double Drive::right_curve_function(double x) {
   if (right_curve_scale != 0) {
-    // if (CURVE_TYPE)
-    return (powf(2.718, -(right_curve_scale / 10)) + powf(2.718, (fabs(x) - 127) / 10) * (1 - powf(2.718, -(right_curve_scale / 10)))) * x;
-    // else
-    // return powf(2.718, ((abs(x)-127)*RIGHT_CURVE_SCALE)/100)*x;
+    return (std::exp(-left_curve_scale / 10) + std::exp((std::abs(left_curve_scale) - 100) / 10) * (1 - std::exp(-left_curve_scale / 10))) * x;
   }
   return x;
 }

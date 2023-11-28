@@ -7,10 +7,7 @@
  * All other competition modes are blocked by initialize; it is recommended
  * to keep execution time for this mode under a few seconds.
  */
-void initialize() {
-  // Print our branding over your terminal :D
-  ez::print_ez_template();
-  
+void initialize() {  
   pros::delay(500); // Stop the user from doing anything while legacy ports configure.
 
   // Configure your chassis controls
@@ -18,20 +15,12 @@ void initialize() {
   chassis.set_curve_default(3, 3); // Defaults for curve. If using tank, only the first parameter is used. (Comment this line out if you have an SD card!)  
   default_constants(); // Set the drive to your own constants from autons.cpp!
 
-  // Autonomous Selector using LLEMU
-  ez::as::auton_selector.add_autons({
-    Auton("Example Drive\n\nDrive forward and come back.", drive_example),
-    Auton("Example Turn\n\nTurn 3 times.", turn_example),
-    Auton("Drive and Turn\n\nDrive forward, turn, come back. ", drive_and_turn),
-    Auton("Drive and Turn\n\nSlow down during drive.", wait_until_change_speed),
-    Auton("Swing Example\n\nSwing, drive, swing.", swing_example),
-    Auton("Combine all 3 movements", combining_movements),
-    Auton("Interference\n\nAfter driving forward, robot performs differently if interfered or not.", interfered_example),
-  });
-
   // Initialize chassis and auton selector
   chassis.initialize();
-  ez::as::initialize();
+
+  intake.set_brake_mode(MOTOR_BRAKE_COAST);
+  cata.set_brake_mode(MOTOR_BRAKE_HOLD);
+  cataRotationSensor.set_data_rate(5);
 }
 
 /**
@@ -89,7 +78,7 @@ void opcontrol() {
   // This is preference to what you like to drive on.
   chassis.set_drive_brake(MOTOR_BRAKE_COAST);
 
-  while (true) {
+  while(true) {
     chassis.arcade_standard(ez::SPLIT); // Standard split arcade
 
     master.set_text(0, 0, std::to_string(cataRotationSensor.get_position()));
@@ -97,14 +86,14 @@ void opcontrol() {
     static bool cataFlag{ false };
 
     if(master.get_digital(DIGITAL_L2)) {
-      cata.move_voltage(12000);
+      cata.move_voltage(10000);
     }
 
-    if(cataRotationSensor.get_position() < 5900) {
+    if(cataRotationSensor.get_position() < 6000) {
       cataFlag = false;
     }
 
-    if(cataRotationSensor.get_position() >= 5900 && !cataFlag) {
+    if(cataRotationSensor.get_position() >= 6000 && !cataFlag) {
       cata.brake();
       cataFlag = true;
     }
