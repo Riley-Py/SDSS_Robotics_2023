@@ -19,7 +19,7 @@ void initialize() {
   chassis.initialize();
 
   intake.set_brake_mode(MOTOR_BRAKE_COAST);
-  cata.set_brake_mode(MOTOR_BRAKE_HOLD);
+  cata.set_brake_mode(MOTOR_BRAKE_COAST);
   cataRotationSensor.set_position(0);
   cataRotationSensor.set_data_rate(5);
 }
