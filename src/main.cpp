@@ -1,5 +1,6 @@
 #include "main.h"
 #include "definition.hpp"
+#include "gif-pros/gifclass.hpp"
 
 Drive chassis (
   // Left Chassis Ports (negative port will reverse it!)
@@ -94,6 +95,14 @@ void cata_controls (pros::Controller masta_cata) {
  */
 void initialize() {
 
+  lv_obj_t* obj = lv_obj_create(lv_scr_act());
+  lv_obj_t* obj_2 = lv_obj_create(lv_scr_act());
+  lv_obj_set_size(obj, 200, 200);
+  lv_obj_set_size(obj_2, 200, 200);
+  lv_obj_align(obj, LV_ALIGN_RIGHT_MID, 0, 0);
+  lv_obj_align(obj_2, LV_ALIGN_LEFT_MID, 0, 0);
+  static Gif gif_1("/usd/fish.gif", obj);
+  static Gif gif("/usd/anime.gif", obj_2);
   cata.set_brake_mode(MOTOR_BRAKE_COAST);
 
   rot_sen.reset_position();
