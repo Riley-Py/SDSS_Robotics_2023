@@ -82,7 +82,7 @@ void opcontrol() {
   while(true) {
     chassis.arcade_standard(ez::SPLIT); // Standard split arcade
 
-    master.set_text(0, 0, std::to_string(cataRotationSensor.get_position()));
+    master.set_text(0, 0, std::to_string(cataRotationSensor.get_angle()));
 
     static bool cataFlag{ false };
 
@@ -90,11 +90,11 @@ void opcontrol() {
       cata.move_voltage(10000);
     }
 
-    if(cataRotationSensor.get_position() < 6100) {
+    if(cataRotationSensor.get_position() < 6000) {
       cataFlag = false;
     }
 
-    if(cataRotationSensor.get_position() >= 6100 && !cataFlag) {
+    if(cataRotationSensor.get_position() >= 6000 && !cataFlag) {
       cata.brake();
       cataFlag = true;
     }
