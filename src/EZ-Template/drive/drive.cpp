@@ -196,10 +196,10 @@ void Drive::set_tank(int left, int right) {
   if (pros::millis() < 1500) return;
 
   for (auto i : left_motors) {
-    if (!pto_check(i)) i.move_voltage(left * 12000);  // If the motor is in the pto list, don't do anything to the motor.
+    if (!pto_check(i)) i.move_voltage(left);  // If the motor is in the pto list, don't do anything to the motor.
   }
   for (auto i : right_motors) {
-    if (!pto_check(i)) i.move_voltage(right * 12000);  // If the motor is in the pto list, don't do anything to the motor.
+    if (!pto_check(i)) i.move_voltage(right);  // If the motor is in the pto list, don't do anything to the motor.
   }
 }
 
