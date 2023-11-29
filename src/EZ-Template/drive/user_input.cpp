@@ -223,8 +223,8 @@ void Drive::arcade_standard(e_type stick_type) {
   // Check arcade type (split vs single, normal vs flipped)
   if (stick_type == SPLIT) {
     // Put the joysticks through the curve function
-    fwd_stick = left_curve_function(std::clamp(static_cast<int>(master.get_analog(ANALOG_LEFT_Y)), -100, 100)) * 96;
-    turn_stick = right_curve_function(std::clamp(static_cast<int>(master.get_analog(ANALOG_RIGHT_X)), -100, 100)) * 120;
+    fwd_stick = left_curve_function(std::clamp(static_cast<int>(master.get_analog(ANALOG_LEFT_Y)), -100, 100)) * 120;
+    turn_stick = right_curve_function(std::clamp(static_cast<int>(master.get_analog(ANALOG_RIGHT_X)), -100, 100)) * 96;
   } else if (stick_type == SINGLE) {
     // Put the joysticks through the curve function
     fwd_stick = left_curve_function(master.get_analog(ANALOG_LEFT_Y));
