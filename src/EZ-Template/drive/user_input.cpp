@@ -217,7 +217,7 @@ void Drive::arcade_standard(e_type stick_type) {
   reset_drive_sensors_opcontrol();
 
   // Toggle for controller curve
-  modify_curve_with_controller();
+  //modify_curve_with_controller();
 
   int fwd_stick, turn_stick;
   // Check arcade type (split vs single, normal vs flipped)

@@ -20,6 +20,7 @@ void initialize() {
 
   intake.set_brake_mode(MOTOR_BRAKE_COAST);
   cata.set_brake_mode(MOTOR_BRAKE_HOLD);
+  cataRotationSensor.set_position(0);
   cataRotationSensor.set_data_rate(5);
 }
 
@@ -89,11 +90,11 @@ void opcontrol() {
       cata.move_voltage(10000);
     }
 
-    if(cataRotationSensor.get_position() < 6000) {
+    if(cataRotationSensor.get_position() < 6100) {
       cataFlag = false;
     }
 
-    if(cataRotationSensor.get_position() >= 6000 && !cataFlag) {
+    if(cataRotationSensor.get_position() >= 6100 && !cataFlag) {
       cata.brake();
       cataFlag = true;
     }
@@ -109,6 +110,7 @@ void opcontrol() {
     if(master.get_digital_new_press(DIGITAL_A)) {
       wings.toggle();
     }
+    
     if(master.get_digital_new_press(DIGITAL_Y)) {
       intakeExtender.toggle();
     }
