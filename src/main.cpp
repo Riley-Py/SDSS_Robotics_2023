@@ -89,7 +89,7 @@ void opcontrol() {
     
     static bool cataFlag{ true };
 
-    if(master.get_digital(DIGITAL_L2)) {
+    if(master.get_digital(DIGITAL_L1)) {
       cata.move_voltage(10000);
     }
 
@@ -104,7 +104,7 @@ void opcontrol() {
 
     if(master.get_digital(DIGITAL_R1)) {
       intake.move_voltage(12000);
-    } else if(master.get_digital(DIGITAL_L1)) {
+    } else if(master.get_digital(DIGITAL_R2)) {
       intake.move_voltage(-12000);
     } else {
       intake.brake();
