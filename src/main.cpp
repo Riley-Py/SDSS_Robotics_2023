@@ -15,7 +15,7 @@ void initialize() {
   chassis.set_curve_default(3, 3); // Defaults for curve. If using tank, only the first parameter is used. (Comment this line out if you have an SD card!)  
   default_constants(); // Set the drive to your own constants from autons.cpp!
 
-  // Initialize chassis
+  // Initialize chassis and auton selector
   chassis.initialize();
 
   intake.set_brake_mode(MOTOR_BRAKE_COAST);
@@ -62,6 +62,9 @@ void autonomous() {
   ez::as::auton_selector.call_selected_auton(); // Calls selected auton from autonomous selector.
 }
 
+constexpr int cataUpAngle{17000};
+constexpr int cataDownAngle{23000};
+
 /**
  * Runs the operator control code. This function will be started in its own task
  * with the default priority and stack size whenever the robot is enabled via
@@ -76,24 +79,25 @@ void autonomous() {
  * task, not resume it from where it left off.
  */
 void opcontrol() {
+  // This is preference to what you like to drive on.
   chassis.set_drive_brake(MOTOR_BRAKE_COAST);
 
   while(true) {
     chassis.arcade_standard(ez::SPLIT); // Standard split arcade
 
     master.set_text(0, 0, std::to_string(cataRotationSensor.get_angle()));
-
-    static bool cataFlag{ false };
+    
+    static bool cataFlag{ true };
 
     if(master.get_digital(DIGITAL_L2)) {
       cata.move_voltage(10000);
     }
 
-    if(cataRotationSensor.get_position() < 6000) {
+    if(cataRotationSensor.get_angle() < 23000) {
       cataFlag = false;
     }
 
-    if(cataRotationSensor.get_position() >= 6000 && !cataFlag) {
+    if(cataRotationSensor.get_angle() >= 23000 && !cataFlag) {
       cata.brake();
       cataFlag = true;
     }
