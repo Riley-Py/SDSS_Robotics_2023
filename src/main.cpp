@@ -33,7 +33,7 @@ Drive chassis (
 //Numerous controls for the robot
 void controls(pros::Controller masta) {
 
-  double cataPosition = (rot_sen.get_position() / 100 );
+     
 
       //R1 = Intake in; L1 = Intake out; L2 = Catapult
       //For the wings
@@ -64,15 +64,15 @@ void cata_controls (pros::Controller masta_cata) {
 
    static bool cataFlag{ false };
 
-    if(master.get_digital(DIGITAL_L2)) {
+    if(master.get_digital(DIGITAL_L1)) {
       cata.move_voltage(10000);
     }
 
-    if(rot_sen.get_position() < degrees_cata) {
+    if(rot_sen.get_angle() < cataDownAngle) {
       cataFlag = false;
     }
 
-    if(rot_sen.get_position() >= degrees_cata && !cataFlag) {
+    if(rot_sen.get_angle() >= cataDownAngle && !cataFlag) {
       cata.brake();
       cataFlag = true;
     }
@@ -95,15 +95,9 @@ void cata_controls (pros::Controller masta_cata) {
  */
 void initialize() {
 
-  lv_obj_t* obj = lv_obj_create(lv_scr_act());
-  lv_obj_t* obj_2 = lv_obj_create(lv_scr_act());
-  lv_obj_set_size(obj, 200, 200);
-  lv_obj_set_size(obj_2, 200, 200);
-  lv_obj_align(obj, LV_ALIGN_RIGHT_MID, 0, 0);
-  lv_obj_align(obj_2, LV_ALIGN_LEFT_MID, 0, 0);
-  static Gif gif_1("/usd/fish.gif", obj);
-  static Gif gif("/usd/anime.gif", obj_2);
+  
   cata.set_brake_mode(MOTOR_BRAKE_COAST);
+  intake.set_brake_mode(MOTOR_BRAKE_COAST);
 
   rot_sen.reset_position();
   rot_sen.set_data_rate(5);

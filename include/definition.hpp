@@ -12,7 +12,10 @@ Motor intake(6, MotorGears::blue, MotorUnits::degrees);
 Rotation rot_sen(4);
 Motor cata(12, MotorGears::red, MotorUnits::degrees);
 
-double degrees_cata = 5950;
+const int cataUpAngle{17000};
+const int cataDownAngle{23000};
+
+
 
 
 #endif
