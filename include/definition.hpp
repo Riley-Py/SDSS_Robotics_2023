@@ -12,8 +12,8 @@ Motor intake(6, MotorGears::blue, MotorUnits::degrees);
 Rotation rot_sen(4);
 Motor cata(12, MotorGears::red, MotorUnits::degrees);
 
-const int cataUpAngle{17000};
-const int cataDownAngle{23000};
+constexpr int cataUpAngle{17000};
+constexpr int cataDownAngle{23000};
 
 
 

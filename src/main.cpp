@@ -12,11 +12,11 @@ Drive chassis (
   ,{-18, 19, 20}
 
   // IMU Port
-  ,9  //Decide on this later on
+  ,9  
 
   // Wheel Diameter (Remember, 4" wheels are actually 4.125!)
   //    (or tracking wheel diameter)
-  ,2.5
+  ,3.5
 
   // Cartridge RPM
   //   (or tick per rotation if using tracking wheels)
@@ -29,6 +29,52 @@ Drive chassis (
   ,1.666
 
 );
+
+static void event_handler(lv_event_t * e)
+{
+    lv_event_code_t code = lv_event_get_code(e);
+
+    if(code == LV_EVENT_CLICKED) {
+        LV_LOG_USER("Clicked");
+    }
+    else if(code == LV_EVENT_VALUE_CHANGED) {
+        LV_LOG_USER("Toggled");
+    }
+}
+
+void lv_example_btn_1(void)
+{
+    
+    lv_obj_set_style_bg_color(lv_scr_act(), lv_color_hex(0x003a57), LV_PART_MAIN);
+
+    lv_obj_t * label;
+
+    lv_obj_t * btn1 = lv_btn_create(lv_scr_act());
+    lv_obj_add_event_cb(btn1, event_handler, LV_EVENT_ALL, NULL);
+    lv_obj_align(btn1, LV_ALIGN_CENTER, 0, -40);
+
+    label = lv_label_create(btn1);
+    lv_label_set_text(label, "Button");
+    lv_obj_center(label);
+
+    lv_obj_t * btn2 = lv_btn_create(lv_scr_act());
+    lv_obj_add_event_cb(btn2, event_handler, LV_EVENT_ALL, NULL);
+    lv_obj_align(btn2, LV_ALIGN_CENTER, 0, 40);
+    lv_obj_add_flag(btn2, LV_OBJ_FLAG_CHECKABLE);
+    lv_obj_set_height(btn2, LV_SIZE_CONTENT);
+
+    label = lv_label_create(btn2);
+    lv_label_set_text(label, "Toggle");
+    lv_obj_center(label);
+
+     
+    
+
+    
+    
+
+
+}
 
 //Numerous controls for the robot
 void controls(pros::Controller masta) {
@@ -65,10 +111,10 @@ void cata_controls (pros::Controller masta_cata) {
    static bool cataFlag{ false };
 
     if(master.get_digital(DIGITAL_L1)) {
-      cata.move_voltage(10000);
+      cata.move_voltage(20000);
     }
 
-    if(rot_sen.get_angle() < cataDownAngle) {
+    if(rot_sen.get_angle() < cataUpAngle) {
       cataFlag = false;
     }
 
@@ -76,10 +122,6 @@ void cata_controls (pros::Controller masta_cata) {
       cata.brake();
       cataFlag = true;
     }
-		 pros::delay(20);
-     
-     // Run for 20 ms then update
-
 	}
 
 
@@ -94,14 +136,20 @@ void cata_controls (pros::Controller masta_cata) {
  * to keep execution time for this mode under a few seconds.
  */
 void initialize() {
-
+ 
   
   cata.set_brake_mode(MOTOR_BRAKE_COAST);
   intake.set_brake_mode(MOTOR_BRAKE_COAST);
 
-  rot_sen.reset_position();
-  rot_sen.set_data_rate(5);
+   
 
+  
+  
+
+  
+
+  
+  rot_sen.set_data_rate(5);
 
 	
 }
@@ -122,7 +170,10 @@ void disabled() {}
  * This task will exit when the robot is enabled and autonomous or opcontrol
  * starts.
  */
-void competition_initialize() {}
+void competition_initialize() {
+
+   lv_example_btn_1();
+}
 
 /**
  * Runs the user autonomous code. This function will be started in its own task
@@ -151,13 +202,13 @@ void autonomous() {}
  * task, not resume it from where it left off.
  */
 void opcontrol() {
-	
-
-	while (true) {
-		 chassis.move_drive((std::clamp(static_cast <int> (master.get_analog(ANALOG_LEFT_Y)), -100, 100)), std::clamp(static_cast <int> (master.get_analog(ANALOG_RIGHT_X)), -100, 100), 3, 3, chassis.left_motors, chassis.right_motors);
-     controls(master);
-     cata_controls(master);
-      
-}
+  lv_obj_clean(lv_scr_act());
+  
+  while (true) {
+    chassis.move_drive((std::clamp(static_cast <int> (master.get_analog(ANALOG_LEFT_Y)), -100, 100)), std::clamp(static_cast <int> (master.get_analog(ANALOG_RIGHT_X)), -100, 100), 3, 3, chassis.left_motors, chassis.right_motors);
+    controls(master);
+    cata_controls(master);
+    pros::delay(20);
+  }
 }
 
