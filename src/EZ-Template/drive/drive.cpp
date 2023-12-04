@@ -140,34 +140,6 @@ Drive::Drive(std::vector<int> left_motor_ports, std::vector<int> right_motor_por
   set_defaults();
 }
 
-void Drive::move_drive(double axis1, double axis3, double percentage, double deadzone, std::vector<pros::Motor> lefty, std::vector<pros::Motor> righty) {
-
-    //Forward and turn values taken from the axises of the controller (in millivolts)
-    double turn_Val = ((((std::exp(-percentage / 10) + std::exp((std::abs(axis3) - 100) / 10) * (1 - std::exp(-percentage / 10))) * axis3))) * 96 ;
-    double forward_Val = ((((std::exp(-percentage / 10) + std::exp((std::abs(axis1) - 100) / 10) * (1 - std::exp(-percentage / 10))) * axis1))) * 120;
-
-      //Moves drivetrain dependent on whether the deadzone has been surpassed
-      if (abs(axis1) > deadzone || abs(axis3) > deadzone) {
-      //Right motors
-      for (Motor motor : righty) {
-        motor.move_voltage(forward_Val - turn_Val);
-      }
-      //Left motors
-      for (Motor motor : lefty) {
-        motor.move_voltage(forward_Val + turn_Val);
-      }
-      }
-      //Stops the drivetrain
-      else {
-        for (Motor motor : righty) {
-          motor.brake();
-        }
-        for (Motor motor : lefty) {
-          motor.brake();
-        }
-      }
-}
-
 void Drive::set_defaults() {
   // PID Constants
   headingPID = {11, 0, 20, 0};
@@ -224,10 +196,10 @@ void Drive::set_tank(int left, int right) {
   if (pros::millis() < 1500) return;
 
   for (auto i : left_motors) {
-    if (!pto_check(i)) i.move_voltage(left * (12000.0 / 127.0));  // If the motor is in the pto list, don't do anything to the motor.
+    if (!pto_check(i)) i.move_voltage(left);  // If the motor is in the pto list, don't do anything to the motor.
   }
   for (auto i : right_motors) {
-    if (!pto_check(i)) i.move_voltage(right * (12000.0 / 127.0));  // If the motor is in the pto list, don't do anything to the motor.
+    if (!pto_check(i)) i.move_voltage(right);  // If the motor is in the pto list, don't do anything to the motor.
   }
 }
 
@@ -357,3 +329,30 @@ void Drive::initialize() {
 
 void Drive::toggle_auto_drive(bool toggle) { drive_toggle = toggle; }
 void Drive::toggle_auto_print(bool toggle) { print_toggle = toggle; }
+
+void Drive::move_drive(double axis1, double axis3, double percentage, double deadzone, std::vector<pros::Motor> leftMotors, std::vector<pros::Motor> rightMotors) {
+  //Forward and turn values taken from the axises of the controller (in millivolts)
+  double turnVal = ((((std::exp(-percentage / 10) + std::exp((std::abs(axis3) - 100) / 10) * (1 - std::exp(-percentage / 10))) * axis3))) * 96 ;
+  double forwardVal = ((((std::exp(-percentage / 10) + std::exp((std::abs(axis1) - 100) / 10) * (1 - std::exp(-percentage / 10))) * axis1))) * 120;
+
+  //Moves drivetrain dependent on whether the deadzone has been surpassed
+  if(abs(axis1) > deadzone || abs(axis3) > deadzone) {
+    //Right motors
+    for (Motor motor : rightMotors) {
+      motor.move_voltage(forwardVal - turnVal);
+    }
+    //Left motors
+    for (Motor motor : leftMotors) {
+      motor.move_voltage(forwardVal + turnVal);
+    }
+  }
+  //Stops the drivetrain
+  else {
+    for (Motor motor : rightMotors) {
+      motor.brake();
+    }
+    for (Motor motor : leftMotors) {
+      motor.brake();
+    }
+  }
+}

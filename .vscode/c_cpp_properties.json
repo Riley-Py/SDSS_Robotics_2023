@@ -5,21 +5,22 @@
       "includePath": [
         "${workspaceFolder}/**",
         "c:\\Users\\riley\\EZ-Template-4\\include",
-        "c:\\Users\\riley\\SDSS_Robotics_2023\\include"
+        "c:\\Users\\riley\\SDSS_Robotics_2023\\include",
+        "/home/interestingerror0/Code Files/Vex/SDSS_Robotics_2023/include"
       ],
       "defines": [
         "_DEBUG",
         "UNICODE",
         "_UNICODE"
       ],
-      "compilerPath": "c:\\Users\\riley\\AppData\\Roaming\\Code\\User\\globalStorage\\sigbots.pros\\install\\pros-toolchain-windows\\usr\\bin\\arm-none-eabi-g++",
+      "compilerPath": "/home/interestingerror0/.config/Code/User/globalStorage/sigbots.pros/install/pros-toolchain-linux/bin/arm-none-eabi-g++",
       "cStandard": "c17",
       "cppStandard": "c++17",
       "intelliSenseMode": "gcc-arm",
-      "compileCommands": "c:\\Users\\riley\\SDSS_Robotics_2023\\compile_commands.json",
+      "compileCommands": "/home/interestingerror0/Code Files/Vex/SDSS_Robotics_2023/compile_commands.json",
       "browse": {
         "path": [
-          "c:\\Users\\riley\\SDSS_Robotics_2023"
+          "/home/interestingerror0/Code Files/Vex/SDSS_Robotics_2023"
         ],
         "limitSymbolsToIncludedHeaders": true,
         "databaseFilename": ""

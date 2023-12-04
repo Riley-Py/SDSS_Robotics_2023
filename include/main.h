@@ -34,18 +34,14 @@
  */
 #define PROS_USE_LITERALS
 
-#include "api.h"
-
-#include "EZ-Template/api.hpp"
-
-#include "autons.hpp"
-
-#include "liblvgl/lvgl.h"
-
 /**
  * You should add more #includes here
  */
 //#include "okapi/api.hpp"
+#include "api.h"
+#include "EZ-Template/api.hpp"
+#include "autons.hpp"
+#include "liblvgl/lvgl.h"
 
 /**
  * If you find doing pros::Motor() to be tedious and you'd prefer just to do
@@ -58,6 +54,7 @@
 using namespace pros;
 // using namespace pros::literals;
 // using namespace okapi;
+using namespace ez;
 
 /**
  * Prototypes for the competition control tasks are redefined here to ensure
