@@ -38,7 +38,7 @@ Rotation rotationSensor(4);
 adi::Pneumatics wings('A', false);
 adi::Pneumatics intakeExtender ('B', false);
 
-constexpr int cataUpAngle{ 17000 };
-constexpr int cataDownAngle{ 23000 };
+constexpr int cataUpAngle{ 18000 };
+constexpr int cataDownAngle{ 23500 };
 
 #endif

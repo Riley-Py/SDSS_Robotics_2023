@@ -51,7 +51,7 @@ void controls() {
 
   if(master.get_digital(DIGITAL_R1)) {
     intake.move_voltage(12000);
-  } else if(master.get_digital(DIGITAL_R1)) {
+  } else if(master.get_digital(DIGITAL_R2)) {
     intake.move_voltage(-12000);
   } else {
     intake.brake();
@@ -63,7 +63,7 @@ void controls() {
     cata.move_voltage(10000);
   }
 
-  if(rotationSensor.get_angle() < cataUpAngle) {
+  if(rotationSensor.get_angle() < cataDownAngle) {
     cataFlag = false;
   }
 
