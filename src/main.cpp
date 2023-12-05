@@ -146,8 +146,7 @@ void opcontrol() {
   chassis.set_drive_brake(MOTOR_BRAKE_COAST);
   
   while(true) {
-    //chassis.arcade_standard(ez::SPLIT); // Standard split arcade
-    chassis.move_drive((std::clamp(static_cast <int>(master.get_analog(ANALOG_LEFT_Y)), -100, 100)), std::clamp(static_cast <int>(master.get_analog(ANALOG_RIGHT_X)), -100, 100), 3, 3, chassis.left_motors, chassis.right_motors);
+    chassis.arcade_standard(ez::SPLIT); // Standard split arcade
     controls();
 
     pros::delay(util::DELAY_TIME);

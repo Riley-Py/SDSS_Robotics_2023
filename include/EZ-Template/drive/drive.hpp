@@ -198,8 +198,6 @@ class Drive {
    */
   Drive(std::vector<int> left_motor_ports, std::vector<int> right_motor_ports, int imu_port, double wheel_diameter, double ratio, int left_rotation_port, int right_rotation_port);
   
-  void move_drive(double axis1, double axis3, double percentage, double deadzone, std::vector<pros::Motor> leftMotors, std::vector<pros::Motor> rightMotors);
-
   /**
    * Moves the drivetrain forward
    * 
