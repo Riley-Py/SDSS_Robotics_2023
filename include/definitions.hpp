@@ -39,6 +39,6 @@ adi::Pneumatics wings('A', false);
 adi::Pneumatics intakeExtender ('B', false);
 
 constexpr int cataUpAngle{ 18000 };
-constexpr int cataDownAngle{ 23500 };
+constexpr int cataDownAngle{ 22500 };
 
 #endif

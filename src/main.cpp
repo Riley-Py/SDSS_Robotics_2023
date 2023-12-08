@@ -13,16 +13,40 @@ static void event_handler(lv_event_t* e) {
   }
 }
 
-void lv_example_btn_1(void) {
+void lv_example_btn_1() {
   lv_obj_set_style_bg_color(lv_scr_act(), lv_color_hex(0x003a57), LV_PART_MAIN);
 
+  static lv_style_t button_style;
   lv_obj_t * label;
+  static lv_style_t text_style;
+  
+  lv_color_t outline_color = lv_color_make(255, 255, 255);
+  
+
+  lv_style_init(&button_style);
+  lv_style_init(&text_style);
+
+  //Styles applied to the button itself
+  lv_style_set_bg_opa(&button_style, LV_OPA_0);
+  lv_style_set_border_width(&button_style, 2);
+  lv_style_set_border_color(&button_style, outline_color);
+
+  //Styles applied to labels
+  lv_style_set_pad_all(&text_style, 20);
+  lv_style_set_text_color(&text_style, outline_color);
+  
+  
+  
 
   lv_obj_t * btn1 = lv_btn_create(lv_scr_act());
+  lv_obj_remove_style_all(btn1);
+  lv_obj_add_style(btn1, &button_style, 0);
   lv_obj_add_event_cb(btn1, event_handler, LV_EVENT_ALL, NULL);
   lv_obj_align(btn1, LV_ALIGN_CENTER, 0, -40);
 
   label = lv_label_create(btn1);
+  lv_obj_remove_style_all(label);
+  lv_obj_add_style(label, &text_style, 0);
   lv_label_set_text(label, "Button");
   lv_obj_center(label);
 
@@ -50,9 +74,9 @@ void controls() {
   }
 
   if(master.get_digital(DIGITAL_R1)) {
-    intake.move_voltage(12000);
-  } else if(master.get_digital(DIGITAL_R2)) {
     intake.move_voltage(-12000);
+  } else if(master.get_digital(DIGITAL_R2)) {
+    intake.move_voltage( 12000);
   } else {
     intake.brake();
   }
@@ -60,7 +84,7 @@ void controls() {
   static bool cataFlag{ false };
 
   if(master.get_digital(DIGITAL_L1)) {
-    cata.move_voltage(10000);
+    cata.move_voltage(12000);
   }
 
   if(rotationSensor.get_angle() < cataDownAngle) {
@@ -80,9 +104,10 @@ void controls() {
  * to keep execution time for this mode under a few seconds.
  */
 void initialize() {
-  default_constants(); // Set the drive to your own constants from autons.cpp!
+    lv_obj_clean(lv_scr_act());
+    
+   default_constants(); // Set the drive to your own constants from autons.cpp!
 
-  // Initialize chassis
   chassis.initialize();
 
   cata.set_brake_mode(MOTOR_BRAKE_COAST);
@@ -143,6 +168,8 @@ void autonomous() {
  */
 void opcontrol() {
   lv_obj_clean(lv_scr_act());
+
+  Gif gif("/usd/fish.gif", lv_scr_act());
   chassis.set_drive_brake(MOTOR_BRAKE_COAST);
   
   while(true) {
