@@ -74,9 +74,9 @@ void controls() {
   }
 
   if(master.get_digital(DIGITAL_R1)) {
-    intake.move_voltage(-12000);
+    intake.move_voltage(12000);
   } else if(master.get_digital(DIGITAL_R2)) {
-    intake.move_voltage( 12000);
+    intake.move_voltage(-12000);
   } else {
     intake.brake();
   }
