@@ -30,7 +30,7 @@ Drive chassis (
   ,1.666
 );
 
-Motor intake(-6, MotorGears::blue);
+Motor intake(6, MotorGears::blue);
 Motor cata(12, MotorGears::red);
 
 Rotation rotationSensor(4);
