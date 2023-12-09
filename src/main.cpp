@@ -98,20 +98,12 @@ void controls() {
   static bool intakeExtenderState = false;
 
   if(master.get_digital_new_press(DIGITAL_A)) {
-    if(wingsState) {
-      wings.set_value(0);
-    } else {
-      wings.set_value(1);
-    }
+    wings.set_value(!wingsState);
     wingsState = !wingsState;
   }
 
   if(master.get_digital_new_press(DIGITAL_Y)) {
-    if(intakeExtenderState) {
-      intakeExtender.set_value(0);
-    } else {
-      intakeExtender.set_value(1);
-    }
+    intakeExtender.set_value(!intakeExtenderState);
     intakeExtenderState = !intakeExtenderState;
   }
 
