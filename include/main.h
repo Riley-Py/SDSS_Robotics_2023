@@ -22,7 +22,7 @@
  *
  * For instance, E_CONTROLLER_MASTER has a shorter name: CONTROLLER_MASTER.
  * E_CONTROLLER_MASTER is pedantically correct within the PROS styleguide, but
- * not convenient for most student programmers.
+ * not convienent for most student programmers.
  */
 #define PROS_USE_SIMPLE_NAMES
 
@@ -34,13 +34,13 @@
  */
 #define PROS_USE_LITERALS
 
-#include "api.h"
-
 /**
  * You should add more #includes here
  */
 //#include "okapi/api.hpp"
-//#include "pros/api_legacy.h"
+#include "api.h"
+#include "EZ-Template/api.hpp"
+#include "autons.hpp"
 
 /**
  * If you find doing pros::Motor() to be tedious and you'd prefer just to do
@@ -53,6 +53,7 @@
 using namespace pros;
 // using namespace pros::literals;
 // using namespace okapi;
+using namespace ez;
 
 /**
  * Prototypes for the competition control tasks are redefined here to ensure
