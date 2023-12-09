@@ -231,12 +231,6 @@ class Drive {
   /////
 
   /**
-   * Sets the chassis to controller joysticks using tank control.  Run is usercontrol.
-   * This passes the controller through the curve functions, but is disabled by default.  Use toggle_controller_curve_modifier() to enable it.
-   */
-  void tank();
-
-  /**
    * Sets the chassis to controller joysticks using standard arcade control.  Run is usercontrol.
    * This passes the controller through the curve functions, but is disabled by default.  Use toggle_controller_curve_modifier() to enable it.
    *
@@ -244,15 +238,6 @@ class Drive {
    *        ez::SINGLE or ez::SPLIT control
    */
   void arcade_standard(e_type stick_type);
-
-  /**
-   * Sets the chassis to controller joysticks using flipped arcade control.  Run is usercontrol.
-   * This passes the controller through the curve functions, but is disabled by default.  Use toggle_controller_curve_modifier() to enable it.
-   *
-   * \param stick_type
-   *        ez::SINGLE or ez::SPLIT control
-   */
-  void arcade_flipped(e_type stick_type);
 
   /**
    * Initializes left and right curves with the SD card, reccomended to run in initialize().
@@ -305,21 +290,7 @@ class Drive {
    */
   void set_right_curve_buttons(pros::controller_digital_e_t decrease, pros::controller_digital_e_t increase);
 
-  /**
-   * Outputs a curve from 5225A In the Zone.  This gives more control over the robot at lower speeds.  https://www.desmos.com/calculator/rcfjjg83zx
-   *
-   * \param x
-   *        joystick input
-   */
-  double left_curve_function(double x);
-
-  /**
-   * Outputs a curve from 5225A In the Zone.  This gives more control over the robot at lower speeds.  https://www.desmos.com/calculator/rcfjjg83zx
-   *
-   * \param x
-   *        joystick input
-   */
-  double right_curve_function(double x);
+  int curveJoystick(const int input);
 
   /**
    * Sets a new threshold for the joystick.  The joysticks wil not return a value if they are within this.
