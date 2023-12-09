@@ -61,7 +61,7 @@ void modified_exit_condition() {
   chassis.set_exit_condition(chassis.drive_exit, 80, 50, 300, 150, 500, 500);
 }
 
-void test() {
+void turnLeft() {
   chassis.set_drive_pid(28, DRIVE_SPEED);
   chassis.wait_drive();
 
@@ -76,7 +76,7 @@ void test() {
   intake.brake();
 }
 
-void test2() {
+void turnRight() {
   chassis.set_drive_pid(28, DRIVE_SPEED);
   chassis.wait_drive();
 

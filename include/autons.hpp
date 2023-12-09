@@ -4,8 +4,8 @@
 
 extern Drive chassis;
 
-void test();
-void test2();
+void turnLeft();
+void turnRight();
 
 void default_constants();
 void one_mogo_constants();
