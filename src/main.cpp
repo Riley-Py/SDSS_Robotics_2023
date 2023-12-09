@@ -39,7 +39,8 @@ void disabled() {}
  */
 void competition_initialize() {
   ez::as::auton_selector.add_autons({
-    Auton("Test", test),
+    Auton("Turn left", test),
+    Auton("Turn right", test2)
   });
   as::initialize();
 }

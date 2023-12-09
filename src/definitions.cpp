@@ -36,4 +36,4 @@ ADIDigitalOut wings('A');
 ADIDigitalOut intakeExtender('B');
 
 constexpr int cataUpAngle{ 18000 };
-constexpr int cataDownAngle{ 22500 };
+constexpr int cataDownAngle{ 23000 };
