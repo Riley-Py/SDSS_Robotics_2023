@@ -94,8 +94,8 @@ void controls() {
   //R1 = Intake in; L1 = Intake out; L2 = Catapult
   //For the wings
 
-  static bool wingsState = false;
-  static bool intakeExtenderState = false;
+  static bool wingsState{ false };
+  static bool intakeExtenderState{ false };
 
   if(master.get_digital_new_press(DIGITAL_A)) {
     wings.set_value(!wingsState);
