@@ -8,12 +8,12 @@
 /////
 
 
-const int DRIVE_SPEED = 110; // This is 110/127 (around 87% of max speed).  We don't suggest making this 127.
+constexpr int DRIVE_SPEED = 110; // This is 110/127 (around 87% of max speed).  We don't suggest making this 127.
                              // If this is 127 and the robot tries to heading correct, it's only correcting by
                              // making one side slower.  When this is 87%, it's correcting by making one side
                              // faster and one side slower, giving better heading correction.
-const int TURN_SPEED  = 90;
-const int SWING_SPEED = 90;
+constexpr int TURN_SPEED  = 90;
+constexpr int SWING_SPEED = 90;
 
 
 
@@ -61,8 +61,8 @@ void modified_exit_condition() {
   chassis.set_exit_condition(chassis.drive_exit, 80, 50, 300, 150, 500, 500);
 }
 
-void turnLeft() {
-  chassis.set_drive_pid(28, DRIVE_SPEED);
+void offensiveZone() {
+  chassis.set_drive_pid(30, DRIVE_SPEED, true);
   chassis.wait_drive();
 
   chassis.set_turn_pid(-45, TURN_SPEED);
@@ -70,14 +70,14 @@ void turnLeft() {
 
   intake.move_voltage(12000);
 
-  chassis.set_drive_pid(15, DRIVE_SPEED);
-  chassis.wait_drive();
-
+  chassis.set_drive_pid(20, DRIVE_SPEED, false);
+  chassis.wait_until(5);
   intake.brake();
+  chassis.wait_drive();
 }
 
-void turnRight() {
-  chassis.set_drive_pid(28, DRIVE_SPEED);
+void defensiveZone() {
+  chassis.set_drive_pid(30, DRIVE_SPEED, true);
   chassis.wait_drive();
 
   chassis.set_turn_pid(45, TURN_SPEED);
@@ -85,8 +85,8 @@ void turnRight() {
 
   intake.move_voltage(12000);
 
-  chassis.set_drive_pid(15, DRIVE_SPEED);
-  chassis.wait_drive();
-
+  chassis.set_drive_pid(20, DRIVE_SPEED, false);
+  chassis.wait_until(5);
   intake.brake();
+  chassis.wait_drive();
 }

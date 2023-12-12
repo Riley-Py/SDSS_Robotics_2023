@@ -39,8 +39,8 @@ void disabled() {}
  */
 void competition_initialize() {
   ez::as::auton_selector.add_autons({
-    Auton("Turn left", turnLeft),
-    Auton("Turn right", turnRight)
+    Auton("Offensive zone", offensiveZone),
+    Auton("Defensive zone", defensiveZone)
   });
   as::initialize();
 }
@@ -92,7 +92,7 @@ void opcontrol() {
 //Numerous controls for the robot
 void controls() {
   //R1 = Intake in; L1 = Intake out; L2 = Catapult
-  //For the wings
+  //For the wingsd
 
   static bool wingsState{ false };
   static bool intakeExtenderState{ false };

@@ -4,8 +4,8 @@
 
 extern Drive chassis;
 
-void turnLeft();
-void turnRight();
+void offensiveZone();
+void defensiveZone();
 
 void default_constants();
 void one_mogo_constants();
