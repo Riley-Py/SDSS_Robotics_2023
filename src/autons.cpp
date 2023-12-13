@@ -61,7 +61,22 @@ void modified_exit_condition() {
   chassis.set_exit_condition(chassis.drive_exit, 80, 50, 300, 150, 500, 500);
 }
 
-void offensiveZone() {
+void offensiveZoneQual() {
+  chassis.set_drive_pid(30, DRIVE_SPEED, true);
+  chassis.wait_drive();
+
+  chassis.set_turn_pid(-45, TURN_SPEED);
+  chassis.wait_drive();
+
+  intake.move_voltage(12000);
+
+  chassis.set_drive_pid(20, DRIVE_SPEED, false);
+  chassis.wait_until(5);
+  intake.brake();
+  chassis.wait_drive();
+}
+
+void offensiveZoneElim() {
   chassis.set_drive_pid(30, DRIVE_SPEED, true);
   chassis.wait_drive();
 

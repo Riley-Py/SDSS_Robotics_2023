@@ -4,7 +4,8 @@
 
 extern Drive chassis;
 
-void offensiveZone();
+void offensiveZoneQual();
+void offensiveZoneElim();
 void defensiveZone();
 
 void default_constants();

@@ -38,11 +38,12 @@ void disabled() {}
  * starts.
  */
 void competition_initialize() {
-  /*ez::as::auton_selector.add_autons({
-    Auton("Offensive zone", offensiveZone),
-    Auton("Defensive zone", defensiveZone)
+  ez::as::auton_selector.add_autons({
+    Auton("Offensive Zone Qualifier", offensiveZoneQual),
+    Auton("Offensive Zone Elimination", offensiveZoneElim),
+    Auton("Defensive Zone Elimination", defensiveZone)
   });
-  as::initialize();*/
+  as::initialize();
 }
 
 /**
@@ -62,9 +63,7 @@ void autonomous() {
   chassis.reset_drive_sensor(); // Reset drive sensors to 0
   chassis.set_drive_brake(MOTOR_BRAKE_HOLD); // Set motors to hold.  This helps autonomous consistency.
 
-  //ez::as::auton_selector.call_selected_auton();
-
-  defensiveZone();
+  ez::as::auton_selector.call_selected_auton();
 }
 
 /**
