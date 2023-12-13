@@ -62,11 +62,17 @@ void modified_exit_condition() {
 }
 
 void offensiveZone() {
-  intake.move_voltage(12000);
-  chassis.set_drive_pid(10, DRIVE_SPEED);
+  chassis.set_drive_pid(30, DRIVE_SPEED, true);
   chassis.wait_drive();
+
+  chassis.set_turn_pid(-45, TURN_SPEED);
+  chassis.wait_drive();
+
+  intake.move_voltage(12000);
+
+  chassis.set_drive_pid(20, DRIVE_SPEED, false);
+  chassis.wait_until(5);
   intake.brake();
-  chassis.set_drive_pid(-10, DRIVE_SPEED);
   chassis.wait_drive();
 }
 
@@ -75,19 +81,25 @@ void defensiveZone() {
   chassis.set_drive_pid(7, DRIVE_SPEED);
   chassis.wait_drive();
   intake.brake();
+
   chassis.set_turn_pid(180, TURN_SPEED);
   chassis.wait_drive();
+
   intake.move_voltage(12000);
   chassis.set_drive_pid(30, DRIVE_SPEED, true);
   chassis.wait_until(10);
   intake.brake();
   chassis.wait_drive();
+
   chassis.set_turn_pid(225, TURN_SPEED);
   chassis.wait_drive();
+
   chassis.set_drive_pid(32, DRIVE_SPEED, true);
   chassis.wait_drive();
+
   chassis.set_turn_pid(270, TURN_SPEED);
   chassis.wait_drive();
+  
   chassis.set_drive_pid(20, DRIVE_SPEED, true);
   intake.move_voltage(-12000);
   chassis.wait_drive();
