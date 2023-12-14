@@ -12,6 +12,7 @@ void controls();
 void initialize() {
   chassis.set_active_brake(0); // Sets the active brake kP. We recommend 0.1.
   default_constants(); // Set the drive to your own constants from autons.cpp!
+  chassis.set_curve_default(3, 3);
   chassis.set_joystick_threshold(3);
 
   chassis.initialize();
@@ -41,7 +42,7 @@ void competition_initialize() {
   ez::as::auton_selector.add_autons({
     Auton("Offensive Zone Qualifier", offensiveZoneQual),
     Auton("Offensive Zone Elimination", offensiveZoneElim),
-    Auton("Defensive Zone Elimination", defensiveZone)
+    Auton("Defensive Zone", defensiveZone)
   });
   as::initialize();
 }

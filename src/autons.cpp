@@ -109,14 +109,46 @@ void defensiveZone() {
   chassis.set_turn_pid(225, TURN_SPEED);
   chassis.wait_drive();
 
-  chassis.set_drive_pid(32, DRIVE_SPEED, true);
+  chassis.set_drive_pid(34, DRIVE_SPEED, true);
   chassis.wait_drive();
 
   chassis.set_turn_pid(270, TURN_SPEED);
   chassis.wait_drive();
   
-  chassis.set_drive_pid(20, DRIVE_SPEED, true);
   intake.move_voltage(-12000);
+  chassis.set_drive_pid(15, DRIVE_SPEED, true);
   chassis.wait_drive();
   intake.brake();
+
+  chassis.set_drive_pid(-15, DRIVE_SPEED, true);
+  chassis.wait_drive();
+
+  chassis.set_turn_pid(225, TURN_SPEED);
+  chassis.wait_drive();
+
+  chassis.set_drive_pid(-20, DRIVE_SPEED, true);
+  chassis.wait_drive();
+  
+  chassis.set_turn_pid(270, TURN_SPEED);
+  wings.set_value(1);
+  chassis.wait_drive();
+
+  chassis.set_turn_pid(200, TURN_SPEED);
+  chassis.wait_drive();
+
+  chassis.set_drive_pid(20, DRIVE_SPEED, true);
+  chassis.wait_until(15);
+  chassis.set_turn_pid(405, 127);
+  chassis.wait_drive();
+
+  wings.set_value(0);
+  
+  chassis.set_drive_pid(22, DRIVE_SPEED, true);
+  chassis.wait_drive();
+
+  chassis.set_turn_pid(360, TURN_SPEED);
+  chassis.wait_drive();
+
+  chassis.set_drive_pid(28, DRIVE_SPEED, true);
+  chassis.wait_drive();
 }
