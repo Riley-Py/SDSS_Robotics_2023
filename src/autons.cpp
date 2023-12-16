@@ -78,48 +78,22 @@ void offensiveZoneQual() {
   chassis.set_drive_pid(-15, DRIVE_SPEED, true);
   chassis.wait_drive();
 
-  chassis.set_turn_pid(0, TURN_SPEED);
-  chassis.wait_drive();
-
-  chassis.set_drive_pid(-20, DRIVE_SPEED, true);
-  chassis.wait_drive();
-  
-  chassis.set_turn_pid(-45, TURN_SPEED);
+  chassis.set_turn_pid(-135, TURN_SPEED);
+  chassis.wait_until(-105);
   wings.set_value(1);
   chassis.wait_drive();
 
-  chassis.set_turn_pid(25, TURN_SPEED);
+  chassis.set_turn_pid(-200, TURN_SPEED);
   chassis.wait_drive();
-
+    
   chassis.set_drive_pid(20, DRIVE_SPEED, true);
   chassis.wait_until(15);
-  chassis.set_turn_pid(180, 127);
+  chassis.set_turn_pid(-155, TURN_SPEED);
   chassis.wait_drive();
 
   wings.set_value(0);
-  
-  chassis.set_drive_pid(22, DRIVE_SPEED, true);
-  chassis.wait_drive();
 
-  chassis.set_turn_pid(225, TURN_SPEED);
-  chassis.wait_drive();
-
-  chassis.set_drive_pid(28, DRIVE_SPEED, true);
-  chassis.wait_drive();
-}
-
-void offensiveZoneElim() {
-  chassis.set_drive_pid(30, DRIVE_SPEED, true);
-  chassis.wait_drive();
-
-  chassis.set_turn_pid(-45, TURN_SPEED);
-  chassis.wait_drive();
-
-  intake.move_voltage(-12000);
-
-  chassis.set_drive_pid(20, DRIVE_SPEED, true);
-  chassis.wait_until(5);
-  intake.brake();
+  chassis.set_drive_pid(40, DRIVE_SPEED, true);
   chassis.wait_drive();
 }
 

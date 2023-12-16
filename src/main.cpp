@@ -40,8 +40,7 @@ void disabled() {}
  */
 void competition_initialize() {
   ez::as::auton_selector.add_autons({
-    //Auton("Offensive Zone Qualifier", offensiveZoneQual),
-    //Auton("Offensive Zone Elimination", offensiveZoneElim),
+    Auton("Offensive Zone Qualifier", offensiveZoneQual),
     Auton("Defensive Zone", defensiveZone)
   });
   as::initialize();
