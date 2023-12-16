@@ -40,8 +40,8 @@ void disabled() {}
  */
 void competition_initialize() {
   ez::as::auton_selector.add_autons({
-    Auton("Offensive Zone Qualifier", offensiveZoneQual),
-    Auton("Offensive Zone Elimination", offensiveZoneElim),
+    //Auton("Offensive Zone Qualifier", offensiveZoneQual),
+    //Auton("Offensive Zone Elimination", offensiveZoneElim),
     Auton("Defensive Zone", defensiveZone)
   });
   as::initialize();
@@ -100,13 +100,13 @@ void controls() {
   static bool intakeExtenderState{ false };
 
   if(master.get_digital_new_press(DIGITAL_A)) {
-    wings.set_value(!wingsState);
     wingsState = !wingsState;
+    wings.set_value(wingsState);
   }
 
   if(master.get_digital_new_press(DIGITAL_Y)) {
-    intakeExtender.set_value(!intakeExtenderState);
     intakeExtenderState = !intakeExtenderState;
+    intakeExtender.set_value(intakeExtenderState);
   }
 
   if(master.get_digital(DIGITAL_R1)) {
