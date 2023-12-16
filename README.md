@@ -1,2 +1,2 @@
-# SDSS_Robotics_2023
-Code for the robot and diagrams for the autonomous routine
+# Skills-Auton
+Put any sort of skills autonomous routines in here as this is the dedicated branch to it.  
