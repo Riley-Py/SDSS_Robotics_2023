@@ -8,12 +8,12 @@
 /////
 
 
-const int DRIVE_SPEED = 110; // This is 110/127 (around 87% of max speed).  We don't suggest making this 127.
+constexpr int DRIVE_SPEED = 110; // This is 110/127 (around 87% of max speed).  We don't suggest making this 127.
                              // If this is 127 and the robot tries to heading correct, it's only correcting by
                              // making one side slower.  When this is 87%, it's correcting by making one side
                              // faster and one side slower, giving better heading correction.
-const int TURN_SPEED  = 90;
-const int SWING_SPEED = 90;
+constexpr int TURN_SPEED  = 90;
+constexpr int SWING_SPEED = 90;
 
 
 
@@ -61,32 +61,100 @@ void modified_exit_condition() {
   chassis.set_exit_condition(chassis.drive_exit, 80, 50, 300, 150, 500, 500);
 }
 
-void turnLeft() {
-  chassis.set_drive_pid(28, DRIVE_SPEED);
+void offensiveZoneQual() {
+  chassis.set_drive_pid(30, DRIVE_SPEED, true);
   chassis.wait_drive();
 
   chassis.set_turn_pid(-45, TURN_SPEED);
   chassis.wait_drive();
 
-  intake.move_voltage(12000);
+  intake.move_voltage(-12000);
 
-  chassis.set_drive_pid(15, DRIVE_SPEED);
+  chassis.set_drive_pid(20, DRIVE_SPEED, true);
+  chassis.wait_until(5);
+  intake.brake();
+  chassis.wait_drive();
+  
+  chassis.set_drive_pid(-15, DRIVE_SPEED, true);
   chassis.wait_drive();
 
-  intake.brake();
+  chassis.set_turn_pid(-135, TURN_SPEED);
+  chassis.wait_until(-105);
+  wings.set_value(1);
+  chassis.wait_drive();
+
+  chassis.set_turn_pid(-200, TURN_SPEED);
+  chassis.wait_drive();
+    
+  chassis.set_drive_pid(20, DRIVE_SPEED, true);
+  chassis.wait_until(15);
+  chassis.set_turn_pid(-155, TURN_SPEED);
+  chassis.wait_drive();
+
+  wings.set_value(0);
+
+  chassis.set_drive_pid(40, DRIVE_SPEED, true);
+  chassis.wait_drive();
 }
 
-void turnRight() {
-  chassis.set_drive_pid(28, DRIVE_SPEED);
+void defensiveZone() {
+  intake.move_voltage(-12000);
+  chassis.set_drive_pid(7, DRIVE_SPEED);
   chassis.wait_drive();
+  intake.brake();
 
-  chassis.set_turn_pid(45, TURN_SPEED);
+  chassis.set_turn_pid(180, TURN_SPEED);
   chassis.wait_drive();
 
   intake.move_voltage(12000);
-
-  chassis.set_drive_pid(15, DRIVE_SPEED);
+  chassis.set_drive_pid(30, DRIVE_SPEED, true);
+  chassis.wait_until(10);
+  intake.brake();
   chassis.wait_drive();
 
+  chassis.set_turn_pid(225, TURN_SPEED);
+  chassis.wait_drive();
+
+  chassis.set_drive_pid(34, DRIVE_SPEED, true);
+  chassis.wait_drive();
+
+  chassis.set_turn_pid(270, TURN_SPEED);
+  chassis.wait_drive();
+  
+  intake.move_voltage(-12000);
+  chassis.set_drive_pid(15, DRIVE_SPEED, true);
+  chassis.wait_drive();
   intake.brake();
+
+  chassis.set_drive_pid(-15, DRIVE_SPEED, true);
+  chassis.wait_drive();
+
+  chassis.set_turn_pid(225, TURN_SPEED);
+  chassis.wait_drive();
+
+  chassis.set_drive_pid(-20, DRIVE_SPEED, true);
+  chassis.wait_drive();
+  
+  chassis.set_turn_pid(270, TURN_SPEED);
+  wings.set_value(1);
+  chassis.wait_drive();
+
+  chassis.set_turn_pid(200, TURN_SPEED);
+  chassis.wait_drive();
+
+  chassis.set_drive_pid(20, DRIVE_SPEED, true);
+  chassis.wait_until(15);
+  chassis.set_turn_pid(405, 127);
+  chassis.wait_drive();
+
+  wings.set_value(0);
+  
+  chassis.set_drive_pid(22, DRIVE_SPEED, true);
+  chassis.wait_drive();
+
+  chassis.set_turn_pid(360, TURN_SPEED);
+  chassis.wait_drive();
+
+  chassis.set_drive_pid(24, DRIVE_SPEED, true);
+  chassis.wait_drive();
 }

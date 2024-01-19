@@ -27,7 +27,7 @@ Drive chassis(
   ,1.666
 );
 
-Motor intake(6, MOTOR_GEAR_BLUE);
+Motor intake(-6, MOTOR_GEAR_BLUE);
 Motor cata(12, MOTOR_GEAR_RED);
 
 

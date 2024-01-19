@@ -12,6 +12,7 @@ void controls();
 void initialize() {
   chassis.set_active_brake(0); // Sets the active brake kP. We recommend 0.1.
   default_constants(); // Set the drive to your own constants from autons.cpp!
+  chassis.set_curve_default(3, 3);
   chassis.set_joystick_threshold(3);
 
   chassis.initialize();
@@ -39,8 +40,8 @@ void disabled() {}
  */
 void competition_initialize() {
   ez::as::auton_selector.add_autons({
-    Auton("Turn left", turnLeft),
-    Auton("Turn right", turnRight)
+    Auton("Offensive Zone Qualifier", offensiveZoneQual),
+    Auton("Defensive Zone", defensiveZone)
   });
   as::initialize();
 }
@@ -92,19 +93,19 @@ void opcontrol() {
 //Numerous controls for the robot
 void controls() {
   //R1 = Intake in; L1 = Intake out; L2 = Catapult
-  //For the wings
+  //For the wingsd
 
   static bool wingsState{ false };
 
   if(master.get_digital_new_press(DIGITAL_A)) {
-    wings.set_value(!wingsState);
     wingsState = !wingsState;
+    wings.set_value(wingsState);
   }
 
   if(master.get_digital(DIGITAL_R1)) {
-    intake.move_voltage(12000);
-  } else if(master.get_digital(DIGITAL_R2)) {
     intake.move_voltage(-12000);
+  } else if(master.get_digital(DIGITAL_R2)) {
+    intake.move_voltage(12000);
   } else {
     intake.brake();
   }
