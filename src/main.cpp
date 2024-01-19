@@ -18,7 +18,7 @@ void initialize() {
 
   cata.set_brake_mode(MOTOR_BRAKE_COAST);
   intake.set_brake_mode(MOTOR_BRAKE_COAST);
-  rotationSensor.set_data_rate(5);
+
 }
 
 /**
@@ -95,16 +95,10 @@ void controls() {
   //For the wings
 
   static bool wingsState{ false };
-  static bool intakeExtenderState{ false };
 
   if(master.get_digital_new_press(DIGITAL_A)) {
     wings.set_value(!wingsState);
     wingsState = !wingsState;
-  }
-
-  if(master.get_digital_new_press(DIGITAL_Y)) {
-    intakeExtender.set_value(!intakeExtenderState);
-    intakeExtenderState = !intakeExtenderState;
   }
 
   if(master.get_digital(DIGITAL_R1)) {
@@ -115,18 +109,11 @@ void controls() {
     intake.brake();
   }
 
-  static bool cataFlag{ false };
-
   if(master.get_digital(DIGITAL_L1)) {
     cata.move_voltage(12000);
   }
-
-  if(rotationSensor.get_angle() < cataUpAngle) {
-    cataFlag = false;
+  else {
+    cata.move_voltage(0);
   }
 
-  if(rotationSensor.get_angle() >= cataDownAngle && !cataFlag) {
-    cata.brake();
-    cataFlag = true;
-  }
 }

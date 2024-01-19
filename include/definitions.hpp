@@ -9,7 +9,6 @@ extern Motor cata;
 extern Rotation rotationSensor;
 
 extern ADIDigitalOut wings;
-extern ADIDigitalOut intakeExtender;
 
 extern const int cataUpAngle;
 extern const int cataDownAngle;

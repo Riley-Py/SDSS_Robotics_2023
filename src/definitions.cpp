@@ -30,10 +30,7 @@ Drive chassis(
 Motor intake(6, MOTOR_GEAR_BLUE);
 Motor cata(12, MOTOR_GEAR_RED);
 
-Rotation rotationSensor(4);
 
-ADIDigitalOut wings('A');
+ADIDigitalOut wings('H');
 ADIDigitalOut intakeExtender('B');
 
-constexpr int cataUpAngle{ 18000 };
-constexpr int cataDownAngle{ 23000 };
