@@ -4,14 +4,14 @@
 #include "main.h"
 
 extern Motor intake;
-extern Motor cata;
-
-extern Rotation rotationSensor;
+extern Motor kicker;
 
 extern adi::Pneumatics wings;
-extern adi::Pneumatics intakeExtender;
 
-extern const int cataUpAngle;
-extern const int cataDownAngle;
+extern int auton_selector;
+
+extern const char * collection_labels[];
+
+extern const char btn1[], btn2[], btn3[], btn4[];
 
 #endif

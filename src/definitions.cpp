@@ -27,13 +27,11 @@ Drive chassis(
   ,1.666
 );
 
-Motor intake(6, MotorGears::blue);
-Motor cata(12, MotorGears::red);
-
-Rotation rotationSensor(4);
+Motor intake(5, MotorGears::blue);
+Motor kicker(12, MotorGears::red);
 
 adi::Pneumatics wings('A', false);
-adi::Pneumatics intakeExtender('B', false);
 
-constexpr int cataUpAngle{ 18000 };
-constexpr int cataDownAngle{ 22500 };
+const char btn1[] = "Autonomous (Offensive)", btn2[] = "Autonomous (Defensive)", btn3[] = "Skills", btn4[] = "Elimination";
+
+int auton_selector;
