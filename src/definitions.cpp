@@ -10,7 +10,7 @@ Drive chassis(
   ,{-18, 19, 20}
 
   // IMU Port
-  ,9
+  ,14
 
   // Wheel Diameter (Remember, 4" wheels are actually 4.125!)
   //    (or tracking wheel diameter)
@@ -27,10 +27,9 @@ Drive chassis(
   ,1.666
 );
 
-Motor intake(-6, MOTOR_GEAR_BLUE);
+Motor intake(-5, MOTOR_GEAR_BLUE);
 Motor cata(12, MOTOR_GEAR_RED);
 
 
-ADIDigitalOut wings('H');
-ADIDigitalOut intakeExtender('B');
-
+ADIDigitalOut wings('A');
+ADIDigitalOut hang('B');

@@ -28,7 +28,7 @@ void default_constants() {
   chassis.set_slew_min_power(80, 80);
   chassis.set_slew_distance(7, 7);
   chassis.set_pid_constants(&chassis.headingPID, 11, 0, 20, 0);
-  chassis.set_pid_constants(&chassis.forward_drivePID, 0.45, 0, 5, 0);
+  chassis.set_pid_constants(&chassis.forward_drivePID, 2.55, 0.1, 0, 0); //Default: 0.45
   chassis.set_pid_constants(&chassis.backward_drivePID, 0.45, 0, 5, 0);
   chassis.set_pid_constants(&chassis.turnPID, 5, 0.003, 35, 15);
   chassis.set_pid_constants(&chassis.swingPID, 7, 0, 45, 0);
@@ -157,4 +157,11 @@ void defensiveZone() {
 
   chassis.set_drive_pid(24, DRIVE_SPEED, true);
   chassis.wait_drive();
+}
+
+void testing() {
+  chassis.set_drive_pid(25, 50, true);
+  chassis.wait_drive();
+
+
 }

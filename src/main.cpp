@@ -1,7 +1,7 @@
 #include "main.h"
 #include "definitions.hpp"
 
-void controls();
+void controls(); 
 
 /**
  * Runs initialization code. This occurs as soon as the program is started.
@@ -40,7 +40,7 @@ void disabled() {}
  */
 void competition_initialize() {
   ez::as::auton_selector.add_autons({
-    Auton("Offensive Zone Qualifier", offensiveZoneQual),
+    Auton("testing", testing),
     Auton("Defensive Zone", defensiveZone)
   });
   as::initialize();
@@ -96,11 +96,13 @@ void controls() {
   //For the wingsd
 
   static bool wingsState{ false };
+  static bool hangState { false };
 
   if(master.get_digital_new_press(DIGITAL_A)) {
     wingsState = !wingsState;
     wings.set_value(wingsState);
   }
+
 
   if(master.get_digital(DIGITAL_R1)) {
     intake.move_voltage(-12000);
@@ -115,6 +117,11 @@ void controls() {
   }
   else {
     cata.move_voltage(0);
+  }
+
+  if (master.get_digital_new_press(DIGITAL_Y)) {
+    hangState = !hangState;
+    hang.set_value(hangState);
   }
 
 }
