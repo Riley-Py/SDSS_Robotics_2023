@@ -92,18 +92,19 @@ void opcontrol() {
 
 //Numerous controls for the robot
 void controls() {
-  //R1 = Intake in; L1 = Intake out; L2 = Catapult
-  //For the wingsd
-
+  
+  
+  //States of the wings and hang
   static bool wingsState{ false };
   static bool hangState { false };
-
+  
+  //Switches the wings in or out depending on the state
   if(master.get_digital_new_press(DIGITAL_A)) {
     wingsState = !wingsState;
     wings.set_value(wingsState);
   }
 
-
+  //Moves intake
   if(master.get_digital(DIGITAL_R1)) {
     intake.move_voltage(-12000);
   } else if(master.get_digital(DIGITAL_R2)) {
@@ -111,14 +112,16 @@ void controls() {
   } else {
     intake.brake();
   }
-
+  
+  //Moves kicker (cata)
   if(master.get_digital(DIGITAL_L1)) {
     cata.move_voltage(12000);
   }
   else {
     cata.move_voltage(0);
   }
-
+  
+  //Activates hang (for testing; in a real match, I would get a millis timer so that the driver can't accidentally hit it unitl the time is 30 seconds)
   if (master.get_digital_new_press(DIGITAL_Y)) {
     hangState = !hangState;
     hang.set_value(hangState);
