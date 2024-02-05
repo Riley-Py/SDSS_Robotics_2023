@@ -1,7 +1,8 @@
 #include "main.h"
 #include "definitions.hpp"
+#include "gif-pros/gifclass.hpp"
 
-void controls(); 
+
 
 /**
  * Runs initialization code. This occurs as soon as the program is started.
@@ -9,7 +10,53 @@ void controls();
  * All other competition modes are blocked by initialize; it is recommended
  * to keep execution time for this mode under a few seconds.
  */
+
+void controls();
+void controller_ui();
+
+static const char * btn_names[] = {"Autonomous (Defensive)", "Autonomous (Offensive)", "\n","Skills", "Elimination", ""};
+int button_pressed = 0;
+
+static lv_res_t callback(lv_obj_t * btnmatrix, const char* name) {
+  
+  
+  master.print(0, 0, "%s", name);
+
+  
+
+  return LV_RES_OK;
+}
+
+void ui () {
+
+  static lv_style_t style_bg;
+  static lv_style_t pressed_state;
+
+  lv_style_copy(&style_bg, &lv_style_plain);
+  style_bg.body.main_color = LV_COLOR_HEX(0x000000);
+  style_bg.body.grad_color = LV_COLOR_HEX(0x000000);
+  style_bg.body.border.color = LV_COLOR_HEX(0xFFFFFF);
+   
+  lv_style_copy(&pressed_state, &lv_style_btn_tgl_rel);
+  pressed_state.body.main_color = LV_COLOR_HEX(0xE2C044);
+  pressed_state.body.grad_color = LV_COLOR_HEX(0xE2C044);
+
+
+  //Sets up button matrix
+  lv_obj_t * button_matrix = lv_btnm_create(lv_scr_act(), NULL);
+  lv_btnm_set_map(button_matrix, btn_names);
+  lv_btnm_set_toggle(button_matrix, true, lv_btnm_get_toggled(button_matrix));
+  lv_btnm_set_action(button_matrix, callback);
+  lv_obj_set_size(button_matrix, 482, 240);
+
+  lv_btnm_set_style(button_matrix, LV_BTNM_STYLE_BG, &style_bg);
+  lv_btnm_set_style(button_matrix, LV_BTNM_STYLE_BTN_TGL_REL, &pressed_state);
+  
+  
+
+}
 void initialize() {
+  master.clear();
   chassis.set_active_brake(0); // Sets the active brake kP. We recommend 0.1.
   default_constants(); // Set the drive to your own constants from autons.cpp!
   chassis.set_curve_default(3, 3);
@@ -39,11 +86,7 @@ void disabled() {}
  * starts.
  */
 void competition_initialize() {
-  ez::as::auton_selector.add_autons({
-    Auton("testing", testing),
-    Auton("Defensive Zone", defensiveZone)
-  });
-  as::initialize();
+  ui();
 }
 
 /**
@@ -81,9 +124,12 @@ void autonomous() {
  */
 void opcontrol() {
   chassis.set_drive_brake(MOTOR_BRAKE_COAST);
-  
+  Gif* gif = new Gif("/usd/fish.gif", lv_scr_act());
+  master.clear();
+
   while(true) {
-    chassis.arcade_standard(ez::SPLIT); // Standard split arcade
+    chassis.arcade_standard(ez::SPLIT);
+    controller_ui(); // Standard split arcade
     controls();
 
     pros::delay(util::DELAY_TIME);
@@ -126,5 +172,13 @@ void controls() {
     hangState = !hangState;
     hang.set_value(hangState);
   }
+
+}
+
+void controller_ui() {
+  master.print(0, 0, "K Temp %d", cata.get_temperature());
+  master.print(0, 1, "B Cap: %d", pros::battery::get_capacity());
+
+  
 
 }
