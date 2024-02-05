@@ -38,8 +38,8 @@
  * You should add more #includes here
  */
 //#include "okapi/api.hpp"
-#include "api.h"
 #include "EZ-Template/api.hpp"
+#include "api.h"
 #include "autons.hpp"
 
 /**
@@ -54,6 +54,7 @@ using namespace pros;
 // using namespace pros::literals;
 // using namespace okapi;
 using namespace ez;
+using namespace okapi::literals;
 
 /**
  * Prototypes for the competition control tasks are redefined here to ensure

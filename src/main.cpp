@@ -1,9 +1,42 @@
 #include "main.h"
 #include "definitions.hpp"
 #include "gif-pros/gifclass.hpp"
-#include "ui.hpp"
 
+static const char * btn_names[] = {"Autonomous (Defensive)", "Autonomous (Offensive)", "\n","Skills", "Elimination", ""};
 
+string autonSelected;
+
+static lv_res_t callback(lv_obj_t * btnmatrix, const char* name) {
+  master.print(0, 0, "%s", name);
+  autonSelected = name;
+  return LV_RES_OK;
+}
+
+void ui () {
+  static lv_style_t style_bg;
+  static lv_style_t pressed_state;
+
+  lv_style_copy(&style_bg, &lv_style_plain);
+  style_bg.body.main_color = LV_COLOR_HEX(0x000000);
+  style_bg.body.grad_color = LV_COLOR_HEX(0x000000);
+  style_bg.body.border.color = LV_COLOR_HEX(0xFFFFFF);
+   
+  lv_style_copy(&pressed_state, &lv_style_btn_tgl_rel);
+  pressed_state.body.main_color = LV_COLOR_HEX(0xE2C044);
+  pressed_state.body.grad_color = LV_COLOR_HEX(0xE2C044);
+
+  //Sets up button matrix
+  lv_obj_t * button_matrix = lv_btnm_create(lv_scr_act(), NULL);
+  lv_btnm_set_map(button_matrix, btn_names);
+  lv_btnm_set_toggle(button_matrix, true, lv_btnm_get_toggled(button_matrix));
+  lv_btnm_set_action(button_matrix, callback);
+  lv_obj_set_size(button_matrix, 482, 240);
+
+  lv_btnm_set_style(button_matrix, LV_BTNM_STYLE_BG, &style_bg);
+  lv_btnm_set_style(button_matrix, LV_BTNM_STYLE_BTN_TGL_REL, &pressed_state);
+}
+
+void controls();
 
 /**
  * Runs initialization code. This occurs as soon as the program is started.
@@ -11,23 +44,18 @@
  * All other competition modes are blocked by initialize; it is recommended
  * to keep execution time for this mode under a few seconds.
  */
-
-void controls();
-void controller_ui();
-
-
 void initialize() {
   master.clear();
-  chassis.set_active_brake(0); // Sets the active brake kP. We recommend 0.1.
+  chassis.opcontrol_drive_activebrake_set(0); // Sets the active brake kP. We recommend 0.1.
   default_constants(); // Set the drive to your own constants from autons.cpp!
-  chassis.set_curve_default(3, 3);
-  chassis.set_joystick_threshold(3);
+  chassis.opcontrol_curve_default_set(3, 3);
+  chassis.opcontrol_joystick_threshold_set(3);
+  chassis.opcontrol_curve_buttons_toggle(false);
 
   chassis.initialize();
 
   cata.set_brake_mode(MOTOR_BRAKE_COAST);
   intake.set_brake_mode(MOTOR_BRAKE_COAST);
-
 }
 
 /**
@@ -62,12 +90,14 @@ void competition_initialize() {
  * from where it left off.
  */
 void autonomous() {
-  chassis.reset_pid_targets(); // Resets PID targets to 0
-  chassis.reset_gyro(); // Reset gyro position to 0
-  chassis.reset_drive_sensor(); // Reset drive sensors to 0
-  chassis.set_drive_brake(MOTOR_BRAKE_HOLD); // Set motors to hold.  This helps autonomous consistency.
+  chassis.pid_targets_reset(); // Resets PID targets to 0
+  chassis.drive_imu_reset(); // Reset gyro position to 0
+  chassis.drive_sensor_reset(); // Reset drive sensors to 0
+  chassis.drive_brake_set(MOTOR_BRAKE_HOLD); // Set motors to hold.  This helps autonomous consistency.
 
-  
+  if(autonSelected == "Autonomous (Offensive)") {
+    offensiveZoneQual();
+  }
 }
 
 /**
@@ -84,13 +114,13 @@ void autonomous() {
  * task, not resume it from where it left off.
  */
 void opcontrol() {
-  chassis.set_drive_brake(MOTOR_BRAKE_COAST);
+  chassis.drive_brake_set(MOTOR_BRAKE_COAST);
   Gif* gif = new Gif("/usd/fish.gif", lv_scr_act());
   master.clear();
 
   while(true) {
-    chassis.arcade_standard(ez::SPLIT);
-    controller_ui(); // Standard split arcade
+    chassis.opcontrol_arcade_standard(ez::SPLIT); // Standard split arcade
+
     controls();
 
     pros::delay(util::DELAY_TIME);
@@ -99,8 +129,6 @@ void opcontrol() {
 
 //Numerous controls for the robot
 void controls() {
-  
-  
   //States of the wings and hang
   static bool wingsState{ false };
   static bool hangState { false };
@@ -122,10 +150,9 @@ void controls() {
   
   //Moves kicker (cata)
   if(master.get_digital(DIGITAL_L1)) {
-    cata.move_voltage(12000);
-  }
-  else {
-    cata.move_voltage(0);
+    cata.move_voltage(11000);
+  } else {
+    cata.brake();
   }
   
   //Activates hang (for testing; in a real match, I would get a millis timer so that the driver can't accidentally hit it unitl the time is 30 seconds)
@@ -133,13 +160,4 @@ void controls() {
     hangState = !hangState;
     hang.set_value(hangState);
   }
-
-}
-
-void controller_ui() {
-  master.print(0, 0, "K Temp %d", cata.get_temperature());
-  master.print(0, 1, "B Cap: %d", pros::battery::get_capacity());
-
-  
-
 }
