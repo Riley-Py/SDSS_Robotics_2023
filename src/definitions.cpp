@@ -26,5 +26,5 @@ Motor intake(-5, MOTOR_GEAR_BLUE);
 Motor kicker(12, MOTOR_GEAR_RED);
 
 //The wings and hang are connected to pneumatics, which are basically "On/Off" switches.  As such, they are declared with a letter (as well, the letter is because of them using a differnet input system than everything else)
-ADIDigitalOut wings('A');
-ADIDigitalOut hang('B');
+Piston wings('A');
+Piston hang('B');

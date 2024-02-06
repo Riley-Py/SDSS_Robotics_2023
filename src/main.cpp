@@ -123,16 +123,9 @@ void opcontrol() {
 }
 
 //Numerous controls for the robot
-void controls(int startTime) {
-  //States of the wings and hang
-  static bool wingsState{ false };
-  static bool hangState { false };
-  
+void controls(int startTime) {  
   //Switches the wings in or out depending on the state
-  if(master.get_digital_new_press(DIGITAL_A)) {
-    wingsState = !wingsState;
-    wings.set_value(wingsState);
-  }
+  wings.button_toggle(master.get_digital_new_press(DIGITAL_A));
 
   //Moves intake
   if(master.get_digital(DIGITAL_R1)) {
@@ -151,8 +144,7 @@ void controls(int startTime) {
   }
   
   //Activates hang only if it's the last 30 seconds so that there are no misprints
-  if (master.get_digital_new_press(DIGITAL_Y) && millis() - startTime >= 30000) {
-    hangState = !hangState;
-    hang.set_value(hangState);
+  if(millis() - startTime >= 30000) {
+    hang.button_toggle(master.get_digital_new_press(DIGITAL_Y));
   }
 }

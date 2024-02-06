@@ -6,7 +6,7 @@
 extern Motor intake;
 extern Motor kicker;
 
-extern ADIDigitalOut wings;
-extern ADIDigitalOut hang;
+extern Piston wings;
+extern Piston hang;
 
 #endif
