@@ -7,8 +7,6 @@ extern Motor intake;
 extern Motor kicker;
 
 extern ADIDigitalOut wings;
-
 extern ADIDigitalOut hang;
-
 
 #endif
