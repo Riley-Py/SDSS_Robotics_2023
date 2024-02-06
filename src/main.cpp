@@ -16,13 +16,11 @@ void controllerUiFn(void* param) {
     pros::delay(50);
     master.set_text(1, 0, std::to_string(static_cast<int>(battery::get_capacity())) + "%");
     pros::delay(50);
-    master.set_text(2, 0, std::to_string(static_cast<int>(millis() - reinterpret_cast<int>(param)) / 1000) + "s");
-    pros::delay(50);
   }
 }
 
 //Initalizes the controls for the robot
-void controls(int startTime);
+void controls();
 
 //Initializes when the program is selected
 void initialize() {
@@ -81,13 +79,13 @@ void autonomous() {
     offensiveZoneQual();
   }
   else if (autonSelected == "Autonomous (Defensive)") {
-    //...
+    defensiveZone();
   }
   else if (autonSelected == "Skills") {
     //...
   }
   else if (autonSelected == "Elimination") {
-    //...
+
   }
 }
 
@@ -103,9 +101,7 @@ void opcontrol() {
   //Clears controller screen for controller UI (IN PROGRESS AS OF WRITING)
   master.clear();
 
-  auto startTime = millis();
-
-  Task controllerUi(controllerUiFn, reinterpret_cast<void *>(startTime));
+  Task controllerUi(controllerUiFn);
   
   //An infinite loop so that the controls can always be operated
   while(true) {
@@ -114,16 +110,16 @@ void opcontrol() {
     chassis.opcontrol_arcade_standard(ez::SPLIT); // Standard split arcade
     
     //Controls for the UI
-    controls(startTime);
+    controls();
     //time = millis();
     
     //Delays the process of the program in order to be accurate
-    pros::delay(50);
+    pros::delay(util::DELAY_TIME);
   }
 }
 
 //Numerous controls for the robot
-void controls(int startTime) {  
+void controls() {  
   //Switches the wings in or out depending on the state
   wings.button_toggle(master.get_digital_new_press(DIGITAL_A));
 
@@ -142,9 +138,7 @@ void controls(int startTime) {
   } else {
     kicker.brake();
   }
-  
-  //Activates hang only if it's the last 30 seconds so that there are no misprints
-  if(millis() - startTime >= 30000) {
-    hang.button_toggle(master.get_digital_new_press(DIGITAL_Y));
-  }
+
+  //Activates hang
+  hang.button_toggle(master.get_digital_new_press(DIGITAL_Y));
 }

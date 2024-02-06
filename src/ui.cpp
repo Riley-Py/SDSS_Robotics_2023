@@ -8,6 +8,7 @@ string autonSelected;
 
 //The function that is called whenever a button is pressed
 lv_res_t callback(lv_obj_t * btnmatrix, const char* name) {
+  master.set_text(0, 0, name);
   autonSelected = name;
   return LV_RES_OK;
 }
