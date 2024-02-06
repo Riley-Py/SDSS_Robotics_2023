@@ -111,7 +111,6 @@ void opcontrol() {
     
     //Controls for the UI
     controls();
-    //time = millis();
     
     //Delays the process of the program in order to be accurate
     pros::delay(util::DELAY_TIME);
