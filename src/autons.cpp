@@ -1,15 +1,10 @@
 #include "main.h"
 #include "definitions.hpp"
 
-
-
 //Drive, turn, and swing speeds that are found to be accurate for the PID.  Anything higher and it makes it highly inaccurate
 constexpr int DRIVE_SPEED = 110; 
 constexpr int TURN_SPEED  = 90;
 constexpr int SWING_SPEED = 90;
-
-
-
 
 //Where the default PID values are determined.  This is where the tuning comes in
 void default_constants() {
@@ -62,7 +57,7 @@ void offensiveZoneQual() {
 
   chassis.pid_turn_set(-135, TURN_SPEED);
   chassis.pid_wait_until(-105);
-  wings.set_value(1);
+  wings.set(1);
   chassis.pid_wait();
 
   chassis.pid_turn_set(-200, TURN_SPEED);
@@ -73,7 +68,7 @@ void offensiveZoneQual() {
   chassis.pid_turn_set(-155, TURN_SPEED);
   chassis.pid_wait();
 
-  wings.set_value(0);
+  wings.set(0);
 
   chassis.pid_drive_set(40, DRIVE_SPEED, true);
   chassis.pid_wait();
@@ -121,7 +116,7 @@ void defensiveZone() {
   chassis.pid_wait();
   
   chassis.pid_turn_set(270, TURN_SPEED);
-  wings.set_value(1);
+  wings.set(1);
   chassis.pid_wait();
 
   chassis.pid_turn_set(200, TURN_SPEED);
@@ -132,7 +127,7 @@ void defensiveZone() {
   chassis.pid_turn_set(405, 127);
   chassis.pid_wait();
 
-  wings.set_value(0);
+  wings.set(0);
   
   chassis.pid_drive_set(22, DRIVE_SPEED, true);
   chassis.pid_wait();

@@ -105,7 +105,7 @@ void opcontrol() {
 
   auto startTime = millis();
 
-  Task controllerUi(controllerUiFn, (void*)startTime);
+  Task controllerUi(controllerUiFn, reinterpret_cast<void *>(startTime));
   
   //An infinite loop so that the controls can always be operated
   while(true) {
