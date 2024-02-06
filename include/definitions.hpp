@@ -4,7 +4,7 @@
 #include "main.h"
 
 extern Motor intake;
-extern Motor cata;
+extern Motor kicker;
 
 extern ADIDigitalOut wings;
 

@@ -1,35 +1,30 @@
 #include "definitions.hpp"
 
+//Class constructor for our chassis.  Allows us to insert the motor ports easier than making them ourselves
 Drive chassis(
-  // Left Chassis Ports (negative port will reverse it!)
-  //   the first port is the sensored port (when trackers are not used!)
+  // Left side motors. Negative means that the motor is reversed
   {15, -16, -17}
 
-  // Right Chassis Ports (negative port will reverse it!)
-  //   the first port is the sensored port (when trackers are not used!)
+  // Right side motors.  Negative means that the motor is reversed
   ,{-18, 19, 20}
 
-  // IMU Port
+  // Port of our inertial sensor
   ,14
 
-  // Wheel Diameter (Remember, 4" wheels are actually 4.125!)
-  //    (or tracking wheel diameter)
+  //The size of our wheels
   ,3.25
 
-  // Cartridge RPM
-  //   (or tick per rotation if using tracking wheels)
+  //What sort of motors we have (600 RPM = blue, 200 RPM = green, 100 RPM = red)
   ,600
 
-  // External Gear Ratio (MUST BE DECIMAL)
-  //    (or gear ratio of tracking wheel)
-  // eg. if your drive is 84:36 where the 36t is powered, your RATIO would be 2.333.
-  // eg. if your drive is 36:60 where the 60t is powered, your RATIO would be 0.6.
+  //Ratio that we have for our drivetrain
   ,1.666
 );
 
+//Intake and kicker with their respective cartiages
 Motor intake(-5, MOTOR_GEAR_BLUE);
-Motor cata(12, MOTOR_GEAR_RED);
+Motor kicker(12, MOTOR_GEAR_RED);
 
-
+//The wings and hang are connected to pneumatics, which are basically "On/Off" switches.  As such, they are declared with a letter (as well, the letter is because of them using a differnet input system than everything else)
 ADIDigitalOut wings('A');
 ADIDigitalOut hang('B');

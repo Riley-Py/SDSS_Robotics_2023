@@ -2,29 +2,32 @@
 #include "definitions.hpp"
 
 
-/////
-// For instalattion, upgrading, documentations and tutorials, check out website!
-// https://ez-robotics.github.io/EZ-Template/
-/////
 
-
-constexpr int DRIVE_SPEED = 110; // This is 110/127 (around 87% of max speed).  We don't suggest making this 127.
-                             // If this is 127 and the robot tries to heading correct, it's only correcting by
-                             // making one side slower.  When this is 87%, it's correcting by making one side
-                             // faster and one side slower, giving better heading correction.
+//Drive, turn, and swing speeds that are found to be accurate for the PID.  Anything higher and it makes it highly inaccurate
+constexpr int DRIVE_SPEED = 110; 
 constexpr int TURN_SPEED  = 90;
 constexpr int SWING_SPEED = 90;
 
 
 
-///
-// Constants
-///
 
-// It's best practice to tune constants when the robot is empty and with heavier game objects, or with lifts up vs down.
-// If the objects are light or the cog doesn't change much, then there isn't a concern here.
-
+//Where the default PID values are determined.  This is where the tuning comes in
 void default_constants() {
+
+  //Sets the P, the I, and the D portion for the heading, the driving aspect (i.e. forwards and backwards), the turning aspect, and the swing aspect (a swing is when you curve around)
+
+  /*A PID works sort of like this: 
+     //The main goal of a PID system is to be as accurate as possible to a specific target.  
+     //This done by using the "error" that sensors have collected (in this case, the inertial sensor) and trying to increase/decrease values ot minimize that "error".  
+     //This "error" is the result of how off it is from the "setpoint" (i.e. If I wanted to go 90 KM/hr (the setpoint) and I was only going 50 KM/hr, then the error would be the setpoint (90) subtract the actual speed (50) to get an error of 40 KM/hr)
+     //A PID controller has something called "gains" (the values that you adjust below) which adjusts the P, the I, and the D components of this controller
+     //The "P" component (known as "proportional) is used to have a large reaction on the output (in my car allegory, the current speed) to bring it closer to the goal and minimize the error.
+     //However, there comes a threshold where the "P" doesn't have much effect on minimizing the error, which is where the I comes in.
+     //The "I" component (known as "integral") is calculated by using the I-gain and multiplying that by how many cylces the PID system goes and by the current error
+     //This gain is then added to the I component and it compounds up (i.e. If I cycled 10 times a second and my I-gain is 10, then there would be 100 added to the I total.  However, the next time it runs, the I total would be 200, then 300, and so forth) 
+     //The final component is the "D" component, and it predicts where the "current value" is going.  This prediction allows the D value to counteract the effects of the P and I so that there is no overshooting.  This is controlled via the D-gain.
+     //Overall, a PID controller, when put together, is a robust controller capable of making autonomous routines as accurate as possible when the gains are tuned properly according to the robot specifications.
+     */
   chassis.pid_heading_constants_set(3, 0, 20);
   chassis.pid_drive_constants_set(10, 0, 100);
   chassis.pid_turn_constants_set(3, 0, 20);
@@ -37,6 +40,9 @@ void default_constants() {
   chassis.slew_drive_constants_set(7_in, 80);
 }
 
+//Autonomous routine for our offensive zone
+
+//TODO: GIVE ME A VIDEO SO THAT I CAN COMMENT THIS (RC)
 void offensiveZoneQual() {
   chassis.pid_drive_set(30, DRIVE_SPEED, true);
   chassis.pid_wait();
@@ -73,6 +79,9 @@ void offensiveZoneQual() {
   chassis.pid_wait();
 }
 
+//Autonomous routine for our defensive zone
+
+//TODO: GIVE ME A VIDEO SO THAT I CAN COMMENT THIS (RC)
 void defensiveZone() {
   intake.move_voltage(-12000);
   chassis.pid_drive_set(7, DRIVE_SPEED, false);
