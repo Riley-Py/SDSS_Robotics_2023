@@ -36,40 +36,60 @@ void default_constants() {
 }
 
 //Autonomous routine for our offensive zone
-
-//TODO: GIVE ME A VIDEO SO THAT I CAN COMMENT THIS (RC)
 void offensiveZoneQual() {
+
+  //Go forward 30 inches
   chassis.pid_drive_set(30, DRIVE_SPEED, true);
   chassis.pid_wait();
-
+  
+  //Turn 45 degrees counter-clockwise
   chassis.pid_turn_set(-45, TURN_SPEED);
   chassis.pid_wait();
-
+  
+  //Intake outtakes 
   intake.move_voltage(-12000);
-
+  
+  //Drives forward another 20 inches to make sure the triball is in
   chassis.pid_drive_set(20, DRIVE_SPEED, true);
+  //Waits until it passes 5 inches before doing the following below
   chassis.pid_wait_until(5);
+
+  //Stops intake and waits until the robot is settled
   intake.brake();
   chassis.pid_wait();
   
+  //Robot goes back 15 inches
   chassis.pid_drive_set(-15, DRIVE_SPEED, true);
   chassis.pid_wait();
+  
 
+  //Robot turns 135 degrees counter clockwise
   chassis.pid_turn_set(-135, TURN_SPEED);
+  //Makes the robot wait until the turn is at 105 degrees before going
   chassis.pid_wait_until(-105);
+  //Wings are opened
   wings.set(1);
+  //Allows the robot to be settled
   chassis.pid_wait();
-
+  
+  //Turns to 200 degrees counter-clockwise
   chassis.pid_turn_set(-200, TURN_SPEED);
+  //Waits until it is settled
   chassis.pid_wait();
-    
+  
+  //Drives forward 20 inches
   chassis.pid_drive_set(20, DRIVE_SPEED, true);
+  //Waits until the robot is at 15 inches before turning 155 degrees counter clockwise
   chassis.pid_wait_until(15);
   chassis.pid_turn_set(-155, TURN_SPEED);
+  //Waits until it is settled
   chassis.pid_wait();
-
+  
+  //Retracts the wings
   wings.set(0);
 
+  
+  //Drives forward to hit the hang bar for AWP and waits for the duration of the autonomous period
   chassis.pid_drive_set(40, DRIVE_SPEED, true);
   chassis.pid_wait();
 }
