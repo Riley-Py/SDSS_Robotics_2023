@@ -73,7 +73,10 @@ void autonomous() {
 
   //Sets the motors to the hold position, which in a PID system, is important as you don't want to continue going for a bit before stopping; you want to stop immediately
   chassis.drive_brake_set(MOTOR_BRAKE_HOLD); 
+
+  test();
   
+  /*
   //Based on what was chosen, it is associated with a different autonomous routine (to see the autonomous routines, see "autons.cpp")
   if(autonSelected == "Autonomous (Offensive)") {
     offensiveZoneQual();
@@ -86,7 +89,7 @@ void autonomous() {
   }
   else if (autonSelected == "Elimination") {
 
-  }
+  }*/
 }
 
 //Driver control period
@@ -105,6 +108,19 @@ void opcontrol() {
   
   //An infinite loop so that the controls can always be operated
   while(true) {
+    // PID Tuner
+    // After you find values that you're happy with, you'll have to set them in auton.cpp
+    if (!pros::competition::is_connected()) { 
+      // Enable / Disable PID Tuner
+      if (master.get_digital_new_press(DIGITAL_X)) 
+        chassis.pid_tuner_toggle();
+        
+      // Trigger the selected autonomous routine
+      if (master.get_digital_new_press(DIGITAL_B)) 
+        autonomous();
+
+      chassis.pid_tuner_iterate(); // Allow PID Tuner to iterate
+    } 
 
     //Puts the chassis into a standard remote control 
     chassis.opcontrol_arcade_standard(ez::SPLIT); // Standard split arcade

@@ -24,8 +24,8 @@ void default_constants() {
      //Overall, a PID controller, when put together, is a robust controller capable of making autonomous routines as accurate as possible when the gains are tuned properly according to the robot specifications.
      */
   chassis.pid_heading_constants_set(3, 0, 20);
-  chassis.pid_drive_constants_set(10, 0, 100);
-  chassis.pid_turn_constants_set(3, 0, 20);
+  chassis.pid_drive_constants_set(14.5, 0, 30);
+  chassis.pid_turn_constants_set(6.8, 0, 45);
   chassis.pid_swing_constants_set(5, 0, 30);
 
   chassis.pid_turn_exit_condition_set(300_ms, 3_deg, 500_ms, 7_deg, 750_ms, 750_ms);
@@ -136,5 +136,10 @@ void defensiveZone() {
   chassis.pid_wait();
 
   chassis.pid_drive_set(24, DRIVE_SPEED, true);
+  chassis.pid_wait();
+}
+
+void test() {
+  chassis.pid_drive_set(20, DRIVE_SPEED, true);
   chassis.pid_wait();
 }
