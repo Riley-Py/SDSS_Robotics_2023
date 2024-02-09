@@ -163,3 +163,120 @@ void test() {
   chassis.pid_drive_set(20, DRIVE_SPEED, true);
   chassis.pid_wait();
 }
+
+void skills() {
+  wings.set(1);
+  pros::delay(300);
+  wings.set(0);
+
+  chassis.pid_drive_set(5, DRIVE_SPEED, false, true);
+  chassis.pid_wait();
+
+  chassis.pid_turn_set(-25, TURN_SPEED);
+  chassis.pid_wait();
+
+  chassis.pid_drive_set(22, DRIVE_SPEED, false, true);
+  chassis.pid_wait();
+
+  chassis.pid_turn_set(45, TURN_SPEED);
+  chassis.pid_wait();
+
+  chassis.pid_drive_set(11, DRIVE_SPEED, false, true);
+  chassis.pid_wait();
+
+  chassis.pid_drive_set(-12, DRIVE_SPEED, false, true);
+  chassis.pid_wait();
+
+  chassis.pid_drive_set(12, DRIVE_SPEED, false, true);
+  chassis.pid_wait();
+
+  chassis.pid_drive_set(-11, DRIVE_SPEED, false, true);
+  chassis.pid_wait();
+
+  chassis.pid_turn_set(-45, TURN_SPEED);
+  chassis.pid_wait();
+
+  chassis.pid_drive_set(-5, DRIVE_SPEED, false, true);
+  chassis.pid_wait();
+
+  chassis.pid_turn_set(150, DRIVE_SPEED);
+  chassis.pid_wait();
+  
+
+
+
+
+
+  
+  
+}
+void Elimination_Deff() {
+  //pushes triball towards alley before rushing middle triball
+  wings.set(1);
+  pros::delay(300);
+  wings.set(0);
+
+  chassis.pid_drive_set(48, DRIVE_SPEED, true);
+  chassis.pid_wait_until(30);
+  intake.move_voltage(12000);
+  chassis.pid_wait();
+  intake.brake();
+
+  chassis.pid_drive_set(-3, DRIVE_SPEED, false);
+  chassis.pid_wait();
+
+  chassis.pid_turn_set(72, TURN_SPEED);
+  chassis.pid_wait();
+
+  //pushes triballs over middle bar
+  wings.set(1);
+  chassis.pid_drive_set(23, DRIVE_SPEED, true);
+  chassis.pid_wait_until(5);
+  intake.move_voltage(-12000);
+  chassis.pid_wait();
+
+  wings.set(0);
+  chassis.pid_drive_set(-12, DRIVE_SPEED, false);
+  chassis.pid_wait();
+  intake.brake();
+
+  chassis.pid_turn_set(27, TURN_SPEED);
+  chassis.pid_wait();
+
+  //drive back to de-score
+  chassis.pid_drive_set(-43, DRIVE_SPEED, true);
+  chassis.pid_wait();
+
+  chassis.pid_turn_set(-18, TURN_SPEED);
+  chassis.pid_wait();
+
+  chassis.pid_drive_set(-10, DRIVE_SPEED, false);
+  chassis.pid_wait_until(-3);
+  wings.set(1);
+  chassis.pid_wait();
+
+  chassis.pid_turn_set(-263, TURN_SPEED);
+  wings.set(0);
+  chassis.pid_wait();
+
+//pushes triballs doewn the alley
+  intake.move_voltage(-12000);
+  chassis.pid_drive_set(25, DRIVE_SPEED, true);
+  chassis.pid_wait();
+
+  chassis.pid_turn_set(-288, TURN_SPEED);
+  chassis.pid_wait();
+
+  chassis.pid_drive_set(20, DRIVE_SPEED, true);
+  chassis.pid_wait();
+  intake.brake();
+
+  //Remove this for qualification matches so we can stay touching the elevation bar
+  chassis.pid_drive_set(-31, DRIVE_SPEED, true);
+  chassis.pid_wait();
+
+  //chassis.pid_turn_set(-5, TURN_SPEED);
+  //chassis.pid_wait();
+
+  chassis.drive_brake_set(MOTOR_BRAKE_COAST);
+}

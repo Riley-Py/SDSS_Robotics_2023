@@ -74,6 +74,8 @@ void autonomous() {
   //Sets the motors to the hold position, which in a PID system, is important as you don't want to continue going for a bit before stopping; you want to stop immediately
   chassis.drive_brake_set(MOTOR_BRAKE_HOLD); 
 
+  skills();
+
   //test();
   
   /*
