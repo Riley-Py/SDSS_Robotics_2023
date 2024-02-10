@@ -1,5 +1,5 @@
-/* //Description: VEX Robotics Code for 29295C Stratford Robotics
-   //Date of last modification: Feburary 5th, 2024
+/* //Description: VEX Robotics code for 29295C Stratford Robotics
+   //Date of last modification: Feburary 10th, 2024
    //Programmers (alphabetical by last name): Riley Cant, Sebastien Chung, Devan Hu
    //Libraries utilized: EZ-Template, GIF-PROS, PROS 3, LVGL
 */
@@ -10,6 +10,7 @@
 #include "ui.hpp"
 #include "gif-pros/gifclass.hpp"
 
+//UI for the controller so the operator can see statistics
 void controllerUiFn(void* param) {
   while(true) {
     master.set_text(0, 0, std::to_string(static_cast<int>(kicker.get_temperature())) + "°C");
@@ -59,7 +60,7 @@ void competition_initialize() {
   ui();
 }
 
-//After competition initialize, it goes to autonomous when connected to competition switch
+//After competition initialize, it goes to autonomous
 void autonomous() {
 
   //Resets the target for the PID (i.e. which speed it needs to get, what distance it needs to go with that target speed) to 0
@@ -74,24 +75,19 @@ void autonomous() {
   //Sets the motors to the hold position, which in a PID system, is important as you don't want to continue going for a bit before stopping; you want to stop immediately
   chassis.drive_brake_set(MOTOR_BRAKE_HOLD); 
 
-  skills();
-
-  //test();
-  
-  /*
   //Based on what was chosen, it is associated with a different autonomous routine (to see the autonomous routines, see "autons.cpp")
   if(autonSelected == "Autonomous (Offensive)") {
     offensiveZoneQual();
   }
   else if (autonSelected == "Autonomous (Defensive)") {
-    defensiveZone();
+    defensiveZoneQual();
   }
-  else if (autonSelected == "Skills") {
-    //...
+  else if (autonSelected == "Elimination (Offensive)") {
+    offensiveZoneQual();
   }
-  else if (autonSelected == "Elimination") {
-
-  }*/
+  else if (autonSelected == "Elimination (Defensive)") {
+    defensiveZoneElim();
+  }
 }
 
 //Driver control period
@@ -103,37 +99,26 @@ void opcontrol() {
   //Places a fish GIF on the brain screen because...we wanted to be intimidating to the opponents.  Fear the villainous fish!
   Gif* gif = new Gif("/usd/fish.gif", lv_scr_act());
 
-  //Clears controller screen for controller UI (IN PROGRESS AS OF WRITING)
+  //Clears controller screen for controller UI 
   master.clear();
-
+  
+  //Runs a task to control the controller UI due to the limitation of PROS not being able to write something until every 50ms
   Task controllerUi(controllerUiFn);
   
   //An infinite loop so that the controls can always be operated
   while(true) {
-    // PID Tuner
-    // After you find values that you're happy with, you'll have to set them in auton.cpp
-    if (!pros::competition::is_connected()) { 
-      // Enable / Disable PID Tuner
-      if (master.get_digital_new_press(DIGITAL_X)) 
-        chassis.pid_tuner_toggle();
-        
-      // Trigger the selected autonomous routine
-      if (master.get_digital_new_press(DIGITAL_B)) 
-        autonomous();
 
-      chassis.pid_tuner_iterate(); // Allow PID Tuner to iterate
-    } 
-
-    //Puts the chassis into a standard remote control 
+     //Puts the chassis into a standard remote control 
     chassis.opcontrol_arcade_standard(ez::SPLIT); // Standard split arcade
     
-    //Controls for the UI
+    //Controls for robot
     controls();
     
     //Delays the process of the program in order to be accurate
     pros::delay(util::DELAY_TIME);
+    
+    }  
   }
-}
 
 //Numerous controls for the robot
 void controls() {  

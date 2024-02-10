@@ -35,7 +35,7 @@ void default_constants() {
   chassis.slew_drive_constants_set(7_in, 80);
 }
 
-//Autonomous routine for our offensive zone
+//Autonomous routine for our offensive zone in qualification matches
 void offensiveZoneQual() {
 
   //Go forward 30 inches
@@ -94,10 +94,104 @@ void offensiveZoneQual() {
   chassis.pid_wait();
 }
 
-//Autonomous routine for our defensive zone
+//Autonomous routine for our offensive zone in elimination rounds
+void offensiveZoneElim() {
 
-//TODO: GIVE ME A VIDEO SO THAT I CAN COMMENT THIS (RC)
-void defensiveZone() {
+//Opens and closes wings after a certain time
+wings.set(1);
+pros::delay(300);
+wings.set(0);
+
+//Turn to face triball
+chassis.pid_turn_set(11, TURN_SPEED);
+pros::delay(250);
+
+//Drive forward and takes triball in once the robot has moved 30 inches
+chassis.pid_drive_set(64, DRIVE_SPEED, true);
+chassis.pid_wait_until(30);
+intake.move_voltage(12000);
+chassis.pid_wait();
+
+//Move back slightly to avoid hitting barrier when spinning
+chassis.pid_drive_set(-4, DRIVE_SPEED, false);
+chassis.pid_wait();
+intake.brake();
+
+//Spin to face goal
+chassis.pid_turn_set(135, TURN_SPEED);
+chassis.pid_wait();
+
+//Push triballs in goal
+wings.set(1);
+chassis.pid_drive_set(30, DRIVE_SPEED, true);
+chassis.pid_wait_until(15);
+intake.move_voltage(-12000);
+chassis.pid_wait();
+wings.set(0);
+intake.brake();
+
+//Back out from the goal to avoid hitting it when spinning
+chassis.pid_drive_set(-10, DRIVE_SPEED, false);
+chassis.pid_wait();
+
+//Spin to face next triball
+chassis.pid_turn_set(288, TURN_SPEED);
+chassis.pid_wait();
+
+//Drive forward and intake triball
+chassis.pid_drive_set(23, DRIVE_SPEED, true);
+chassis.pid_wait_until(5);
+intake.move_voltage(12000);
+chassis.pid_wait();
+
+//Turn to face match load bar
+chassis.pid_turn_set(180, TURN_SPEED);
+chassis.pid_wait();
+intake.brake();
+
+//Drive towards match load bar
+chassis.pid_drive_set(42, DRIVE_SPEED, true);
+chassis.pid_wait();
+
+//turn towards goal and outtake triball
+chassis.pid_turn_set(90, TURN_SPEED);
+chassis.pid_wait();
+intake.move_voltage(-12000);
+
+//Wait until triball is out of intake
+pros::delay(500);
+intake.brake();
+
+//Turn around in preparation to descore triball
+chassis.pid_turn_relative_set(-45, TURN_SPEED);
+chassis.pid_wait();
+
+//Drive back and get wing over the barrier
+wings.set(1);
+chassis.pid_drive_set(-12, DRIVE_SPEED, true);
+chassis.pid_wait();
+
+//Turn back of bot towards to goal in preparation to descore triball and push others in goal
+chassis.pid_turn_relative_set(35, TURN_SPEED);
+chassis.pid_wait();
+
+//Drive forward and de-score
+chassis.pid_drive_set(20, DRIVE_SPEED, false);
+chassis.pid_wait();
+
+//Turn toward side of goal
+wings.set(0);
+chassis.pid_turn_relative_set(-40, TURN_SPEED);
+chassis.pid_wait();
+
+//Push triballs in side of goal
+chassis.pid_drive_set(15, DRIVE_SPEED, true);
+chassis.pid_wait();
+
+}
+
+//Autonomous routine for our defensive zone in qualification matches
+void defensiveZoneQual() {
   intake.move_voltage(-12000);
   chassis.pid_drive_set(7, DRIVE_SPEED, false);
   chassis.pid_wait();
@@ -159,58 +253,50 @@ void defensiveZone() {
   chassis.pid_wait();
 }
 
-void test() {
-  chassis.pid_drive_set(20, DRIVE_SPEED, true);
-  chassis.pid_wait();
-}
+//TO-DO: For provincials, this needs to be done
+/* // void skills() {
 
-void skills() {
-  wings.set(1);
-  pros::delay(300);
-  wings.set(0);
+//   wings.set(1);
+//   pros::delay(300);
+//   wings.set(0);
 
-  chassis.pid_drive_set(5, DRIVE_SPEED, false, true);
-  chassis.pid_wait();
+//   chassis.pid_drive_set(5, DRIVE_SPEED, false, true);
+//   chassis.pid_wait();
 
-  chassis.pid_turn_set(-25, TURN_SPEED);
-  chassis.pid_wait();
+//   chassis.pid_turn_set(-90, TURN_SPEED);
+//   chassis.pid_wait();
 
-  chassis.pid_drive_set(22, DRIVE_SPEED, false, true);
-  chassis.pid_wait();
+//   chassis.pid_drive_set(22, DRIVE_SPEED, false, true);
+//   chassis.pid_wait();
 
-  chassis.pid_turn_set(45, TURN_SPEED);
-  chassis.pid_wait();
+//   chassis.pid_turn_set(25, TURN_SPEED);
+//   chassis.pid_wait();
 
-  chassis.pid_drive_set(11, DRIVE_SPEED, false, true);
-  chassis.pid_wait();
+//   chassis.pid_drive_set(11, DRIVE_SPEED, false, true);
+//   chassis.pid_wait();
 
-  chassis.pid_drive_set(-12, DRIVE_SPEED, false, true);
-  chassis.pid_wait();
+//   chassis.pid_drive_set(-12, DRIVE_SPEED, false, true);
+//   chassis.pid_wait();
 
-  chassis.pid_drive_set(12, DRIVE_SPEED, false, true);
-  chassis.pid_wait();
+//   chassis.pid_drive_set(12, DRIVE_SPEED, false, true);
+//   chassis.pid_wait();
 
-  chassis.pid_drive_set(-11, DRIVE_SPEED, false, true);
-  chassis.pid_wait();
+//   chassis.pid_drive_set(-11, DRIVE_SPEED, false, true);
+//   chassis.pid_wait();
 
-  chassis.pid_turn_set(-45, TURN_SPEED);
-  chassis.pid_wait();
+//   chassis.pid_turn_set(-45, TURN_SPEED);
+//   chassis.pid_wait();
 
-  chassis.pid_drive_set(-5, DRIVE_SPEED, false, true);
-  chassis.pid_wait();
+//   chassis.pid_drive_set(-5, DRIVE_SPEED, false, true);
+//   chassis.pid_wait();
 
-  chassis.pid_turn_set(150, DRIVE_SPEED);
-  chassis.pid_wait();
-  
+//   chassis.pid_turn_set(150, DRIVE_SPEED);
+//   chassis.pid_wait();
+   
+// } */
 
-
-
-
-
-  
-  
-}
-void Elimination_Deff() {
+//Autonomous routine for our defensive zone in elimination rounds
+void defensiveZoneElim() {
   //pushes triball towards alley before rushing middle triball
   wings.set(1);
   pros::delay(300);
@@ -275,8 +361,4 @@ void Elimination_Deff() {
   chassis.pid_drive_set(-31, DRIVE_SPEED, true);
   chassis.pid_wait();
 
-  //chassis.pid_turn_set(-5, TURN_SPEED);
-  //chassis.pid_wait();
-
-  chassis.drive_brake_set(MOTOR_BRAKE_COAST);
 }

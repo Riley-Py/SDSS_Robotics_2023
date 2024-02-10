@@ -6,9 +6,8 @@ extern Drive chassis;
 
 void offensiveZoneQual();
 void offensiveZoneElim();
-void defensiveZone();
-void Elimination_Deff();
-void test();
+void defensiveZoneQual();
+void defensiveZoneElim();
 void skills();
 
 void default_constants();
