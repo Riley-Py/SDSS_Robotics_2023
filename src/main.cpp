@@ -131,7 +131,14 @@ void opcontrol() {
 //Numerous controls for the robot
 void controls() {  
   //Switches the wings in or out depending on the state
-  wings.button_toggle(master.get_digital_new_press(DIGITAL_A));
+  //wings.button_toggle(master.get_digital_new_press(DIGITAL_A));
+
+  static bool wingstate = false;
+
+  if (master.get_digital_new_press(DIGITAL_A) || master.get_digital_new_press(DIGITAL_L2)) {
+    wingstate = !wingstate;
+    wings.set(wingstate);
+  }
 
   //Moves intake
   if(master.get_digital(DIGITAL_R1)) {
