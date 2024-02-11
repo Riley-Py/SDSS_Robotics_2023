@@ -1,7 +1,7 @@
 #include "ui.hpp"
 
 //Names for buttons on button matrix (DO NOT REMOVE EMPTY SPACE AT THE END)
-const char * btn_names[] = {"Autonomous (Defensive)", "Autonomous (Offensive)", "\n","Elimination (Offensive)", "Elimination (Defensive)", ""};
+const char * btn_names[] = {"Autonomous (Defensive)", "Autonomous (Offensive)", "\n","Elimination (Offensive)", "Elimination (Defensive)", "\n", "Skills Autonomous", ""};
 
 //Gets the autonomous selected from the autonomous selector
 string autonSelected;

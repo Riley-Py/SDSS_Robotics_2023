@@ -8,6 +8,6 @@ void offensiveZoneQual();
 void offensiveZoneElim();
 void defensiveZoneQual();
 void defensiveZoneElim();
-void skills();
+void skills_old_temp();
 
 void default_constants();

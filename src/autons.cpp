@@ -35,7 +35,7 @@ void default_constants() {
   chassis.slew_drive_constants_set(7_in, 80);
 }
 
-//Autonomous routine for our offensive zone in qualification matches
+/* //Autonomous routine for our offensive zone in qualification matches
 void offensiveZoneQual() {
 
   //Go forward 30 inches
@@ -92,9 +92,9 @@ void offensiveZoneQual() {
   //Drives forward to hit the hang bar for AWP and waits for the duration of the autonomous period
   chassis.pid_drive_set(40, DRIVE_SPEED, true);
   chassis.pid_wait();
-}
+} */
 
-//Autonomous routine for our offensive zone in elimination rounds
+//Autonomous routine for our offensive zone in elimination rounds (GOOD)
 void offensiveZoneElim() {
 
 //Opens and closes wings after a certain time
@@ -188,69 +188,59 @@ chassis.pid_wait();
 chassis.pid_drive_set(15, DRIVE_SPEED, true);
 chassis.pid_wait();
 
-}
+} 
 
-//Autonomous routine for our defensive zone in qualification matches
-void defensiveZoneQual() {
-  intake.move_voltage(-12000);
-  chassis.pid_drive_set(7, DRIVE_SPEED, false);
-  chassis.pid_wait();
-  intake.brake();
-
-  chassis.pid_turn_set(180, TURN_SPEED);
-  chassis.pid_wait();
-
+//Autonomous routine for our offensive zone in elimination rounds (NEW/GOOD)
+void offensiveZoneQual() {
   intake.move_voltage(12000);
-  chassis.pid_drive_set(30, DRIVE_SPEED, true);
-  chassis.pid_wait_until(10);
-  intake.brake();
-  chassis.pid_wait();
+chassis.pid_drive_set(6, DRIVE_SPEED, false);
+chassis.pid_wait();
 
-  chassis.pid_turn_set(225, TURN_SPEED);
-  chassis.pid_wait();
+intake.brake();
+chassis.pid_drive_set(-18, DRIVE_SPEED, true);
+chassis.pid_wait();
 
-  chassis.pid_drive_set(34, DRIVE_SPEED, true);
-  chassis.pid_wait();
+chassis.pid_turn_relative_set(-30, TURN_SPEED);
+chassis.pid_wait();
 
-  chassis.pid_turn_set(270, TURN_SPEED);
-  chassis.pid_wait();
-  
-  intake.move_voltage(-12000);
-  chassis.pid_drive_set(15, DRIVE_SPEED, true);
-  chassis.pid_wait();
-  intake.brake();
+chassis.pid_drive_set(-27, DRIVE_SPEED, true);
+chassis.pid_wait_until(-6);
+wings.set(1);
+chassis.pid_wait();
 
-  chassis.pid_drive_set(-15, DRIVE_SPEED, true);
-  chassis.pid_wait();
+chassis.pid_turn_relative_set(-195, TURN_SPEED);
+wings.set(0);
+chassis.pid_wait();
 
-  chassis.pid_turn_set(225, TURN_SPEED);
-  chassis.pid_wait();
+chassis.pid_drive_set(12, DRIVE_SPEED, true);
+pros::delay(750);
 
-  chassis.pid_drive_set(-20, DRIVE_SPEED, true);
-  chassis.pid_wait();
-  
-  chassis.pid_turn_set(270, TURN_SPEED);
-  wings.set(1);
-  chassis.pid_wait();
+chassis.pid_turn_relative_set(-45, TURN_SPEED);
+pros::delay(750);
 
-  chassis.pid_turn_set(200, TURN_SPEED);
-  chassis.pid_wait();
+intake.move_voltage(-12000);
+chassis.pid_drive_set(10, DRIVE_SPEED, false);
+pros::delay(700);
+chassis.pid_drive_set(-11, DRIVE_SPEED, true);
+chassis.pid_wait();
+intake.brake();
 
-  chassis.pid_drive_set(20, DRIVE_SPEED, true);
-  chassis.pid_wait_until(15);
-  chassis.pid_turn_set(405, 127);
-  chassis.pid_wait();
+chassis.pid_drive_set(10, DRIVE_SPEED, false);
+pros::delay(700);
+chassis.pid_drive_set(-11, DRIVE_SPEED, true);
+chassis.pid_wait();
 
-  wings.set(0);
-  
-  chassis.pid_drive_set(22, DRIVE_SPEED, true);
-  chassis.pid_wait();
+chassis.pid_turn_relative_set(-135, TURN_SPEED);
+chassis.pid_wait();
 
-  chassis.pid_turn_set(360, TURN_SPEED);
-  chassis.pid_wait();
+chassis.pid_drive_set(26, DRIVE_SPEED, true);
+chassis.pid_wait();
 
-  chassis.pid_drive_set(24, DRIVE_SPEED, true);
-  chassis.pid_wait();
+chassis.pid_turn_relative_set(45, TURN_SPEED);
+chassis.pid_wait();
+
+chassis.pid_drive_set(32, DRIVE_SPEED, true);
+chassis.pid_wait();
 }
 
 //TO-DO: For provincials, this needs to be done
@@ -295,7 +285,7 @@ void defensiveZoneQual() {
    
 // } */
 
-//Autonomous routine for our defensive zone in elimination rounds
+//Autonomous routine for our defensive zone in elimination/qualification rounds (GOOD)
 void defensiveZoneElim() {
   //pushes triball towards alley before rushing middle triball
   wings.set(1);
@@ -357,8 +347,160 @@ void defensiveZoneElim() {
   chassis.pid_wait();
   intake.brake();
 
-  //Remove this for qualification matches so we can stay touching the elevation bar
+  
   chassis.pid_drive_set(-31, DRIVE_SPEED, true);
   chassis.pid_wait();
+
+}
+
+void defensiveZoneQual() {
+  //pushes triball towards alley before rushing middle triball
+  wings.set(1);
+  pros::delay(300);
+  wings.set(0);
+
+  chassis.pid_drive_set(48, DRIVE_SPEED, true);
+  chassis.pid_wait_until(30);
+  intake.move_voltage(12000);
+  chassis.pid_wait();
+  intake.brake();
+
+  chassis.pid_drive_set(-3, DRIVE_SPEED, false);
+  chassis.pid_wait();
+
+  chassis.pid_turn_set(72, TURN_SPEED);
+  chassis.pid_wait();
+
+  //pushes triballs over middle bar
+  wings.set(1);
+  chassis.pid_drive_set(23, DRIVE_SPEED, true);
+  chassis.pid_wait_until(5);
+  intake.move_voltage(-12000);
+  chassis.pid_wait();
+
+  wings.set(0);
+  chassis.pid_drive_set(-12, DRIVE_SPEED, false);
+  chassis.pid_wait();
+  intake.brake();
+
+  chassis.pid_turn_set(27, TURN_SPEED);
+  chassis.pid_wait();
+
+  //drive back to de-score
+  chassis.pid_drive_set(-43, DRIVE_SPEED, true);
+  chassis.pid_wait();
+
+  chassis.pid_turn_set(-18, TURN_SPEED);
+  chassis.pid_wait();
+
+  chassis.pid_drive_set(-10, DRIVE_SPEED, false);
+  chassis.pid_wait_until(-3);
+  wings.set(1);
+  chassis.pid_wait();
+
+  chassis.pid_turn_set(-263, TURN_SPEED);
+  wings.set(0);
+  chassis.pid_wait();
+
+//pushes triballs doewn the alley
+  intake.move_voltage(-12000);
+  chassis.pid_drive_set(25, DRIVE_SPEED, true);
+  chassis.pid_wait();
+
+  chassis.pid_turn_set(-288, TURN_SPEED);
+  chassis.pid_wait();
+
+  chassis.pid_drive_set(20, DRIVE_SPEED, true);
+  chassis.pid_wait();
+  intake.brake();
+
+  //Removed what you wanted, Sebastien :)
+
+
+}
+
+void skills_old_temp() {
+  unsigned long kicker_timer;
+
+  //NOTE: START ON DIAGONAL LIKE WE DID WITH CATAPULT BOT (USE THE SETTER TOOL)
+  
+  //Drives forward 28 inches forward
+  chassis.pid_drive_set(28, DRIVE_SPEED, false, true);
+  chassis.pid_wait();
+  
+
+  //45 degrees clockwise
+  chassis.pid_turn_relative_set(45, TURN_SPEED);
+  chassis.pid_wait();
+  
+
+  //Moves intake and drives into net
+  intake.move(12000);
+  chassis.pid_drive_set(11, DRIVE_SPEED, false, true);
+  chassis.pid_wait();
+  
+
+  //Stops intake
+  intake.move_voltage(0);
+  
+
+  //Drives back
+  chassis.pid_drive_set(-12, DRIVE_SPEED, false, true);
+  chassis.pid_wait();
+  
+
+  //180 clockwise (to get wedge)
+  chassis.pid_turn_relative_set(180, TURN_SPEED);
+  chassis.pid_wait();
+  
+  //Drives into net again (makes sure the triballs are in)
+  chassis.pid_drive_set(-18.5, DRIVE_SPEED, false, true);
+  chassis.pid_wait();
+  
+  //Drives back 15 inches
+  chassis.pid_drive_set(15, DRIVE_SPEED, false, true);
+  chassis.pid_wait();
+  
+
+  //Turns again 180 degrees (kicker in right direction)
+  chassis.pid_turn_relative_set(180, TURN_SPEED);
+  chassis.pid_wait();
+  
+
+  //Drives back a few inches
+  chassis.pid_drive_set(-6, DRIVE_SPEED, false, true);
+  chassis.pid_wait();
+  
+  //Turns 65 clockwise, relative to where the bot is now
+  chassis.pid_turn_relative_set(65, TURN_SPEED);
+  chassis.pid_wait();
+  
+  //Back 4 inches to make sure it's touching match load bar (this could work, this may not work :( )
+  chassis.pid_drive_set(-4, DRIVE_SPEED, false, true);
+  chassis.pid_wait();
+  
+  //Sets kicker timer as current amount of time passed
+  kicker_timer = millis();
+  
+
+  //Kicker goes for 30 seconds, then stops
+  while (millis() - kicker_timer >= 30000) {
+
+    kicker.move_voltage(12000);
+  }
+  kicker.brake();
+
+  //...INSTRUCTIONS TO SEBASTIEN/DEVAN: Test above first, then do the following in the short span of time (I know it isn't ideal, but hey, we just need something that works): 
+  //1. Drive a bit on an angle
+  //2. Turn
+  //3. Get leftover triballs over barrier using wings and bot (do this two times)
+  //4. Go over barrier without getting stuck
+  //5. If 4 works, then push triballs in a few times
+  //Here are my instructions for our temporary skills auton.  After CSAA, we are changing this
+
+
+
+
+
 
 }

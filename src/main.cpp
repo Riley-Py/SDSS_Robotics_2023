@@ -74,8 +74,11 @@ void autonomous() {
 
   //Sets the motors to the hold position, which in a PID system, is important as you don't want to continue going for a bit before stopping; you want to stop immediately
   chassis.drive_brake_set(MOTOR_BRAKE_HOLD); 
+  
+  //After Sebastien tests this, remove this
+  //skills_old_temp();
 
-  //Based on what was chosen, it is associated with a different autonomous routine (to see the autonomous routines, see "autons.cpp")
+   //Based on what was chosen, it is associated with a different autonomous routine (to see the autonomous routines, see "autons.cpp")
   if(autonSelected == "Autonomous (Offensive)") {
     offensiveZoneQual();
   }
@@ -83,11 +86,16 @@ void autonomous() {
     defensiveZoneQual();
   }
   else if (autonSelected == "Elimination (Offensive)") {
-    offensiveZoneQual();
+    offensiveZoneElim();
   }
   else if (autonSelected == "Elimination (Defensive)") {
     defensiveZoneElim();
   }
+  else if (autonSelected == "Skills Autonomous") {
+    skills_old_temp();
+
+  } 
+  
 }
 
 //Driver control period
