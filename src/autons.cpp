@@ -424,8 +424,8 @@ void skills_old_temp() {
 
   //NOTE: START ON DIAGONAL LIKE WE DID WITH CATAPULT BOT (USE THE SETTER TOOL)
   
-  //Drives forward 28 inches forward
-  chassis.pid_drive_set(28, DRIVE_SPEED, false, true);
+  //Drives forward 17
+  chassis.pid_drive_set(17, DRIVE_SPEED, false, true);
   chassis.pid_wait();
   
 
@@ -436,7 +436,7 @@ void skills_old_temp() {
 
   //Moves intake and drives into net
   intake.move(12000);
-  chassis.pid_drive_set(11, DRIVE_SPEED, false, true);
+  chassis.pid_drive_set(13, DRIVE_SPEED, false, true);
   chassis.pid_wait();
   
 
@@ -445,7 +445,7 @@ void skills_old_temp() {
   
 
   //Drives back
-  chassis.pid_drive_set(-12, DRIVE_SPEED, false, true);
+  chassis.pid_drive_set(-10, DRIVE_SPEED, false, true);
   chassis.pid_wait();
   
 
@@ -454,41 +454,51 @@ void skills_old_temp() {
   chassis.pid_wait();
   
   //Drives into net again (makes sure the triballs are in)
-  chassis.pid_drive_set(-18.5, DRIVE_SPEED, false, true);
+  chassis.pid_drive_set(-15, DRIVE_SPEED, false, true);
   chassis.pid_wait();
   
   //Drives back 15 inches
-  chassis.pid_drive_set(15, DRIVE_SPEED, false, true);
+  chassis.pid_drive_set(8, DRIVE_SPEED, false, true);
   chassis.pid_wait();
-  
 
-  //Turns again 180 degrees (kicker in right direction)
-  chassis.pid_turn_relative_set(180, TURN_SPEED);
+  chassis.pid_swing_relative_set(RIGHT_SWING, -110, SWING_SPEED, 0, false);
   chassis.pid_wait();
-  
 
-  //Drives back a few inches
-  chassis.pid_drive_set(-6, DRIVE_SPEED, false, true);
+  chassis.pid_drive_set(-2, DRIVE_SPEED, false, true);
   chassis.pid_wait();
-  
-  //Turns 65 clockwise, relative to where the bot is now
-  chassis.pid_turn_relative_set(65, TURN_SPEED);
-  chassis.pid_wait();
-  
-  //Back 4 inches to make sure it's touching match load bar (this could work, this may not work :( )
-  chassis.pid_drive_set(-4, DRIVE_SPEED, false, true);
-  chassis.pid_wait();
-  
-  //Sets kicker timer as current amount of time passed
-  kicker_timer = millis();
   
 
   //Kicker goes for 30 seconds, then stops
-  while (millis() - kicker_timer >= 30000) {
+   while (millis() - kicker_timer <= 30000) {
 
-    kicker.move_voltage(12000);
-  }
+     kicker.move_voltage(10000);
+   }
   kicker.brake();
+
+  chassis.pid_turn_relative_set(-20, TURN_SPEED, false);
+  chassis.pid_wait();
+
+  chassis.pid_drive_set(35, DRIVE_SPEED, false, true);
+  chassis.pid_wait();
+
+  chassis.pid_turn_relative_set(40, TURN_SPEED, false);
+  chassis.pid_wait();
+
+  wings.set(true);
+
+  chassis.pid_drive_set(22, DRIVE_SPEED, false, true);
+  chassis.pid_wait();
+
+  chassis.pid_drive_set(-15, DRIVE_SPEED, false, true);
+  chassis.pid_wait();
+
+  chassis.pid_drive_set(20, DRIVE_SPEED, false, true);
+  chassis.pid_wait();
+
+  chassis.pid_drive_set(-16, DRIVE_SPEED, false, true);
+  chassis.pid_wait();
+
+
 
   //...INSTRUCTIONS TO SEBASTIEN/DEVAN: Test above first, then do the following in the short span of time (I know it isn't ideal, but hey, we just need something that works): 
   //1. Drive a bit on an angle
