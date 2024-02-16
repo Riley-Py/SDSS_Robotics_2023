@@ -8,7 +8,7 @@
 #include "main.h"
 #include "definitions.hpp"
 #include "ui.hpp"
-#include "gif-pros/gifclass.hpp"
+
 
 //UI for the controller so the operator can see statistics
 void controllerUiFn(void* param) {
@@ -25,6 +25,9 @@ void controls();
 
 //Initializes when the program is selected
 void initialize() {
+
+  sylib::initialize();
+
 
   //Clears the screen
   master.clear();
@@ -100,6 +103,8 @@ void autonomous() {
 
 //Driver control period
 void opcontrol() {
+
+  lights.set_all(0xE62169);
 
   //After autonomous, you have to set the drivetrain back to coast so that the motors don't burn out
   chassis.drive_brake_set(MOTOR_BRAKE_COAST);

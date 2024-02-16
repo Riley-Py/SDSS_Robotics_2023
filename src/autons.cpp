@@ -1,6 +1,7 @@
 #include "main.h"
 #include "definitions.hpp"
 
+
 //Drive, turn, and swing speeds that are found to be accurate for the PID.  Anything higher and it makes it highly inaccurate
 constexpr int DRIVE_SPEED = 110; 
 constexpr int TURN_SPEED  = 90;
@@ -435,8 +436,9 @@ void skills_old_temp() {
   
 
   //Moves intake and drives into net
-  intake.move(12000);
+  
   chassis.pid_drive_set(13, DRIVE_SPEED, false, true);
+  intake.move(12000);
   chassis.pid_wait();
   
 
@@ -467,9 +469,9 @@ void skills_old_temp() {
   chassis.pid_drive_set(-2, DRIVE_SPEED, false, true);
   chassis.pid_wait();
   
-
+   kicker_timer = millis();
   //Kicker goes for 30 seconds, then stops
-   while (millis() - kicker_timer <= 30000) {
+   while (millis() - kicker_timer >= 30000) {
 
      kicker.move_voltage(10000);
    }

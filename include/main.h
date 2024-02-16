@@ -4,7 +4,7 @@
  * Contains common definitions and header files used throughout your PROS
  * project.
  *
- * \copyright Copyright (c) 2017-2023, Purdue University ACM SIGBots.
+ * Copyright (c) 2017-2022, Purdue University ACM SIGBots.
  * All rights reserved.
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
@@ -34,13 +34,17 @@
  */
 #define PROS_USE_LITERALS
 
+#include "api.h"
+#include "sylib/sylib.hpp"
+#include "EZ-Template/api.hpp"
+#include "autons.hpp"
+#include "gif-pros/gifclass.hpp"
+
 /**
  * You should add more #includes here
  */
 //#include "okapi/api.hpp"
-#include "EZ-Template/api.hpp"
-#include "api.h"
-#include "autons.hpp"
+//#include "pros/api_legacy.h"
 
 /**
  * If you find doing pros::Motor() to be tedious and you'd prefer just to do
@@ -50,11 +54,10 @@
  * concurrently! The okapi namespace will export all symbols inside the pros
  * namespace.
  */
-using namespace pros;
-// using namespace pros::literals;
+ using namespace pros;
+ //using namespace pros::literals;
 // using namespace okapi;
-using namespace ez;
-using namespace okapi::literals;
+ using namespace okapi::literals;
 
 /**
  * Prototypes for the competition control tasks are redefined here to ensure

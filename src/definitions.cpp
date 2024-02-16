@@ -28,3 +28,5 @@ Motor kicker(12, MOTOR_GEAR_RED);
 //The wings and hang are connected to pneumatics, which are basically "On/Off" switches.  As such, they are declared with a letter (as well, the letter is because of them using a differnet input system than everything else)
 Piston wings('A');
 Piston hang('B');
+
+auto lights = sylib::Addrled(22, 6, 64);
