@@ -20,6 +20,8 @@ void controllerUiFn(void* param) {
   }
 }
 
+auto lights = sylib::Addrled(22, 8,64);
+
 //Initalizes the controls for the robot
 void controls();
 

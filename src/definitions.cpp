@@ -29,4 +29,4 @@ Motor kicker(12, MOTOR_GEAR_RED);
 Piston wings('A');
 Piston hang('B');
 
-auto lights = sylib::Addrled(22, 6, 64);
+

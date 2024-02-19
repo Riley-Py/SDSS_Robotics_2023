@@ -9,7 +9,7 @@ extern Motor kicker;
 extern Piston wings;
 extern Piston hang;
 
-extern auto lights;
+
 
 
 #endif

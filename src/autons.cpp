@@ -436,9 +436,8 @@ void skills_old_temp() {
   
 
   //Moves intake and drives into net
-  
+  intake.move(-12000);
   chassis.pid_drive_set(13, DRIVE_SPEED, false, true);
-  intake.move(12000);
   chassis.pid_wait();
   
 
@@ -466,16 +465,16 @@ void skills_old_temp() {
   chassis.pid_swing_relative_set(RIGHT_SWING, -110, SWING_SPEED, 0, false);
   chassis.pid_wait();
 
-  chassis.pid_drive_set(-2, DRIVE_SPEED, false, true);
+  chassis.pid_drive_set(-2.5, DRIVE_SPEED, false, true);
   chassis.pid_wait();
-  
-   kicker_timer = millis();
-  //Kicker goes for 30 seconds, then stops
-   while (millis() - kicker_timer >= 30000) {
 
+/*
+  //Kicker goes for 30 seconds, then stops
+   while (millis() - kicker_timer <= 30000) { //> = SKIP SHOOTING | < = RUN SHOOTING
      kicker.move_voltage(10000);
    }
   kicker.brake();
+*/
 
   chassis.pid_turn_relative_set(-20, TURN_SPEED, false);
   chassis.pid_wait();
@@ -483,10 +482,10 @@ void skills_old_temp() {
   chassis.pid_drive_set(35, DRIVE_SPEED, false, true);
   chassis.pid_wait();
 
+  wings.set(1);
+
   chassis.pid_turn_relative_set(40, TURN_SPEED, false);
   chassis.pid_wait();
-
-  wings.set(true);
 
   chassis.pid_drive_set(22, DRIVE_SPEED, false, true);
   chassis.pid_wait();
@@ -497,8 +496,42 @@ void skills_old_temp() {
   chassis.pid_drive_set(20, DRIVE_SPEED, false, true);
   chassis.pid_wait();
 
-  chassis.pid_drive_set(-16, DRIVE_SPEED, false, true);
+  wings.set(0);
+
+  chassis.pid_drive_set(-18, DRIVE_SPEED, false, true);
   chassis.pid_wait();
+
+  chassis.pid_turn_relative_set(-90, DRIVE_SPEED, false);
+  chassis.pid_wait();
+
+  wings.set(1);
+
+  chassis.pid_drive_set(66, DRIVE_SPEED, false, true);
+  chassis.pid_wait();
+
+  chassis.pid_drive_set(-12, DRIVE_SPEED, false, true);
+  chassis.pid_wait();
+
+  chassis.pid_drive_set(13, DRIVE_SPEED, false, true);
+  chassis.pid_wait();
+
+  wings.set(0);
+
+  chassis.pid_drive_set(-15, DRIVE_SPEED, false, true);
+  chassis.pid_wait();
+
+  chassis.pid_turn_relative_set(-45, DRIVE_SPEED, false);
+  chassis.pid_wait();
+
+  chassis.pid_drive_set(20, DRIVE_SPEED, false, true);
+  chassis.pid_wait();
+
+  chassis.pid_swing_relative_set(LEFT_SWING, 135, SWING_SPEED, 20, false);
+  pros::delay(1000);
+
+  chassis.pid_drive_set(20, DRIVE_SPEED, false, true);
+  chassis.pid_wait();
+
 
 
 
@@ -509,10 +542,4 @@ void skills_old_temp() {
   //4. Go over barrier without getting stuck
   //5. If 4 works, then push triballs in a few times
   //Here are my instructions for our temporary skills auton.  After CSAA, we are changing this
-
-
-
-
-
-
 }
