@@ -158,7 +158,7 @@ void controls() {
   
   //Moves kicker 
   if(master.get_digital(DIGITAL_L1)) {
-    kicker.move_voltage(9000);
+    kicker.move_voltage(11000);
   } else {
     kicker.brake();
   }
