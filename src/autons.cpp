@@ -420,37 +420,31 @@ void defensiveZoneQual() {
 
 }
 void skills_old_temp() {
+
   unsigned long kicker_timer;
 
-  //NOTE: START ON DIAGONAL LIKE WE DID WITH CATAPULT BOT (USE THE SETTER TOOL)
-
-
   /*/////////////////////////// PART 1: Shooting ///////////////////////////*/
+
   //Drives forward 17
   chassis.pid_drive_set(17, DRIVE_SPEED, false, true);
   chassis.pid_wait();
   
-
   //45 degrees clockwise
   chassis.pid_turn_relative_set(45, TURN_SPEED);
   chassis.pid_wait();
-  
 
   //Moves intake and drives into net
   intake.move(-12000);
   chassis.pid_drive_set(13, DRIVE_SPEED, false, true);
   chassis.pid_wait();
-  
 
   //Stops intake
   intake.move_voltage(0);
-  
 
   //Drives back
   chassis.pid_drive_set(-10, DRIVE_SPEED, false, true);
   chassis.pid_wait();
   
-
   //180 clockwise (to get wedge)
   chassis.pid_turn_relative_set(180, TURN_SPEED);
   chassis.pid_wait();
@@ -479,25 +473,29 @@ void skills_old_temp() {
   kicker.brake();
 */
 /*/////////////////////////// PART 2: Post-shooting/before crossing ///////////////////////////*/
+
   //Turn towards the middle barrier
   chassis.pid_turn_relative_set(-20, TURN_SPEED, false);
   chassis.pid_wait();
 
 //Drive towards the middle barrier at an angle
-  chassis.pid_drive_set(35, DRIVE_SPEED, false, true);
+  /*chassis.pid_drive_set(35, DRIVE_SPEED, false, true);
+  chassis.pid_wait();*/
+
+//Turn to face the middle bar straight on and open wings in preparation to push triballs over the middle bar
+  chassis.pid_swing_relative_set(LEFT_SWING, 40, 105, 85);
+  pros::delay(600);
+  wings.set(1);
+  intake.move_voltage(-12000);
   chassis.pid_wait();
 
-//Open wings in preparation to push triballs over the middle bar
-  wings.set(1);
-
-//Turn to face the middle bar straight on
-  chassis.pid_turn_relative_set(40, TURN_SPEED, false);
+  /*chassis.pid_turn_relative_set(40, TURN_SPEED, false);
   chassis.pid_wait();
 
 //Drive and push triballs over the 2 times
   intake.move_voltage(-12000);
   chassis.pid_drive_set(24, DRIVE_SPEED, false, true);
-  chassis.pid_wait();
+  chassis.pid_wait();*/
   
   intake.move_voltage(0);
   
@@ -515,7 +513,7 @@ void skills_old_temp() {
   wings.set(1);
 
 //push triballs across the middle of the field, corraling all the triballs that didn't make it over
-  chassis.pid_drive_set(68, 127, false, true);
+  chassis.pid_drive_set(65, 127, false, true);
   chassis.pid_wait();
 
 //drive away from the barrier 
@@ -523,55 +521,72 @@ void skills_old_temp() {
   chassis.pid_drive_set(-10, DRIVE_SPEED, false, true);
   chassis.pid_wait();
 
-
-  chassis.pid_turn_relative_set(-45, 60, false);
+//turn 45 degrees towards the side alley
+  chassis.pid_turn_relative_set(-45, TURN_SPEED, false);
   chassis.pid_wait();
 
+//drive towards the side alley
   chassis.pid_drive_set(20, DRIVE_SPEED, false, true);
   chassis.pid_wait();
 
+//swing around the short barrier into the side alley
   chassis.pid_swing_relative_set(LEFT_SWING, 135, SWING_SPEED, 15, false);
   chassis.pid_wait();
 
+//drive down the side alley to the opposite corner of the field
   chassis.pid_drive_set(70, DRIVE_SPEED, false, true);
   chassis.pid_wait();
 
+/*/////////////////////////// PART 3: Scoring Triballs ///////////////////////////*/
+
+//turn to follow the opposite matchload bar and corral the triballs
   chassis.pid_swing_relative_set(LEFT_SWING, 45, SWING_SPEED, 10, false);
   chassis.pid_wait();
 
+//drive along the opposite matchload bar
   chassis.pid_drive_set(20, DRIVE_SPEED, false, true);
   chassis.pid_wait();
 
+//turn towards the side of the goal
   chassis.pid_swing_relative_set(LEFT_SWING, 45, SWING_SPEED, 15, false);
   chassis.pid_wait();
 
+//push triballs into the side of the goal
   chassis.pid_drive_set(14, DRIVE_SPEED, false, true);
   chassis.pid_wait();
 
+//drive back away from goal
   chassis.pid_drive_set(-10, DRIVE_SPEED, false, true);
   chassis.pid_wait();
 
+//push triballs into goal a second time
   chassis.pid_drive_set(14, DRIVE_SPEED, false, true);
   chassis.pid_wait();
 
+//drive away from goal a second time
   chassis.pid_drive_set(-11, DRIVE_SPEED, false, true);
   chassis.pid_wait();
 
+//turn towards front of the goal
   chassis.pid_turn_relative_set(80, TURN_SPEED, false);
   chassis.pid_wait();
 
+//drive towards the front of the goal
   chassis.pid_drive_set(30, DRIVE_SPEED, false, true);
   chassis.pid_wait();
 
+//open wings to corral triballs and in preparation to push triballs into the net
   wings.set(1);
 
+//turn to face the goal 
   chassis.pid_swing_relative_set(RIGHT_SWING, -145, SWING_SPEED, 20, false);
   chassis.pid_wait();
 
+//push triballs in front of goal into goal
   chassis.pid_drive_set(25, DRIVE_SPEED, false, true);
   chassis.pid_wait();
 
-  chassis.pid_drive_set(-15, DRIVE_SPEED, false, true);
+  chassis.pid_drive_set(-20, DRIVE_SPEED, false, true);
   chassis.pid_wait();
 
 
